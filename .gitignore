@@ -1,0 +1,16 @@
+/local-data/
+/private-fixtures/
+.gradle/
+**/build/
+build/
+**/run/
+**/runs/
+.idea/
+*.iml
+.vscode/
+__pycache__/
+*.pyc
+.venv/
+.env
+.env.*
+!.env.example

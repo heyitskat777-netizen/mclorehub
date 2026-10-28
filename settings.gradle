@@ -1,0 +1,11 @@
+pluginManagement {
+    repositories {
+        maven { url = 'https://maven.fabricmc.net/' }
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+rootProject.name = 'mclorehub'
+if (!providers.gradleProperty('coreOnly').isPresent()) {
+    include 'client'
+}

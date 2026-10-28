@@ -1,0 +1,41 @@
+plugins { id 'net.fabricmc.fabric-loom-remap' version '1.17.21' }
+group = 'net.mclorehub'
+version = '0.1.0-phase3'
+base { archivesName = 'mclorehub' }
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar()
+}
+loom {
+    splitEnvironmentSourceSets()
+    mods {
+        mclorehub {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+dependencies {
+    minecraft 'com.mojang:minecraft:1.21.11'
+    mappings loom.officialMojangMappings()
+    modImplementation 'net.fabricmc:fabric-loader:0.20.1'
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:0.141.6+1.21.11'
+}
+dependencyLocking { lockAllConfigurations() }
+tasks.withType(net.fabricmc.loom.task.DownloadAssetsTask).configureEach { downloadThreads = 8 }
+tasks.named('processResources') {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') { expand version: project.version }
+}
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+fabricApi {
+    configureTests {
+        createSourceSet = true
+        modId = 'mclorehub-test'
+        enableGameTests = false
+        enableClientGameTests = true
+    }
+}
