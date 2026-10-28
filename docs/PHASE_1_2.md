@@ -21,9 +21,11 @@ were present. The saved config draft survived. Source was reconstructed from the
 recorded implementation and the original source ZIP re-downloaded/hash-verified.
 This is a reconstruction, not byte-identical restoration of the old artifacts.
 
-Current importer and new catalogue tests pass; see `STATUS.md` for actual counts.
-Fabric/Mojang requests are proxy-denied in this instance, so current client build
-and native scenario remain blocked. The historical pass is not a new pass.
+Current importer and catalogue tests pass; see `STATUS.md` for actual counts.
+After environment publication, Fabric/Mojang requests returned HTTP 200 and the
+reconstructed client passed a full build plus native scenario with locks/checksums
+enforced. Scale screenshots were inspected. These are new results, separate from
+the historical pass; authenticated multiplayer and user hardware remain untested.
 
 Core CLI:
 

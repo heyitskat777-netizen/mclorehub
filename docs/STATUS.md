@@ -8,7 +8,8 @@ implementation, and the original upload was recovered and hash-verified.
 
 Historical Phase 2 passed 47 unit tests and an actual Minecraft client scenario.
 Those files/JAR/screenshots/caches did not survive. They are not presented as
-current-instance passes. Current client revalidation is blocked, as detailed below.
+current-instance passes. The reconstructed client has now been revalidated after
+the user published the environment, as detailed below.
 
 ## Current results
 
@@ -39,26 +40,47 @@ wrapper JAR and Gradle distribution checksums were retained and verified. Earlie
 dependency verification/lock files were lost; new metadata was resolved from trusted
 repositories as a recovery baseline, then used without rewrite flags in normal builds.
 
-## Current client blocker
+## Client recovery and validation — October 28
 
-`python3 tools/run_client_tests.py --write-locks --write-verification-metadata sha256`
-failed during plugin resolution, before Minecraft or its scenario could run.
-Direct read-only checks returned **proxy tunnel HTTP 403** for:
+Earlier attempts failed during plugin resolution with proxy tunnel HTTP 403 for:
 
 - `maven.fabricmc.net`
 - `meta.fabricmc.net`
 - `piston-meta.mojang.com`
 
-The draft still lists these and the other three required domains
-(`piston-data.mojang.com`, `libraries.minecraft.net`,
-`resources.download.minecraft.net`). Saved draft policy is not runtime activation.
-The base configuration ID is unchanged from the earlier empty environment. Do not
-infer that a missing plugin release or bad credentials caused this access denial.
+After the user published the environment, all three read-only checks returned
+**HTTP 200**. The saved configuration now reports unrestricted networking; the
+agent did not broaden that policy. Minecraft libraries and assets also downloaded
+successfully. The previous access blocker is resolved in this running instance.
+
+The intentional recovery command
+`python3 tools/run_client_tests.py --write-locks --write-verification-metadata sha256`
+passed: client/test compilation, actual Minecraft startup, isolated singleplayer,
+input/navigation/rebind/guard/scale/parent assertions, screenshots and runner exit 0.
+Recovered `client/gradle.lockfile` and expanded verification metadata retain all
+26 previous checksum entries (567 entries after recovery).
+
+`python3 tools/cloud_gradle.py build installDist --console=plain` then passed with
+locks/checksums enforced and no rewrite flags. The 89 core tests were up to date
+from their previously passing run; the client has no JUnit cases. The separate
+native scenario is the client behavior check, not the zero-test client JUnit task.
+
+`python3 tools/run_client_tests.py` passed again with no rewrite flags, runner exit 0
+and `CLIENT_SCENARIO_PASS`. Screenshots at GUI scales 1/2 show readable text and an
+unclipped Back button. Logs/screenshots are under ignored `client/build/`.
+
+Production client JAR: `client/build/libs/mclorehub-0.1.0-phase3.jar`, 5,768 bytes;
+SHA-256 `c6730ed56122b11c5756e6855f7b9dafa096f2e1a824946359441cd2d56d7370`.
+Metadata is client-only/exact 1.21.11; test entrypoints and private data are absent.
+This is the empty-library shell, not the completed wiki.
 
 Client pins/source: Minecraft 1.21.11, Loom 1.17.21, Loader 0.20.1, API
 0.141.6+1.21.11, official mappings. The reconstructed K/Back/Escape shell and native
-test are retained; no new client JAR/readiness is claimed until access is applied
-and build/game tests are rerun. No account/secret is needed for these public downloads.
+test run on Xorg/Mesa software rendering. Profile/authentication requests and sound
+device setup logged failures; authenticated multiplayer, audio, physical GPU and
+user modpack compatibility remain untested. An unavailable standard X11 cursor was
+logged at shutdown without failing the scenario. No secret is needed for public
+build downloads.
 
 ## Persistence and recovery
 
@@ -74,17 +96,20 @@ their identities are recorded outside the commit in
 exports, review manifests, generated packs, character state and build caches.
 Download and save a backup outside this cloud. Local commits/download paths still
 require external preservation to survive another fresh environment. Publication
-of local-only commits has not been verified; an authorized push to the empty
-GitHub repository is the preferred next persistence step. No push or snapshot
-publication is claimed.
+of local-only commits has not been independently tested for restoration. The user
+authorized the initial GitHub push; `main` was verified at
+`8a904225c7178cac36fbe26b999b235c289114de`. The user subsequently reported publishing
+the environment; its configuration version changed and runtime downloads now work.
+This is not a clean-task restoration test. The client recovery checkpoint uses
+`/workspace/mclorehub-client-recovery-source.{bundle,zip}` with identity recorded in
+`/workspace/mclorehub-client-recovery-backup.json`; it excludes private data/builds.
 
 ## Next actions
 
-1. Preserve the concrete tested source through an authorized Git push or publish
-   the prepared environment snapshot; the draft alone is insufficient.
-2. Review/save the existing network additions in environment settings, publish,
-   then recheck runtime reachability and rerun the reconstructed client build/test.
-3. Continue with entity classification and async catalogue/review presentation;
+1. Retain the tested client lock/checksum recovery and validation documentation
+   through the source checkpoint/backup. Saved setup guidance must reflect the
+   now-working full build and native test commands.
+2. Continue with entity classification and async catalogue/review presentation;
    current-only search must use `currentDocuments()` and show reviewer/as-of data.
    Actual current coverage, character sheets/rules, favorites, rich reader/resume,
    update activation/rollback and forum fetch remain incomplete.

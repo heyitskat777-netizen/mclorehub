@@ -64,12 +64,13 @@ Run the core unit suite and independent full-export verifier. Positive synthetic
 reviews must produce a current result, while changed body/status/replies and
 unreviewed real imports must not. Compare all 488 raw records and 1,290 posts,
 test repeatability/error exits, and verify role counts. See `STATUS.md` for actual
-results and the current separate client-access blocker.
+results and the separate client revalidation after resolving the access blocker.
 
 Next: fine-grained entity/eligibility representation and async client catalogue
 loading/review presentation before current-only search and reader integration.
 Do not mark M1's actual current coverage complete merely because this layer works.
 
-Create source-only Git/ZIP backups before stopping. The active environment still
-uses the older snapshot; a local file link or saved config draft is not durable
-source publication. A published snapshot or authorized Git push is required.
+Create source-only Git/ZIP backups before stopping. The original source checkpoint
+was pushed to GitHub with user authorization, and the user published the environment.
+New local changes still need preservation; a saved config draft alone does not
+publish source or demonstrate restoration in a fresh task.

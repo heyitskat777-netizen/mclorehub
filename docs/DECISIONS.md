@@ -20,7 +20,8 @@ required at every stop. Repository instructions should guide future sessions.
 - Independent core and `client` Gradle project; `-PcoreOnly` omits Minecraft setup.
 - Gradle 9.8.2; Java 21 (cloud Temurin 21.0.13+9); Gson 2.13.2; JUnit 5.13.4.
 - Client pins: Loom 1.17.21, Loader 0.20.1, API 0.141.6+1.21.11, official mappings.
-  These passed the prior actual client test. Recovery client revalidation is blocked.
+  The reconstructed client passed the full build and native scenario after the
+  environment publication restored download access; see `STATUS.md`.
 - Default K, configurable in Controls; do not replace active screens. Vanilla
   navigation/narration; preserve source style later, not arbitrary UI restyling.
 - Review manifests are explicit local curation records, never automatic verification

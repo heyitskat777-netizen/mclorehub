@@ -14,7 +14,7 @@ current filtering, stale body/metadata/replies, key-order independence, orphaned
 decisions, conservative roles, and immutable public collections. Fixtures are
 synthetic; no acceptance test example certifies actual lore.
 
-When Fabric/Mojang access works:
+Full client workflow (verified after environment publication restored access):
 
 ```sh
 python3 tools/cloud_gradle.py build installDist --console=plain

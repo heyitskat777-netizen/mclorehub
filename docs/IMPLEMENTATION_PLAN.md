@@ -6,8 +6,8 @@ and stop with the next step. Never replace useful tests with trivial passing che
 
 1. **M0: Fabric shell.** Verify exact 1.21.11 toolchain; pin and verify wrapper;
    build client-only metadata; keybinding and empty screen; real game input/render
-   checks. Historically passed in Phase 2. Recovered source needs client revalidation
-   once the current environment's Fabric/Mojang access is restored.
+   checks. Historically passed in Phase 2; reconstructed source also passed the
+   full build and native scenario after environment publication restored access.
 2. **M1: Import and review.** Validate ZIP/JSON limits, counts, IDs, hashes, provenance,
    replies and nulls; repeat imports safely; derive conservative roles; separate
    explicit current-status evidence from raw source. Phase 3 adds catalogue/review

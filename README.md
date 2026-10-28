@@ -10,8 +10,9 @@ not connected to it yet.
 **Recovery note:** this environment reset to an empty checkout on October 28.
 Source was reconstructed from the recorded implementation and the original ZIP
 was recovered. Historical Phase 2 screenshots/binaries/caches were not restored.
-Current core checks pass; current client revalidation is blocked by network policy.
-See the status report for the exact distinction and persistence steps.
+Current core checks pass, and after environment publication the reconstructed
+client passed its full build and native input/render scenario. See the status
+report for the exact distinction, limits and persistence steps.
 
 ## Guides
 
