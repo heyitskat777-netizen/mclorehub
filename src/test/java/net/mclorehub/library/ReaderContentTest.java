@@ -16,9 +16,10 @@ class ReaderContentTest {
     @Test void chunkingPreservesEveryCharacterAndStableReplyBlocks(){String text="x".repeat(5999)+"😀\n\n"+"  paragraph\n".repeat(2000);var content=ReaderContent.document(withBody(text));
         assertEquals(text,content.sections().stream().filter(s->s.blockId().equals("body")).map(ReaderContent.Section::text).reduce("",String::concat));
         for(var s:content.sections()){assertTrue(s.text().length()<=6000);if(!s.text().isEmpty())assertFalse(Character.isHighSurrogate(s.text().charAt(s.text().length()-1)));}
-        assertTrue(content.sections().getLast().heading().contains("Unknown author"));assertEquals("post:456",content.sections().getLast().blockId());}
-    @Test void resumesByBlockAndAbsoluteSourceOffset(){var content=ReaderContent.document(doc);var p=new PersonalState.ReadingPosition(doc.id(),doc.fingerprint(),"post:456",10,true);
-        var resume=content.resume(doc,Optional.of(p));assertEquals(1,resume.section());assertEquals(10,resume.offset());assertFalse(resume.changed());}
+        assertTrue(content.sections().stream().allMatch(s->s.blockId().equals("body")));var archive=ReaderContent.discussion(doc);
+        assertTrue(archive.sections().getLast().heading().contains("Unknown author"));assertEquals("post:456",archive.sections().getLast().blockId());}
+    @Test void oldDiscussionResumeResetsSafelyInMainReader(){var content=ReaderContent.document(doc);var p=new PersonalState.ReadingPosition(doc.id(),doc.fingerprint(),"post:456",10,true);
+        assertEquals(new ReaderContent.Resume(0,0,true),content.resume(doc,Optional.of(p)));}
     @Test void selectsCorrectLongDocumentSection(){var content=ReaderContent.document(withBody("x".repeat(15000)));var p=new PersonalState.ReadingPosition(doc.id(),doc.fingerprint(),"body",6500,false);
         assertEquals(1,content.resume(doc,Optional.of(p)).section());assertEquals(6500,content.resume(doc,Optional.of(p)).offset());}
     @Test void changedSourceOrMissingBlockResetsSafely(){var content=ReaderContent.document(doc);

@@ -5,11 +5,12 @@ Personal-use **Minecraft 1.21.11 Fabric** wiki mod, developed in tested phases.
 The core imports the attached LoTC database, preserves source evidence, and now
 provides a validated catalogue with separate acceptance reviews. The Fabric client
 loads local packs asynchronously and supports current/audit browsing, title/alias/
-text/reply search, categories, a plain-text reader, favorites and reading resume.
+main-text search, categories, a plain-text reader, favorites and reading resume.
 Local character sheets support magic branch/tier, separate CA/FA entries, links,
 user-recorded statuses, notes and archive/restore. The supplied database is trusted
-using the user's confirmation. Refresh topic fetches only the open forum thread
-and its reply pages, saves changes persistently and supports Undo refresh.
+using the user's confirmation. Main-post refresh compares saved lore with the
+forum, saves changes persistently and supports Undo. Monthly automatic checks,
+pause controls and optional explicitly imported forum sessions are available.
 Sourced compatibility rules and a curated character lore picker remain incomplete.
 
 **Recovery note:** this environment reset to an empty checkout on October 28.
@@ -35,6 +36,8 @@ report for the exact distinction, limits and persistence steps.
 - [Phase 5 character sheets](docs/PHASE_5.md)
 - [Personal installation](docs/INSTALL.md)
 - [Phase 6 trusted baseline and per-topic updates](docs/PHASE_6.md)
+- [Phase 7 main-only monthly checks](docs/PHASE_7.md)
+- [Optional forum session / MArt access](docs/FORUM_SESSION.md)
 
 ## Build and use the core
 

@@ -17,7 +17,7 @@ public final class ReaderScreen extends Screen {
     private final Screen parent;
     private final LibraryService service;
     private final Document document;
-    private final boolean audit,details;
+    private final boolean audit,details,discussion;
     private CompletableFuture<ReaderContent> loading;
     private ReaderContent content;
     private List<Line> lines=List.of();
@@ -29,8 +29,11 @@ public final class ReaderScreen extends Screen {
     private Button refresh,undo;
     private long observedGeneration=-1;
     public ReaderScreen(Screen parent,LibraryService service,Document doc,boolean audit,boolean details){
-        super(Component.literal(doc.title()));this.parent=parent;this.service=service;document=doc;this.audit=audit;this.details=details;
-        loading=service.reader(doc,details);
+        this(parent,service,doc,audit,details,false);
+    }
+    private ReaderScreen(Screen parent,LibraryService service,Document doc,boolean audit,boolean details,boolean discussion){
+        super(Component.literal(doc.title()));this.parent=parent;this.service=service;document=doc;this.audit=audit;this.details=details;this.discussion=discussion;
+        loading=discussion?service.archivedReplies(doc):service.reader(doc,details);
     }
     public String documentId(){return document.id();}
     private int visibleLines(){return Math.max(1,(height-159)/11);}
@@ -58,7 +61,9 @@ public final class ReaderScreen extends Screen {
         Button previous=addRenderableWidget(Button.builder(Component.translatable("screen.mclorehub.previous"),b->page(-1)).bounds(16,height-54,80,20).build());
         Button next=addRenderableWidget(Button.builder(Component.translatable("screen.mclorehub.next"),b->page(1)).bounds(width-96,height-54,80,20).build());
         previous.active=content!=null&&section>0;next.active=content!=null&&section+1<content.sections().size();
-        addRenderableWidget(Button.builder(Component.translatable("gui.back"),b->onClose()).bounds((width-120)/2,height-28,120,20).build());
+        if(details&&!document.posts().isEmpty())addRenderableWidget(Button.builder(Component.translatable("screen.mclorehub.archived_replies"),b->minecraft.setScreen(new ReaderScreen(this,service,document,audit,false,true)))
+                .bounds(16,height-28,col,20).build());
+        addRenderableWidget(Button.builder(Component.translatable("gui.back"),b->onClose()).bounds(20+col,height-28,col,20).build());
         updateFavorite();
     }
     private void updateFavorite(){
@@ -66,9 +71,9 @@ public final class ReaderScreen extends Screen {
         if(!details){favorite.active=view.writable();favorite.setMessage(Component.translatable(view.personal().favorites().contains(document.id())?"screen.mclorehub.unfavorite":"screen.mclorehub.favorite"));}
         if(!view.message().isEmpty())favorite.setTooltip(Tooltip.create(Component.literal(view.message())));
         if(refresh!=null){var operation=service.refreshStatus();boolean own=operation.documentId().equals(document.id());
-            refresh.active=operation.phase()!=LibraryService.RefreshPhase.SAVING&&(operation.phase()==LibraryService.RefreshPhase.IDLE||own);
+            refresh.active=!discussion&&operation.phase()!=LibraryService.RefreshPhase.SAVING&&(operation.phase()==LibraryService.RefreshPhase.IDLE||own);
             refresh.setMessage(Component.translatable(operation.phase()==LibraryService.RefreshPhase.FETCHING&&own?"screen.mclorehub.cancel_refresh":"screen.mclorehub.refresh_topic"));
-            refresh.setTooltip(Tooltip.create(Component.literal("Fetch only this forum topic and its reply pages; save changes locally.")));}
+            refresh.setTooltip(Tooltip.create(Component.literal("Compare the saved main lore with the forum's first post; save changes locally. Discussion is excluded.")));}
         if(undo!=null)undo.active=service.canRollback(document.id())&&service.refreshStatus().phase()==LibraryService.RefreshPhase.IDLE;
     }
     private void page(int delta){
@@ -90,23 +95,23 @@ public final class ReaderScreen extends Screen {
     @Override public void tick(){
         if(updating!=null&&updating.isDone()){
             try{updating.join();updating=null;service.view().library().flatMap(l->l.catalogue().documents().stream().filter(d->d.id().equals(document.id())).findFirst())
-                    .ifPresent(d->minecraft.setScreen(new ReaderScreen(parent,service,d,audit,details)));return;
+                    .ifPresent(d->minecraft.setScreen(new ReaderScreen(parent,service,d,audit,details,discussion)));return;
             }catch(CompletionException|CancellationException ignored){updating=null;}
         }
         if(observedGeneration!=service.view().generation()){
             observedGeneration=service.view().generation();var latest=service.view().library().flatMap(l->l.catalogue().documents().stream().filter(d->d.id().equals(document.id())).findFirst());
             if(latest.isPresent()&&(!latest.get().fingerprint().equals(document.fingerprint())||!latest.get().trust().equals(document.trust())||latest.get().status()!=document.status())){
-                minecraft.setScreen(new ReaderScreen(parent,service,latest.get(),audit,details));return;}
+                minecraft.setScreen(new ReaderScreen(parent,service,latest.get(),audit,details,discussion));return;}
         }
         if(loading!=null&&loading.isDone()){
-            try{content=loading.join();var resume=details?new ReaderContent.Resume(0,0,false):content.resume(document,service.view().personal().reading());
+            try{content=loading.join();var resume=details||discussion?new ReaderContent.Resume(0,0,false):content.resume(document,service.view().personal().reading());
                 section=resume.section();changed=resume.changed();layout(resume.offset());rebuildWidgets();dirty=true;
             }catch(CompletionException e){changed=true;}loading=null;
         }
         updateFavorite();if(dirty&&++saveTicks>=10){save();saveTicks=0;}
     }
     private void save(){
-        if(details||content==null||lines.isEmpty())return;
+        if(details||discussion||content==null||lines.isEmpty())return;
         var s=content.sections().get(section);int offset=lines.get(scroll).offset();
         var position=new PersonalState.ReadingPosition(document.id(),document.fingerprint(),s.blockId(),offset,audit||!LoreSearch.isCurrent(document));
         if(!position.equals(queuedPosition)&&!service.view().personal().reading().equals(Optional.of(position))){queuedPosition=position;service.remember(position);}dirty=false;
@@ -120,7 +125,7 @@ public final class ReaderScreen extends Screen {
             for(int i=scroll;i<Math.min(lines.size(),scroll+visibleLines());i++)result.append(" ").append(lines.get(i).text());}
         return result;
     }
-    private String status(){return (details?"Source and review details • ":audit?"AUDIT • ":"")+ReaderContent.statusLabel(document.status())+" • "+ReaderContent.reviewLabel(document.reviewState());}
+    private String status(){return discussion?"Archived discussion • Not part of main lore":(details?"Source and review details • ":audit?"AUDIT • ":"")+ReaderContent.statusLabel(document.status())+" • "+ReaderContent.reviewLabel(document.reviewState());}
     @Override public void render(GuiGraphics g,int x,int y,float delta){
         g.drawCenteredString(font,font.plainSubstrByWidth(title.getString(),width-32),width/2,10,0xFFFFFFFF);
         g.drawCenteredString(font,font.plainSubstrByWidth(status(),width-32),width/2,27,LoreSearch.isCurrent(document)?0xFFB3DBBC:0xFFFFC477);

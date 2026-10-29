@@ -18,9 +18,11 @@ public final class LibraryService implements AutoCloseable {
     public enum RefreshPhase { IDLE, FETCHING, SAVING }
     public record RefreshStatus(String documentId,RefreshPhase phase,String message){}
     public record RefreshResult(boolean changed,int addedReplies,int editedReplies,String message){}
+    public static final class BusyException extends IOException { public BusyException(){super("Another topic update is already running");} }
     private final Path directory;
     private final PersonalStore store;
     private final UpdateStore updateStore;
+    private final ForumSession session;
     private volatile UpdateStore.State updateState;
     private volatile LoreCatalogue baseline;
     private TopicFetcher fetcher;
@@ -41,11 +43,12 @@ public final class LibraryService implements AutoCloseable {
     private CompletableFuture<LoreSearch.Page> currentResult;
     public LibraryService(Path directory) { this(directory,null); }
     public LibraryService(Path directory,TopicFetcher fetcher) {
-        this.directory = directory; store = new PersonalStore(directory.resolve("personal/state.json"));updateStore=new UpdateStore(directory);
+        this.directory = directory; store = new PersonalStore(directory.resolve("personal/state.json"));updateStore=new UpdateStore(directory);session=new ForumSession(directory);
         this.fetcher=fetcher;testTransport=fetcher!=null;
     }
     public View view() { return view; }
     public Path directory() { return directory; }
+    public ForumSession session(){return session;}
     public CompletableFuture<View> reload() {
         return CompletableFuture.supplyAsync(() -> {
             View previous = view; String warning = ""; boolean writable = true;
@@ -77,7 +80,7 @@ public final class LibraryService implements AutoCloseable {
     public boolean canRollback(String id){var state=updateState;var base=baseline;return state!=null&&base!=null&&state.entries().containsKey(id)
             &&base.documents().stream().anyMatch(d->d.id().equals(id)&&d.fingerprint().equals(state.entries().get(id).baseFingerprint()));}
     public synchronized CompletableFuture<RefreshResult> refresh(String id){
-        if(refreshStatus.phase()!=RefreshPhase.IDLE||refreshTask!=null&&!refreshTask.result.isDone())return CompletableFuture.failedFuture(new IOException("Another topic update is already running"));
+        if(refreshStatus.phase()!=RefreshPhase.IDLE||refreshTask!=null&&!refreshTask.result.isDone())return CompletableFuture.failedFuture(new BusyException());
         Document before=view.library().flatMap(l->l.catalogue().documents().stream().filter(d->d.id().equals(id)).findFirst()).orElse(null);
         if(before==null||baseline==null||updateState==null||view.phase()!=Phase.READY){
             refreshStatus=new RefreshStatus(id,RefreshPhase.IDLE,"Refresh not started: load a valid topic database first.");
@@ -89,23 +92,27 @@ public final class LibraryService implements AutoCloseable {
         attempts.put(id,now);RefreshTask task=new RefreshTask(id);refreshTask=task;refreshStatus=new RefreshStatus(id,RefreshPhase.FETCHING,"Checking this forum topic…");
         task.work=network.submit(()->{
             try{
-                if(fetcher==null)fetcher=new ForumClient();TopicSnapshot snapshot=fetcher.fetch(before);
+                if(fetcher==null){session.reload().get(5,TimeUnit.SECONDS);fetcher=new ForumClient(new ForumHttp(session::header),java.time.Duration.ofSeconds(1),java.time.Clock.systemUTC());}
+                TopicSnapshot fetched=fetcher.fetch(before);
                 if(task.cancelled)return;
                 io.execute(()->{
+                    TopicSnapshot snapshot=fetched;
                     try{
                         synchronized(this){if(task.cancelled)return;task.saving=true;refreshStatus=new RefreshStatus(id,RefreshPhase.SAVING,"Saving topic update…");}
                         Document current=view.library().orElseThrow().catalogue().documents().stream().filter(d->d.id().equals(id)).findFirst().orElseThrow();
                         if(!current.fingerprint().equals(before.fingerprint()))throw new IOException("Topic changed locally during refresh; retry with the current version");
                         var original=baseline.documents().stream().filter(d->d.id().equals(id)).findFirst().orElseThrow();
                         boolean changed=!normalize(before.body()).equals(normalize(snapshot.body()))||!before.title().equals(snapshot.title())||!before.author().orElse("").equals(snapshot.author())
-                                ||!before.posts().equals(snapshot.posts())||snapshot.observedStatus().filter(s->s!=before.status()).isPresent();
-                        Map<String,String> replies=new HashMap<>();before.posts().forEach(p->replies.put(p.id(),p.text()));int added=0,edited=0;
-                        for(var p:snapshot.posts()){if(!replies.containsKey(p.id()))added++;else if(!normalize(replies.get(p.id())).equals(normalize(p.text())))edited++;}
+                                ||snapshot.observedStatus().filter(s->s!=before.status()).isPresent();
+                        int added=0,edited=0;
+                        // Discussion is an archive, not part of main-lore updates/comparisons.
+                        snapshot=new TopicSnapshot(snapshot.documentId(),snapshot.url(),snapshot.title(),snapshot.author(),snapshot.body(),before.posts(),snapshot.pages(),snapshot.fetchedAt(),snapshot.observedStatus(),
+                                before.coverageGaps().stream().filter(g->g.startsWith("previous_reply_not_returned:")).map(g->g.substring("previous_reply_not_returned:".length())).toList());
                         UpdateStore.State staged=updateStore.stage(updateState,original.fingerprint(),snapshot,changed);
                         var applied=updateStore.apply(baseline,staged);Library prepared=new Library(applied.catalogue(),new LoreSearch(applied.catalogue()));
                         UpdateStore.State saved=updateStore.activate(staged);updateState=saved;
                         View old=view;view=new View(old.generation()+1,Phase.READY,Optional.of(prepared),old.personal(),old.writable(),old.message());
-                        String message=changed?"Topic updated: "+added+" new replies, "+edited+" edited replies. Previous version saved.":"No content changes. Topic check saved.";
+                        String message=changed?"Main lore updated. Previous version saved.":"No main lore changes. Check saved.";
                         refreshStatus=new RefreshStatus(id,RefreshPhase.IDLE,message);task.result.complete(new RefreshResult(changed,added,edited,message));
                     }catch(Exception e){fail(task,e);}
                 });
@@ -117,6 +124,7 @@ public final class LibraryService implements AutoCloseable {
         refreshStatus=new RefreshStatus(task.id,RefreshPhase.IDLE,"Refresh failed; stored lore retained. "+error.getMessage());task.result.completeExceptionally(error);}
     public synchronized void cancelRefresh(){var task=refreshTask;if(task==null||task.saving||task.result.isDone())return;
         task.cancelled=true;if(task.work!=null)task.work.cancel(true);refreshStatus=new RefreshStatus(task.id,RefreshPhase.IDLE,"Refresh cancelled; stored lore retained.");task.result.cancel(false);}
+    public synchronized void cancelRefresh(CompletableFuture<RefreshResult> expected){if(refreshTask!=null&&refreshTask.result==expected)cancelRefresh();}
     public CompletableFuture<RefreshResult> rollback(String id){return CompletableFuture.supplyAsync(()->{
         boolean ownOperation=false;
         try{
@@ -146,6 +154,7 @@ public final class LibraryService implements AutoCloseable {
     public CompletableFuture<ReaderContent> reader(LoreCatalogue.Document document, boolean details) {
         return CompletableFuture.supplyAsync(() -> details ? ReaderContent.details(document) : ReaderContent.document(document),io);
     }
+    public CompletableFuture<ReaderContent> archivedReplies(Document document){return CompletableFuture.supplyAsync(()->ReaderContent.discussion(document),io);}
     public CompletableFuture<View> remember(PersonalState.ReadingPosition position) { return change(s -> s.remember(position)); }
     private CompletableFuture<View> change(UnaryOperator<PersonalState> update) {
         return CompletableFuture.supplyAsync(() -> {
@@ -161,7 +170,7 @@ public final class LibraryService implements AutoCloseable {
         },io);
     }
     @Override public void close() {
-        cancelRefresh();network.shutdownNow();searches.shutdownNow(); io.shutdown();
+        cancelRefresh();network.shutdownNow();searches.shutdownNow(); io.shutdown();session.close();
         try { if (!io.awaitTermination(10,TimeUnit.SECONDS)) io.shutdownNow(); }
         catch (InterruptedException e) { io.shutdownNow(); Thread.currentThread().interrupt(); }
     }

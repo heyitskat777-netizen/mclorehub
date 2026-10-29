@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.mclorehub.library.LibraryService;
 import net.mclorehub.character.CharacterService;
+import net.mclorehub.updates.MonthlyUpdater;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
 import org.lwjgl.glfw.GLFW;
@@ -16,14 +17,17 @@ import org.lwjgl.glfw.GLFW;
 public final class MCLoreHubClient implements ClientModInitializer {
     private static LibraryService library;
     private static CharacterService characters;
+    private static MonthlyUpdater monthly;
     public static LibraryService library() { return library; }
     public static CharacterService characters() { return characters; }
+    public static MonthlyUpdater monthly() { return monthly; }
     @Override
     public void onInitializeClient() {
         library = new LibraryService(FabricLoader.getInstance().getConfigDir().resolve("mclorehub"));
         library.reload();
+        library.session().reload();monthly=new MonthlyUpdater(library);monthly.start();
         characters=new CharacterService(library.directory());characters.reload();
-        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {library.close();characters.close();});
+        ClientLifecycleEvents.CLIENT_STOPPING.register(client -> {monthly.close();library.close();characters.close();});
         KeyMapping.Category category = KeyMapping.Category.register(Identifier.fromNamespaceAndPath("mclorehub", "wiki"));
         KeyMapping openWiki = KeyBindingHelper.registerKeyBinding(new KeyMapping(
                 "key.mclorehub.open_wiki", InputConstants.Type.KEYSYM, GLFW.GLFW_KEY_K, category));

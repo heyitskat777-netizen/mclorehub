@@ -17,6 +17,8 @@
   "screen.mclorehub.reload": "Reload files",
   "screen.mclorehub.resume": "Resume reading",
   "screen.mclorehub.characters": "Characters",
+  "screen.mclorehub.updates": "Updates",
+  "screen.mclorehub.archived_replies": "Archived replies",
   "screen.mclorehub.coverage": "%s current / %s imported • %s need review",
   "screen.mclorehub.loading": "Loading lore library…",
   "screen.mclorehub.searching": "Searching…",

@@ -33,9 +33,15 @@
   categories, not applications, extra magics, or ownership/craft permission.
 - Compatibility needs curated source-backed conditions, exceptions, dates, and
   revision dependencies. Missing coverage means not assessed, not compatible.
-- Updates are manual and per topic: open a lore document, Refresh its forum topic,
-  compare/save changes persistently. Fetch only that topic and its pagination,
-  not global search/discovery. Preserve rollback and personal files; no bypasses.
+- Default reading/search/update comparison covers the main lore post only. Keep
+  previously captured replies as an explicit archive, without fetching discussion.
+- Check saved main lore pages automatically once per calendar month while Minecraft
+  runs; persist due dates/catch up after restart. Keep manual refresh, pause/cancel,
+  rate limits, rollback and personal data. No unrelated discovery or access bypass.
+- Optional user-supplied forum-session cookies may authenticate authorized MArt
+  reads. Never collect passwords/extract browser credentials, log cookies, or send
+  them outside the exact forum HTTPS host. Do not claim real sign-in was verified
+  without an actual authorized session. Keep auth files out of source/data bundles.
 - No mandatory server, backend, AI service, account, or telemetry.
 
 ## Correctness and handoff

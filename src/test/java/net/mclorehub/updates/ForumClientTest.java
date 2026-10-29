@@ -16,18 +16,18 @@ class ForumClientTest {
     ForumClient.Response response(URI uri,int status,String body){return new ForumClient.Response(uri,status,uri.getPath().equals("/robots.txt")?"text/plain":"text/html","","",body.getBytes(StandardCharsets.UTF_8));}
     ForumClient client(ForumClient.Transport t){return new ForumClient(t,Duration.ZERO,Clock.systemUTC());}
     String one(String text){return UpdateFixtures.html(1,1,null,"<p>"+text+"</p>","");}
-    @Test void fetchesOnlySelectedTopicPaginationAndPreservesAttribution()throws Exception{
+    @Test void fetchesOnlyMainLoreAndDoesNotFollowReplyPagination()throws Exception{
         List<URI> requests=new ArrayList<>();String page2=UpdateFixtures.URL+"page/2/";
         var snapshot=client(uri->{requests.add(uri);return response(uri,200,uri.getPath().equals("/robots.txt")?"User-agent: *\nAllow: /":
                 ForumUrls.page(uri)==1?UpdateFixtures.html(1,2,page2,"<p>Main paragraph.</p><p>Second paragraph.</p><script>DO NOT EXECUTE</script>",UpdateFixtures.post("1002","Bob","First reply")):
                         UpdateFixtures.html(2,2,null,"",UpdateFixtures.post("1003","Carol","Second page amendment")));}).fetch(doc);
-        assertEquals(3,requests.size());assertEquals(List.of("1002","1003"),snapshot.posts().stream().map(p->p.id()).toList());
+        assertEquals(2,requests.size());assertTrue(snapshot.posts().isEmpty());
         assertEquals("Alice",snapshot.author());assertEquals("Main paragraph.\nSecond paragraph.",snapshot.body());assertFalse(snapshot.body().contains("EXECUTE"));
-        assertEquals(2,snapshot.pages().size());assertEquals(Optional.of(LoreCatalogue.Status.ACCEPTED_CURRENT),snapshot.observedStatus());
+        assertEquals(1,snapshot.pages().size());assertEquals(Optional.of(LoreCatalogue.Status.ACCEPTED_CURRENT),snapshot.observedStatus());
     }
-    @Test void inaccessibleLaterPageFailsWholeFetch()throws Exception{
-        assertThrows(java.io.IOException.class,()->client(uri->response(uri,uri.getPath().contains("/page/2/")?403:200,uri.getPath().equals("/robots.txt")?"":
-                UpdateFixtures.html(1,2,UpdateFixtures.URL+"page/2/","Main","") )).fetch(doc));}
+    @Test void inaccessibleDiscussionPagesAreNeverRequested()throws Exception{
+        var result=client(uri->{assertFalse(uri.getPath().contains("/page/2/"));return response(uri,200,uri.getPath().equals("/robots.txt")?"":
+                UpdateFixtures.html(1,2,UpdateFixtures.URL+"page/2/","Main","") );}).fetch(doc);assertEquals("Main",result.body());}
     @Test void loginChallengeOrMissingMainPostCannotReplaceLore(){assertThrows(java.io.IOException.class,()->ForumHtml.parse("<html><h1>Sign in</h1></html>".getBytes(),URI.create(UpdateFixtures.URL),doc.id()));}
     @Test void redirectsCannotLeaveHostTopicOrHttps(){
         for(String target:List.of("http://www.lordofthecraft.net/forums/topic/123-synthetic/","https://example.com/forums/topic/123/",UpdateFixtures.URL.replace("123-","999-"),"/login/")){
@@ -49,11 +49,11 @@ class ForumClientTest {
         assertThrows(java.io.IOException.class,()->c.fetch(doc));assertThrows(java.io.IOException.class,()->c.fetch(doc));assertEquals(1,requests.size());}
     @Test void missingPagesAndServerErrorsNeverMeanDeletion(){for(int status:List.of(401,403,404,500))assertThrows(java.io.IOException.class,()->client(uri->response(uri,uri.getPath().equals("/robots.txt")?200:status,"")).fetch(doc));}
     @Test void responseSizeIsBounded(){assertThrows(java.io.IOException.class,()->client(uri->new ForumClient.Response(uri,200,"text/html","","",new byte[(4<<20)+1])).fetch(doc));}
-    @Test void absentOldRepliesAreRetainedAndFlagged()throws Exception{
+    @Test void oldDiscussionRemainsUntouchedWithoutBeingChecked()throws Exception{
         var original=new LoreCatalogue.Document(doc.id(),doc.title(),doc.url(),doc.author(),doc.exportSnapshotAt(),doc.body(),doc.revision(),doc.fingerprint(),doc.family(),doc.category(),doc.aliases(),doc.role(),doc.status(),doc.reviewState(),doc.decision(),
                 List.of(new LoreCatalogue.ThreadPost("999","Prior author",doc.url()+"#comment-999","Previously captured amendment")),doc.coverageGaps(),doc.trust());
         var s=client(uri->response(uri,200,uri.getPath().equals("/robots.txt")?"":one("Current main"))).fetch(original);
-        assertEquals(List.of("999"),s.absentPosts());assertEquals("Previously captured amendment",s.posts().getFirst().text());}
+        assertTrue(s.absentPosts().isEmpty());assertEquals(original.posts(),s.posts());}
     @Test void bodyKeywordsDoNotDeclareShelving(){var p=assertDoesNotThrow(()->ForumHtml.parse(one("This paragraph discusses shelved lore and pending drafts.").getBytes(),URI.create(UpdateFixtures.URL),doc.id()));assertEquals(Optional.of(LoreCatalogue.Status.ACCEPTED_CURRENT),p.status());}
     @Test void explicitForumShelvedLocationIsRecorded(){String html=one("Main body").replace("Implemented Lore","Shelved Lore");var p=assertDoesNotThrow(()->ForumHtml.parse(html.getBytes(),URI.create(UpdateFixtures.URL),doc.id()));assertEquals(Optional.of(LoreCatalogue.Status.SHELVED),p.status());}
     @Test void queryEndpointsAreNotFetched(){for(String url:List.of(UpdateFixtures.URL+"?do=findComment&comment=1001",UpdateFixtures.URL+"?csrfKey=secret"))assertThrows(java.io.IOException.class,()->ForumUrls.checked(url,doc.id()));}

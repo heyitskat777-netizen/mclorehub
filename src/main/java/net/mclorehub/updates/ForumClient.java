@@ -7,7 +7,7 @@ import java.net.URI;
 import java.time.*;
 import java.util.*;
 
-/** One manually selected topic, sequential pagination, no discovery/login/search endpoints. */
+/** One known topic's main first post, no discussion/discovery/login/search requests. */
 public final class ForumClient implements TopicFetcher {
     public record Response(URI uri,int status,String contentType,String location,String retryAfter,byte[] body){}
     @FunctionalInterface public interface Transport { Response get(URI uri)throws IOException,InterruptedException; }
@@ -16,14 +16,14 @@ public final class ForumClient implements TopicFetcher {
     public ForumClient(Transport transport,Duration spacing,Clock clock){this.transport=transport;this.spacing=spacing;this.clock=clock;}
     private Response get(URI uri)throws IOException,InterruptedException{
         if(Thread.interrupted())throw new InterruptedException("Refresh cancelled");
-        if(clock.instant().isBefore(retryUntil))throw new ImportException("Forum rate limit active until "+retryUntil);
+        if(clock.instant().isBefore(retryUntil))throw new ForumRateLimitException(retryUntil);
         long wait=spacing.toNanos()-(System.nanoTime()-lastRequest);if(wait>0)java.util.concurrent.TimeUnit.NANOSECONDS.sleep(wait);
         Response response=transport.get(uri);lastRequest=System.nanoTime();
         if(response.body().length>4<<20)throw new ImportException("Forum response exceeds size limit");
         if(response.status()==429){long seconds=60;try{seconds=Long.parseLong(response.retryAfter());}catch(NumberFormatException ignored){
                 try{seconds=Duration.between(clock.instant(),ZonedDateTime.parse(response.retryAfter(),java.time.format.DateTimeFormatter.RFC_1123_DATE_TIME).toInstant()).getSeconds();}catch(RuntimeException unavailable){}}
             try{retryUntil=clock.instant().plusSeconds(Math.max(1,seconds));}catch(DateTimeException e){retryUntil=Instant.MAX;}
-            throw new ImportException("Forum rate limited refresh; retry after "+retryUntil);}
+            throw new ForumRateLimitException(retryUntil);}
         return response;
     }
     @Override public synchronized TopicSnapshot fetch(Document document)throws IOException,InterruptedException{
@@ -49,18 +49,16 @@ public final class ForumClient implements TopicFetcher {
             if(!response.contentType().toLowerCase(Locale.ROOT).startsWith("text/html"))throw new ImportException("Expected a forum HTML page");
             totalBytes+=response.body().length;if(totalBytes>16<<20)throw new ImportException("Topic exceeds 16 MiB response limit");
             if(ForumUrls.page(uri)!=pages.size()+1)throw new ImportException("Redirect skipped topic pages; no partial update saved");
-            ForumHtml.Page page=ForumHtml.parse(response.body(),uri,document.id());pages.add(uri.toString());
+            ForumHtml.Page page=ForumHtml.main(response.body(),uri,document.id());pages.add(uri.toString());
             if(title==null){title=page.title();expectedPages=page.totalPages();status=page.status();source=uri;var main=page.posts().getFirst();mainId=main.id();mainBody=main.text();author=main.author();
-                if(mainBody.isBlank())throw new ImportException("Main lore post is empty; stored lore retained");}
+                if(mainBody.replaceAll("\\[Image[^\\]]*\\]","").isBlank())throw new ImportException("Main lore post is empty or image-only; stored text retained");}
             else if(!title.equals(page.title())||expectedPages!=page.totalPages()||!status.equals(page.status()))throw new ImportException("Topic changed during refresh; retry rather than save inconsistent pages");
             for(ThreadPost p:page.posts()){
                 ThreadPost old=fetched.putIfAbsent(p.id(),p);if(old!=null&&(!old.text().equals(p.text())||!old.author().equals(p.author())))throw new ImportException("Post changed during refresh");
             }
             if(fetched.size()>1000)throw new ImportException("Too many topic replies");next=page.next().orElse(null);
         }
-        List<String> absent=new ArrayList<>();String op=mainId;
-        for(ThreadPost old:document.posts())if(!old.id().equals(op)&&!fetched.containsKey(old.id())){fetched.put(old.id(),old);absent.add(old.id());}
-        fetched.remove(mainId);
-        return new TopicSnapshot(document.id(),source.toString(),title,author,mainBody,new ArrayList<>(fetched.values()),pages,clock.instant(),status,absent);
+        List<String> absent=document.coverageGaps().stream().filter(g->g.startsWith("previous_reply_not_returned:")).map(g->g.substring("previous_reply_not_returned:".length())).toList();
+        return new TopicSnapshot(document.id(),source.toString(),title,author,mainBody,document.posts(),pages,clock.instant(),status,absent);
     }
 }

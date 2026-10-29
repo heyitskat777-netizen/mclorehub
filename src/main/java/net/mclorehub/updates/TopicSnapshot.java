@@ -40,12 +40,12 @@ public record TopicSnapshot(String documentId,String url,String title,String aut
     public Document apply(Document base){
         if(!base.id().equals(documentId))throw new IllegalArgumentException("Topic ID mismatch");
         boolean userTrusted=base.trust().isPresent();Status status=observedStatus.orElse(userTrusted?base.status():Status.UNKNOWN);
-        List<String> gaps=new ArrayList<>(base.coverageGaps());gaps.remove("reply_amendments_and_continuations_not_captured");
+        List<String> gaps=new ArrayList<>(base.coverageGaps());
         gaps.removeIf(g->g.startsWith("unattributed_thread_post:")||g.startsWith("previous_reply_not_returned:"));
         posts.stream().filter(p->p.author().isBlank()).forEach(p->gaps.add("unattributed_thread_post:"+p.id()));
         for(String p:absentPosts)gaps.add("previous_reply_not_returned:"+p);
         return new Document(base.id(),title,url,author.isBlank()?Optional.empty():Optional.of(author),base.exportSnapshotAt(),body,hash(body),contentFingerprint(),base.family(),base.category(),base.aliases(),base.role(),
                 status,ReviewState.SOURCE_REFRESHED,base.decision(),posts,gaps,
-                Optional.of(new SourceTrust("Manual refresh of this forum topic; reply text is not automatic staff approval",fetchedAt,pages)));
+                Optional.of(new SourceTrust("Forum main-post check; archived replies are not refreshed",fetchedAt,pages)));
     }
 }

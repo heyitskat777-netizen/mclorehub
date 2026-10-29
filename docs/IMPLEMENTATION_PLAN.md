@@ -1,10 +1,12 @@
 # Ordered creation plan
 
 Latest scope: the supplied database is user-confirmed accepted/accurate; no new
-per-record audit gate is required. Plain text is sufficient. Fetching is manual,
-per open topic including its pagination, with immediate persistent validated
-activation and Undo. Phase 6 implements these changes; earlier conservative scope
-notes below are historical where superseded.
+per-record audit gate is required. Plain text is sufficient. Phase 7 defaults to
+main-post-only reading/search/comparison and monthly automatic checks of saved
+pages, plus manual refresh, persistent validated activation and Undo. Old discussion
+is an explicit archive. Optional local forum-session import enables requests with
+the user's existing account permissions; real MArt login requires acceptance testing.
+Earlier scope notes below are historical where superseded.
 
 At each phase: inspect status/user changes, implement a bounded slice, run relevant
 positive/negative tests, fix setup/code failures, record evidence, back up source,

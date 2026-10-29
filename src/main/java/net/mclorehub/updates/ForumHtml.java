@@ -13,6 +13,12 @@ public final class ForumHtml {
     public record Page(String title,List<ThreadPost> posts,Optional<URI> next,int totalPages,Optional<Status> status){}
     private ForumHtml(){}
     public static Page parse(byte[] html,URI url,String id)throws ImportException{
+        return parse(html,url,id,false);
+    }
+    public static Page main(byte[] html,URI url,String id)throws ImportException{
+        return parse(html,url,id,true);
+    }
+    private static Page parse(byte[] html,URI url,String id,boolean mainOnly)throws ImportException{
         var dom=Jsoup.parse(new String(html,java.nio.charset.StandardCharsets.UTF_8),url.toString());
         var canonical=dom.selectFirst("head link[rel=canonical]");if(canonical!=null)ForumUrls.checked(canonical.absUrl("href"),id);
         Element heading=dom.selectFirst("h1.ipsType_pageTitle .ipsType_break");if(heading==null)heading=dom.selectFirst("h1.ipsType_pageTitle");
@@ -24,8 +30,10 @@ public final class ForumHtml {
             Element body=article.selectFirst("[data-role=commentContent]");if(body==null)throw new ImportException("Incomplete forum post; no data saved");
             Element author=article.selectFirst(".cAuthorPane_author a[href*=/profile/]");
             posts.add(new ThreadPost(postId,author==null?"":author.text().strip(),url+"#comment-"+postId,plain(body)));
+            if(mainOnly)break;
         }
         if(posts.isEmpty())throw new ImportException("Forum returned no posts; stored lore retained");
+        if(mainOnly)return new Page(heading.text().strip(),List.copyOf(posts),Optional.empty(),1,status(dom,heading.text()));
         Element pager=dom.selectFirst(".ipsPagination[data-pages]");int pages=1;
         if(pager==null&&dom.selectFirst(".ipsPagination")!=null)throw new ImportException("Unsupported forum pagination layout");
         try{if(pager!=null)pages=Integer.parseInt(pager.attr("data-pages"));}catch(NumberFormatException e){throw new ImportException("Invalid forum pagination",e);}

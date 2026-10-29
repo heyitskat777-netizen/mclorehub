@@ -1,5 +1,8 @@
 /local-data/
 /private-fixtures/
+/auth/
+/forum-session.json
+/forum-cookies*.txt
 .gradle/
 **/build/
 build/

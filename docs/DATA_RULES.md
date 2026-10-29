@@ -26,18 +26,26 @@
 - Normal results use accepted/current applied reviews, explicit user trust or
   manually refreshed source provenance. Unknown/stale remain outside normal
   results. User trust does not imply eligibility, ownership or compatibility.
-- Refresh only the selected official HTTPS topic, following its pagination. Public
+- Refresh only the selected official HTTPS topic's main first post. Ignore comment
+  pagination/replies for normal reading/search and change comparison. Preserve old
+  replies in an explicit archive. Public
   breadcrumbs/title prefixes can record explicit accepted/shelved/pending locations;
   body keywords do not decide status. HTTP failures/missing pages never erase lore.
 - Validate complete fetched pages and index the proposed catalogue before switching
   the atomic topic pointer. Retain immutable snapshots/previous pointer and per-topic
-  Undo. A failed/cancelled/partial fetch does not activate. Old replies absent from
-  the public refresh are retained and labeled as previously captured, not deleted.
+  Undo. A failed/cancelled/partial fetch does not activate. Main-post checks preserve
+  the old discussion archive and make no claim about current reply presence.
 - Do not mutate the original pack, trust/review manifests, characters or favorites
   during refresh. Reading resumes safely with the new source fingerprint. Manual
   full-pack replacement remains separate from the implemented per-topic transaction.
 - Compatibility later requires exact source passages, conditions, exceptions,
   prerequisites and revision dependency. Missing coverage is not assessed.
+- Monthly checks cover only known saved IDs, run off the render thread while
+  Minecraft is running, persist next-due dates, and catch up after restart. Manual
+  success resets the monthly date. Pause/cancel and HTTP Retry-After are respected.
+- Session cookies are optional user-provided credentials, kept outside exports,
+  source, snapshots, logs and bundles. Send only supported IPS cookies to exact
+  forum HTTPS topic URLs. Never collect passwords or infer extra permissions.
 
 Machine contracts: `data/schema/candidate-pack.schema.json` and
 `data/schema/review-manifest.schema.json`. Java validation additionally checks

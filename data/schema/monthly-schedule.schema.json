@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Monthly main-lore check schedule",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "enabled", "not_before", "topics"],
+  "properties": {
+    "schema_version": {"const": 1}, "enabled": {"type": "boolean"},
+    "not_before": {"type": "string", "format": "date-time"},
+    "topics": {"type": "object", "maxProperties": 10000,
+      "propertyNames": {"pattern": "^lotc:topic:[1-9][0-9]{0,17}$"},
+      "additionalProperties": {"type": "object", "additionalProperties": false,
+        "required": ["next_check", "last_success", "failures", "outcome"],
+        "properties": {
+          "next_check": {"type": "string", "format": "date-time"},
+          "last_success": {"type": "string", "format": "date-time"},
+          "failures": {"type": "integer", "minimum": 0, "maximum": 30},
+          "outcome": {"enum": ["", "ACCESS", "NETWORK", "RATE_LIMIT", "CANCELLED"]}
+        }
+      }
+    }
+  }
+}

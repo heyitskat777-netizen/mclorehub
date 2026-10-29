@@ -28,8 +28,7 @@ public final class LoreSearch {
         List<Entry> result = new ArrayList<>();
         for (Document d : catalogue.documents()) {
             cancelled();
-            StringBuilder full = new StringBuilder(d.body()); d.posts().forEach(p -> full.append('\n').append(p.text()));
-            String body = full.toString();
+            String body = d.body();
             result.add(new Entry(d, normalize(d.title()), d.aliases().stream().map(LoreSearch::normalize).toList(), normalize(body), body));
         }
         entries = List.copyOf(result);

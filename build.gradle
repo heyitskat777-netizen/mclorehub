@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 group = 'net.mclorehub'
-version = '0.1.0-phase6'
+version = '0.1.0-phase7'
 repositories { mavenCentral() }
 java { toolchain.languageVersion = JavaLanguageVersion.of(21) }
 dependencies {

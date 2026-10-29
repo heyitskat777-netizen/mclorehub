@@ -19,7 +19,7 @@ class LoreSearchTest {
     @Test void allTermsMustMatchButCanSpanFields(){assertEquals(2,search("æther dawn",false).total());assertEquals(0,search("dawn nonexistent",true).total());}
     @Test void unicodeCaseAndCompatibilityNormalization(){assertEquals(1,search("薄明",false).total());assertEquals(3,search("  ÆTHER  ",false).total());
         assertEquals(1,search("ＡＬＩＡＳ　ＯＮＥ",false).total());}
-    @Test void repliesAreSearchableWithoutBecomingIndependentMagics(){var page=search("starlight",false);assertEquals(1,page.total());assertEquals("lotc:topic:104",page.hits().getFirst().document().id());}
+    @Test void discussionDoesNotAppearInDefaultLoreSearch(){assertEquals(0,search("starlight",false).total());assertEquals(0,search("starlight",true).total());}
     @Test void paginationAndBlankQueriesAreDeterministic(){var first=index.search(new LoreSearch.Query("","",false,false,Set.of(),0,1));
         var next=index.search(new LoreSearch.Query("","",false,false,Set.of(),1,2));assertEquals(3,first.total());
         assertEquals("lotc:topic:104",first.hits().getFirst().document().id());assertEquals(2,next.hits().size());
@@ -35,6 +35,6 @@ class LoreSearchTest {
         assertThrows(IllegalArgumentException.class,()->new LoreSearch.Query("","",false,false,Set.of(),0,101));}
     @Test void cancelledSearchStopsAndRetainsInterruption(){Thread.currentThread().interrupt();try{assertThrows(CancellationException.class,()->search("",true));assertTrue(Thread.currentThread().isInterrupted());}finally{Thread.interrupted();}}
     @Test void localeDoesNotChangeResults(){Locale old=Locale.getDefault();try{Locale.setDefault(Locale.forLanguageTag("tr-TR"));assertEquals(1,search("ALIAS ONE",false).total());}finally{Locale.setDefault(old);}}
-    @Test void replyAttributionAndGapsAreImmutableAndRetained(){var d=search("starlight",false).hits().getFirst().document();assertEquals("",d.posts().getFirst().author());
+    @Test void replyAttributionAndGapsAreImmutableAndRetained(){var d=search("third document",false).hits().getFirst().document();assertEquals("",d.posts().getFirst().author());
         assertTrue(d.coverageGaps().contains("unattributed_thread_post:456"));assertThrows(UnsupportedOperationException.class,()->d.posts().clear());}
 }

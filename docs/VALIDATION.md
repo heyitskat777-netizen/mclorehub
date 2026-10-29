@@ -37,6 +37,14 @@ also verifies 488 records, no automatic approvals and actual audit search/render
 require `REAL_CORPUS_PASS`. That optional corpus check is unrun without the variable.
 All synthetic approval examples remain separate from real data and production JARs.
 
+Phase 7 requires `MONTHLY_SCENARIO_PASS` in addition: a simulated calendar triggers
+the real scheduled worker, checks main lore, pauses via the UI and imports/forgets
+synthetic session cookies with no value in narration. Default search/reader exclude
+discussion; explicit archive access must not overwrite main reading position.
+The optional live-topic run now expects one main page, no newly fetched replies,
+and persistence across restart. No real authenticated MArt session is provided by
+tests; do not describe synthetic session success as verified forum sign-in.
+
 Phase 6 additionally requires `REFRESH_SCENARIO_PASS`: trusted baseline, refresh UI,
 persist/restart/Undo, HTTP failure and cancellation. With `MCLOREHUB_TEST_TRUST` set
 to the matching private trust manifest, the full-export test expects 488 normally

@@ -1,6 +1,53 @@
 # Current status
 
-## Latest checkpoint — Phase 6
+## Latest checkpoint — Phase 7
+
+Normal reader/search/update comparison now uses **main lore only**. Comment pages
+are not requested; old replies remain an explicit archive and do not replace main
+reading position. The user's trusted 488-reference database remains normally available.
+
+Monthly automatic checks are enabled in the client, with UTC calendar-month due
+dates persisted per saved topic. Newly activated pages wait one month; successful
+manual checks reset their date. Overdue work catches up while Minecraft runs, with
+pause/cancel, access-error retention, bounded retries and persisted Retry-After.
+No process runs while Minecraft is closed and no new-topic discovery is performed.
+
+Optional browser-session cookie import/forget is implemented under **Updates**.
+It stores only supported IPS forum-session cookies, restricts headers to exact
+official HTTPS topic URLs, applies expiry/redaction and POSIX owner-only file mode,
+and excludes session data from bundles/source/logs. Passwords/browser stores are
+not collected. **Real authenticated MArt access is not verified**: no actual user
+account/session was supplied. Access remains limited to what that account can view;
+no login/challenge bypass is implemented. See [session guide](FORUM_SESSION.md).
+
+Full build/install and **198 core tests passed**, with no failures/errors/skips.
+Native shell/library/characters/refresh and monthly/session scenarios passed with
+normal pins/locks/checksums. A real scheduled worker was triggered using a simulated
+calendar; pause and synthetic session import/redaction/forget worked in Minecraft.
+Live Tawkin verification now fetched **one main page and zero new replies**, saved
+and survived restart without rewriting the base pack. The final frozen run passed
+again without repeating that live HTTP request. Screenshots of main reading,
+explicit archives and monthly/session settings were inspected. No new dependency
+or verification-policy changes were required.
+
+See [Phase 7](PHASE_7.md), [installation](INSTALL.md), and [forum session](FORUM_SESSION.md).
+Next substantial work remains sourced compatibility/eligibility and curated
+character lore selection, plus real account/modpack/hardware acceptance. The older
+checkpoints below describe earlier scope; Phase 6's pagination/reply fetching is
+superseded by main-only monthly behavior.
+
+Current client artifact: `client/build/libs/mclorehub-0.1.0-phase7.jar`, 673,563 bytes,
+SHA-256 `6b8b8646eb85c93134723c4730d5d9fa2f0cef27d4244a80d3c79f01a2fa0c33`.
+The separate trusted-data bundle is unchanged in content and excludes auth/session,
+schedule, snapshots and player files. Existing Phase 6 data is compatible; upgrading
+normally requires replacing only the mod JAR. Raw baseline verification again
+preserved 488 complete records/1,290 posts, nulls, source bytes and repeatable packs.
+The monthly schema validated the actual native-saved schedule. No dependency or
+checksum changes were made. Live/synthetic UI evidence remains under ignored
+`local-data/verification/phase7-live-evidence/`; final source/artifact identities
+are recorded in `/workspace/mclorehub-phase7-backup.json`.
+
+## Previous checkpoint — Phase 6
 
 Latest user scope is implemented: the supplied database is accepted/accurate by
 user confirmation, rich formatting is out of scope, and updates are manual per

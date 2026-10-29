@@ -15,7 +15,13 @@ per-record acceptance reviews. This is user confirmation, not invented staff
 citations. Roles/eligibility/ownership remain separate. Rich formatting is dropped;
 plain text is sufficient. Updates are manual and per document: open Tawkin (for
 example), Refresh topic, fetch that topic's pages/replies and save its changes.
-No global search/crawl, automatic scheduled refresh, or mandatory review dialog.
+Latest update: normal reading/search and update comparisons use the main lore post
+only. Previously captured discussion is an explicit archive. Check every saved
+main page automatically once per calendar month while the mod runs, with persisted
+catch-up after missed time. Keep manual refresh and pause/cancel. No discovery of
+unrelated/new topics or mandatory review dialog. Optional explicitly imported forum
+session cookies support account-authorized reads; no password collection/browser
+store extraction/challenge bypass. Actual restricted MArt access needs that account.
 
 ## Selected defaults
 
@@ -40,9 +46,9 @@ No global search/crawl, automatic scheduled refresh, or mandatory review dialog.
 - Unconfirmed imports stay unknown unless explicitly trusted or reviewed; orphan decisions are
   reported and the original manifest remains untouched. No arbitrary expiry age.
 - Restore reading position with stable block anchors plus offset and safe fallback.
-- Manually refresh one topic and its pagination; validate/index before atomic local
+- Refresh the main post manually or on the monthly schedule; validate/index before atomic local
   activation, retain Undo and immutable snapshots, and preserve personal data.
-  Public-page access only; no login/challenge bypass or unrelated discovery.
+  Optional local session import; no login/challenge bypass or unrelated discovery.
 
 ## Outstanding choices
 
