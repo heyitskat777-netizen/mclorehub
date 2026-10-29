@@ -11,20 +11,27 @@ and stop with the next step. Never replace useful tests with trivial passing che
 2. **M1: Import and review.** Validate ZIP/JSON limits, counts, IDs, hashes, provenance,
    replies and nulls; repeat imports safely; derive conservative roles; separate
    explicit current-status evidence from raw source. Phase 3 adds catalogue/review
-   manifests and stale/orphan handling. Remaining: fine-grained entities, actual
-   current-lore review coverage, and client loading/review presentation.
+   manifests and stale/orphan handling. Phase 4 connects async client loading and
+   source/review presentation. Remaining: fine-grained entities, actual current-lore
+   review coverage, and an in-game review editor.
 3. **M2: Search/favorites.** Index reviewed current data, aliases/categories/body;
    deterministic ranking/snippets, cancellation/pagination and coverage information;
    persist favorites by stable ID. Test known queries, Unicode, filters, empty results,
-   full-corpus performance, restart and missing references.
+   full-corpus performance, restart and missing references. Phase 4 implements
+   deterministic current/audit search, categories, pagination and saved favorites.
 4. **M3: Reader/resume.** Safe structured headings/lists/redlines/tables/spoilers/links
    and images with offline fallbacks; display provenance/status/as-of dates. Resume
    by document/revision/block/offset. Test long text, scales, changed/deleted sections,
    link handling, restarts, and source formatting comparisons in Minecraft.
+   Phase 4 implements bounded plain-text main/reply reading, source/review details,
+   URL copying and stable resume. Rich-source formatting/images remain incomplete.
 5. **M4: Character sheets.** Independent versioned storage; create/select/rename/delete
    with recovery; magic/branch/tier and CA/FA, optional race/application links/notes;
    unknown slot costs stay unknown. Test multiple characters, migration, restart,
    corrupt files, missing lore and pack replacement without losing personal data.
+   Phase 5 implements manual magic/CA/FA sheets, independent storage, selection,
+   entries/links/statuses/notes, rename, archive/restore and previous-file recovery.
+   Curated lore selection, entity eligibility and richer editing remain future work.
 6. **M5: Compatibility.** Curate rules with exact evidence and revision dependencies;
    evaluate conditions/exceptions/acquisition history and unknown facts. Test real
    reviewed examples, conflicting sources, stale rules, missing coverage and exceptions.

@@ -1,6 +1,35 @@
 # Current status
 
-## Latest checkpoint — Phase 4
+## Latest checkpoint — Phase 5
+
+Character sheets are now implemented alongside the Phase 4 browser/reader. Multiple
+characters, magic branch/tier, explicit CA/FA, application URLs, recorded statuses,
+notes, rename, archive/restore and persistent selection use independent local
+storage. Compatibility remains **not assessed**; no actual rules/approvals were
+invented. Current source acceptance coverage remains 0 of 488 reviewed records.
+
+The full build and **135 core tests** passed (0 failures/errors/skips). Native shell,
+library, full-export and character scenarios passed; screenshots at scales 1/2 for
+the reader/browser and scale 2 for character editing were inspected. All normal
+checks enforce pins/locks/checksums. See [installation](INSTALL.md), [Phase 4](PHASE_4.md)
+and [Phase 5](PHASE_5.md). Final packaged checksums/commit identity are recorded in
+the separate source-backup manifest, not embedded into a self-referencing commit.
+
+Current client artifact: `client/build/libs/mclorehub-0.1.0-phase5.jar`, 123,757 bytes,
+SHA-256 `421b8c65316f9c9cfd6e39a4f33e86a9a79dd5aedc5161f7b9149adb846d7511`.
+The nested core, exact 1.21.11 client metadata and test/private-data exclusions were
+verified. A separate private candidate ZIP under ignored `local-data/distributions/`
+contains only the 488-record unreviewed pack and installation text; it is not pushed.
+Fresh independent baseline verification also preserved all 1,290 posts and original
+source bytes, repeat-import determinism and error/output protection. Both personal
+schemas validated the actual files saved during the native scenarios.
+
+Next substantial work: curated entity eligibility/current-status coverage, sourced
+mutual-exclusivity evaluation, transactional import/review/rollback, forum fetching
+and rich-source formatting. Manual pack installation and reload work; no in-game
+update transaction, lore picker, rule engine or forum crawler is implied.
+
+## Previous checkpoint — Phase 4
 
 In-game async catalogue loading, current/audit search, categories, pagination,
 plain-text main/reply reader, source/review details, favorites and stable reading

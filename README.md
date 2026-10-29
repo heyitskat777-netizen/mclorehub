@@ -6,7 +6,9 @@ The core imports the attached LoTC database, preserves source evidence, and now
 provides a validated catalogue with separate acceptance reviews. The Fabric client
 loads local packs asynchronously and supports current/audit browsing, title/alias/
 text/reply search, categories, a plain-text reader, favorites and reading resume.
-Character sheets, sourced compatibility rules and forum updates remain incomplete.
+Local character sheets support magic branch/tier, separate CA/FA entries, links,
+user-recorded statuses, notes and archive/restore. Sourced compatibility rules,
+actual current-lore curation and transactional/forum updates remain incomplete.
 
 **Recovery note:** this environment reset to an empty checkout on October 28.
 Source was reconstructed from the recorded implementation and the original ZIP
@@ -28,6 +30,8 @@ report for the exact distinction, limits and persistence steps.
 - [Phases 1–2 recovery guide](docs/PHASE_1_2.md)
 - [Phase 3 catalogue and review workflow](docs/PHASE_3.md)
 - [Phase 4 installation, browser and reader](docs/PHASE_4.md)
+- [Phase 5 character sheets](docs/PHASE_5.md)
+- [Personal installation](docs/INSTALL.md)
 
 ## Build and use the core
 

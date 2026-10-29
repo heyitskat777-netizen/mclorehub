@@ -32,6 +32,13 @@ reading-state) separate. Schema versions are independent. Never hardcode an OS's
 Minecraft path or delete unresolved references. Runtime I/O/indexing/HTTP must be
 off the render thread. No processes are assumed to survive a cloud snapshot.
 
+Implemented paths are `packs/active/pack.json`, optional `reviews.json`,
+`personal/state.json` and `personal/characters.json`. Staging/index-cache/pack-rollback
+directories are future update infrastructure. `CharacterService` owns a separate
+worker and immutable `CharacterBook`; its schema and atomic previous-file backup
+are independent of reading/favorites and lore. Application status is user-recorded;
+there is no compatibility evaluator or automatic eligibility inference yet.
+
 Future activation: validate candidate -> review differences/status -> build index
 -> write immutable revision -> atomically switch pointer -> reopen/check -> retain
 rollback. Current report writes do not implement that active-pack transaction.

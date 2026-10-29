@@ -51,11 +51,13 @@ public final class WikiScreen extends Screen {
         }
         Button previous=button("screen.mclorehub.previous",16,height-58,80,b->{offset=Math.max(0,offset-pageSize());request();});previous.active=offset>0&&pending==null;
         Button next=button("screen.mclorehub.next",width-96,height-58,80,b->{offset+=pageSize();request();});next.active=offset+pageSize()<results.total()&&pending==null;
-        Button reload=button("screen.mclorehub.reload",16,height-28,col,b->{service.reload();});
+        int bottom=(width-44)/4;
+        Button reload=button("screen.mclorehub.reload",16,height-28,bottom,b->{service.reload();});
         reload.setTooltip(Tooltip.create(Component.literal(view.message().isEmpty()?service.directory().toString():view.message())));
-        Button resume=button("screen.mclorehub.resume",20+col,height-28,col,b->resume());
+        Button resume=button("screen.mclorehub.resume",20+bottom,height-28,bottom,b->resume());
         resume.active=view.personal().reading().flatMap(p->view.library().flatMap(l->l.catalogue().documents().stream().filter(d->d.id().equals(p.documentId())).findFirst())).isPresent();
-        button("gui.back",24+col*2,height-28,col,b->onClose());
+        button("screen.mclorehub.characters",24+bottom*2,height-28,bottom,b->minecraft.setScreen(new CharacterListScreen(this,MCLoreHubClient.characters())));
+        button("gui.back",28+bottom*3,height-28,bottom,b->onClose());
     }
     private void open(Document doc){minecraft.setScreen(new ReaderScreen(this,service,doc,audit,false));}
     private void resume(){service.view().personal().reading().ifPresent(p->service.view().library().ifPresent(l->l.catalogue().documents().stream()

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Favorites and source-bound reading position",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "favorites"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "favorites": {"type": "array", "maxItems": 10000, "uniqueItems": true, "items": {"type": "string", "pattern": "^lotc:topic:[1-9][0-9]{0,17}$"}},
+    "reading": {"anyOf": [{"type": "null"}, {"$ref": "#/$defs/position"}]}
+  },
+  "$defs": {
+    "position": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["document_id", "fingerprint", "block_id", "offset", "audit"],
+      "properties": {
+        "document_id": {"type": "string", "pattern": "^lotc:topic:[1-9][0-9]{0,17}$"},
+        "fingerprint": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+        "block_id": {"type": "string", "pattern": "^body$|^post:[1-9][0-9]{0,17}$"},
+        "offset": {"type": "integer", "minimum": 0, "maximum": 67108864},
+        "audit": {"type": "boolean"}
+      }
+    }
+  }
+}
