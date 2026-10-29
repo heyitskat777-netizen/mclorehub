@@ -3,9 +3,10 @@
 Personal-use **Minecraft 1.21.11 Fabric** wiki mod, developed in tested phases.
 
 The core imports the attached LoTC database, preserves source evidence, and now
-provides a validated catalogue with separate acceptance reviews. The client source
-opens an empty-library screen with K; data loading/search/favorites/characters are
-not connected to it yet.
+provides a validated catalogue with separate acceptance reviews. The Fabric client
+loads local packs asynchronously and supports current/audit browsing, title/alias/
+text/reply search, categories, a plain-text reader, favorites and reading resume.
+Character sheets, sourced compatibility rules and forum updates remain incomplete.
 
 **Recovery note:** this environment reset to an empty checkout on October 28.
 Source was reconstructed from the recorded implementation and the original ZIP
@@ -26,6 +27,7 @@ report for the exact distinction, limits and persistence steps.
 - [Validation commands](docs/VALIDATION.md)
 - [Phases 1–2 recovery guide](docs/PHASE_1_2.md)
 - [Phase 3 catalogue and review workflow](docs/PHASE_3.md)
+- [Phase 4 installation, browser and reader](docs/PHASE_4.md)
 
 ## Build and use the core
 

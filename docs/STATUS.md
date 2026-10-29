@@ -1,5 +1,18 @@
 # Current status
 
+## Latest checkpoint — Phase 4
+
+In-game async catalogue loading, current/audit search, categories, pagination,
+plain-text main/reply reader, source/review details, favorites and stable reading
+resume are implemented. **123 core tests passed** with no failures/errors/skips.
+The full build and native shell/library/full-488-record scenarios passed with
+locks/checksums enforced; screenshots at GUI scales 1/2 were inspected. All actual
+records remain unreviewed. See [Phase 4](PHASE_4.md) for installation and limits.
+
+The older sections below are the Phase 3/recovery history, not the current feature
+boundary. The initial and recovery source checkpoints are now on GitHub `main`;
+further tested checkpoints must also preserve private-data exclusions.
+
 ## Phase 3 state
 
 Catalogue/review core implemented and tested. The original workspace reset to an

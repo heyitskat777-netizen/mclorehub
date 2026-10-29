@@ -2,12 +2,15 @@
 
 The root Java application is independent of Minecraft. `client/` contains Fabric
 metadata and client source sets. `-PcoreOnly` skips the client subproject. The client
-currently has no dependency on the catalogue core; connecting it is a later phase.
+depends on and nests the catalogue core JAR. `LibraryService` owns separate file
+and search workers; screens consume immutable snapshots/futures. All reads, source
+validation, indexing, searching and personal writes run away from the render thread.
+Only bounded font layout of a reader section runs in the screen.
 
 ```text
 Source ZIP/JSON -> ExportImporter -> immutable candidate directory
 Candidate + separate reviews -> LoreCatalogue -> current documents + audit queues
-Future: client UI -> async catalogue/search/reader/character services
+Client UI -> LibraryService -> catalogue/search/reader/personal services
 Future: fetch -> staging -> review -> validated pack/index -> active pointer
 Personal state remains outside all source/import/update transactions
 ```
@@ -23,7 +26,7 @@ Normal wiki/search consumers must use `currentDocuments()`. `documents()` is the
 complete audit catalogue, including unknown and historical records. Source roles
 are candidates, not a final selectable magic/CA/FA entity taxonomy.
 
-Future storage: resolve Fabric's actual config directory, then keep `packs/`,
+Runtime storage resolves Fabric's actual config directory. Keep `packs/`,
 `staging/`, derived `cache/`, `backups/`, and `personal/` (characters, favorites,
 reading-state) separate. Schema versions are independent. Never hardcode an OS's
 Minecraft path or delete unresolved references. Runtime I/O/indexing/HTTP must be

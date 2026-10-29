@@ -1,6 +1,6 @@
 plugins { id 'net.fabricmc.fabric-loom-remap' version '1.17.21' }
 group = 'net.mclorehub'
-version = '0.1.0-phase3'
+version = '0.1.0-phase4'
 base { archivesName = 'mclorehub' }
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)
@@ -16,6 +16,8 @@ loom {
     }
 }
 dependencies {
+    implementation project(':')
+    include project(':')
     minecraft 'com.mojang:minecraft:1.21.11'
     mappings loom.officialMojangMappings()
     modImplementation 'net.fabricmc:fabric-loader:0.20.1'

@@ -18,6 +18,7 @@ public final class LoreCatalogue {
         DISCONNECTION_NOTICE, CHARACTER_ARTIFACT, MAGICAL_ARTIFACT, UNCLASSIFIED
     }
     public record Evidence(String url, String passage) {}
+    public record ThreadPost(String id, String author, String url, String text) {}
     public record Decision(String id, String revision, String fingerprint, Status status,
                            String reviewer, Instant reviewedAt, List<Evidence> evidence) {
         public Decision { evidence = List.copyOf(evidence); }
@@ -25,8 +26,11 @@ public final class LoreCatalogue {
     public record Document(String id, String title, String url, Optional<String> author, Instant exportSnapshotAt,
                            String body, String revision,
                            String fingerprint, String family, String category, List<String> aliases,
-                           Role role, Status status, ReviewState reviewState, Optional<Decision> decision) {
-        public Document { aliases = List.copyOf(aliases); }
+                           Role role, Status status, ReviewState reviewState, Optional<Decision> decision,
+                           List<ThreadPost> posts, List<String> coverageGaps) {
+        public Document {
+            aliases = List.copyOf(aliases); posts = List.copyOf(posts); coverageGaps = List.copyOf(coverageGaps);
+        }
     }
     private final String revision;
     private final List<Document> documents;
@@ -89,11 +93,13 @@ public final class LoreCatalogue {
                 throw new ImportException("Reader text does not match source");
             String error = optional(raw, "scrape_error");
             if (error != null && !error.isBlank()) throw new ImportException("Source retrieval error: " + id);
+            List<ThreadPost> thread = new ArrayList<>();
             if (raw.has("thread_posts")) {
                 for (JsonElement postEntry : array(raw.get("thread_posts"), "thread_posts")) {
                     JsonObject post = object(postEntry, "post"); String postId = identifier(post, "post_id");
                     if (!posts.add(postId)) throw new ImportException("Duplicate post ID");
                     string(post, "author"); string(post, "content_text"); forumUrl(text(post, "url"));
+                    thread.add(new ThreadPost(postId, string(post, "author"), text(post, "url"), string(post, "content_text")));
                 }
             }
             String fingerprint = fingerprint(raw);
@@ -104,7 +110,8 @@ public final class LoreCatalogue {
             }
             Optional<String> author = Optional.ofNullable(optional(raw, "author")).filter(s -> !s.isBlank());
             documents.add(new Document(id, title, url, author, snapshotAt, body, digest, fingerprint, text(raw, "family"), text(raw, "category"),
-                    strings(raw, "search_aliases"), role(raw), effective, state, Optional.ofNullable(decision)));
+                    strings(raw, "search_aliases"), role(raw), effective, state, Optional.ofNullable(decision),
+                    thread, strings(doc, "coverage_gaps")));
         }
         return new LoreCatalogue(revision, documents, decisions.keySet().stream().filter(id -> !ids.contains(id)).sorted().toList());
     }

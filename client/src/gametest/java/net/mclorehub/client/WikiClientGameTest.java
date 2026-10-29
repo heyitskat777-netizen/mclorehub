@@ -59,7 +59,8 @@ public final class WikiClientGameTest implements FabricClientGameTest {
             check(c.screen instanceof WikiScreen, "Wiki not open"); WikiScreen s = (WikiScreen) c.screen;
             check(s.getTitle().getString().equals("MCLoreHub"), "Title translation missing");
             check(s.getNarrationMessage().getString().contains("Your lore library is empty."), "Narration missing");
-            Button b = s.children().stream().filter(Button.class::isInstance).map(Button.class::cast).findFirst().orElseThrow();
+            Button b = s.children().stream().filter(Button.class::isInstance).map(Button.class::cast)
+                    .filter(button->button.getMessage().getString().equals("Back")).findFirst().orElseThrow();
             check(b.active && b.visible && b.getX() >= 0 && b.getY() >= 0
                     && b.getX() + b.getWidth() <= s.width && b.getY() + b.getHeight() <= s.height, "Back outside screen");
         });
