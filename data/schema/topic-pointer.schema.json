@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Atomic active per-topic revision pointer",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "topics"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "topics": {
+      "type": "object", "maxProperties": 10000,
+      "propertyNames": {"pattern": "^lotc:topic:[1-9][0-9]{0,17}$"},
+      "additionalProperties": {
+        "type": "object", "additionalProperties": false,
+        "required": ["base_fingerprint", "active", "previous"],
+        "properties": {
+          "base_fingerprint": {"$ref": "#/$defs/hash"}, "active": {"$ref": "#/$defs/hash"},
+          "previous": {"anyOf": [{"const": ""}, {"$ref": "#/$defs/hash"}]}
+        }
+      }
+    }
+  },
+  "$defs": {"hash": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+}

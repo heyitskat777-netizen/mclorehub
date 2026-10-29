@@ -37,6 +37,14 @@ also verifies 488 records, no automatic approvals and actual audit search/render
 require `REAL_CORPUS_PASS`. That optional corpus check is unrun without the variable.
 All synthetic approval examples remain separate from real data and production JARs.
 
+Phase 6 additionally requires `REFRESH_SCENARIO_PASS`: trusted baseline, refresh UI,
+persist/restart/Undo, HTTP failure and cancellation. With `MCLOREHUB_TEST_TRUST` set
+to the matching private trust manifest, the full-export test expects 488 normally
+available references; without it, unconfirmed candidates remain unknown. Set
+`MCLOREHUB_TEST_LIVE_TOPIC=lotc:topic:198584` only when intentionally testing a real
+public Tawkin refresh inside Minecraft; require `LIVE_TOPIC_SCENARIO_PASS`. The
+helper passes the platform CA store to cloud game launches without weakening TLS.
+
 Normal commands enforce locks/checksums. Only intentional reviewed dependency
 changes should regenerate them. Recovery necessarily regenerated lost dependency
 metadata through trusted official repositories; known JDK/wrapper/distribution

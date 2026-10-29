@@ -10,14 +10,15 @@ public record ReaderContent(List<Section> sections) {
         case ACCEPTED_CURRENT->"Accepted/current";case UNKNOWN->"Unknown";case LEGACY->"Legacy";
         case SHELVED->"Shelved";case SUPERSEDED->"Superseded";case PENDING->"Pending";};}
     public static String reviewLabel(LoreCatalogue.ReviewState review){return switch(review){
-        case UNREVIEWED->"Not reviewed";case APPLIED->"Local review recorded";case STALE->"Review stale";};}
+        case UNREVIEWED->"Not reviewed";case APPLIED->"Local review recorded";case STALE->"Review stale";
+        case USER_TRUSTED->"Trusted supplied database";case SOURCE_REFRESHED->"Manually refreshed source";};}
     public record Section(String blockId, int offset, String heading, String text) {}
     public record Resume(int section, int offset, boolean changed) {}
     public ReaderContent { sections=List.copyOf(sections); }
     public static ReaderContent document(Document doc) {
         List<Section> result=new ArrayList<>();add(result,"body","Main post",doc.body());
         doc.posts().forEach(p->add(result,"post:"+p.id(),"Reply " + p.id() + " — " + (p.author().isBlank()?"Unknown author":p.author())
-                + " (discussion is not automatically a ruling)",p.text()));
+                + (doc.coverageGaps().contains("previous_reply_not_returned:"+p.id())?" (previously captured; not returned by latest refresh)":" (discussion is not automatically a ruling)"),p.text()));
         return new ReaderContent(result);
     }
     public static ReaderContent details(Document doc) {
@@ -31,6 +32,8 @@ public record ReaderContent(List<Section> sections) {
             if(doc.reviewState()!=net.mclorehub.catalogue.LoreCatalogue.ReviewState.APPLIED)text.append("\nSTALE: this decision does not certify the current source.");
             d.evidence().forEach(e->text.append("\n\n").append(e.url()).append("\n").append(e.passage()));});
         if(!doc.posts().isEmpty()){text.append("\n\nReply sources:");doc.posts().forEach(p->text.append("\n").append(p.url()));}
+        doc.trust().ifPresent(t -> text.append("\n\nReference basis: ").append(t.basis()).append("\nRecorded/checked: ").append(t.checkedAt())
+                .append("\nSource pages:\n").append(String.join("\n",t.pages())));
         List<Section> result=new ArrayList<>();add(result,"body","Source and review details",text.toString());return new ReaderContent(result);
     }
     private static void add(List<Section> result,String id,String heading,String text){

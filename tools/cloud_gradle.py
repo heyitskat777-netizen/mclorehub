@@ -80,6 +80,9 @@ if __name__ == '__main__':
         child = os.environ.copy()
         child['JAVA_HOME'] = str(JDK)
         child['GRADLE_USER_HOME'] = str(GRADLE_HOME)
+        platform_ca = Path('/etc/ssl/certs/java/cacerts')
+        if platform_ca.is_file():
+            child['MCLOREHUB_TRUSTSTORE'] = str(platform_ca)
         os.chdir(REPO)
         os.execvpe(str(REPO / 'gradlew'), [str(REPO / 'gradlew'), *sys.argv[1:]], child)
     except (OSError, RuntimeError, subprocess.CalledProcessError) as error:

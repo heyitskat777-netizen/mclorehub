@@ -12,13 +12,16 @@ import static net.mclorehub.importer.JsonSupport.*;
 /** Immutable catalogue projection with separate, revision-bound local review decisions. */
 public final class LoreCatalogue {
     public enum Status { UNKNOWN, ACCEPTED_CURRENT, LEGACY, SHELVED, SUPERSEDED, PENDING }
-    public enum ReviewState { UNREVIEWED, APPLIED, STALE }
+    public enum ReviewState { UNREVIEWED, APPLIED, STALE, USER_TRUSTED, SOURCE_REFRESHED }
     public enum Role {
         PLAYER_OPTION_CANDIDATE, NAVIGATION_HUB, CORE_AND_HUB, BACKGROUND_CONTEXT,
         DISCONNECTION_NOTICE, CHARACTER_ARTIFACT, MAGICAL_ARTIFACT, UNCLASSIFIED
     }
     public record Evidence(String url, String passage) {}
     public record ThreadPost(String id, String author, String url, String text) {}
+    public record SourceTrust(String basis, Instant checkedAt, List<String> pages) {
+        public SourceTrust { pages = List.copyOf(pages); }
+    }
     public record Decision(String id, String revision, String fingerprint, Status status,
                            String reviewer, Instant reviewedAt, List<Evidence> evidence) {
         public Decision { evidence = List.copyOf(evidence); }
@@ -27,7 +30,7 @@ public final class LoreCatalogue {
                            String body, String revision,
                            String fingerprint, String family, String category, List<String> aliases,
                            Role role, Status status, ReviewState reviewState, Optional<Decision> decision,
-                           List<ThreadPost> posts, List<String> coverageGaps) {
+                           List<ThreadPost> posts, List<String> coverageGaps, Optional<SourceTrust> trust) {
         public Document {
             aliases = List.copyOf(aliases); posts = List.copyOf(posts); coverageGaps = List.copyOf(coverageGaps);
         }
@@ -40,11 +43,23 @@ public final class LoreCatalogue {
         this.revision = revision; this.documents = List.copyOf(documents); this.orphanedReviewIds = List.copyOf(orphans);
     }
     public List<Document> documents() { return documents; }
+    public String revision() { return revision; }
+    public static boolean isCurrent(Document d) {
+        return d.status() == Status.ACCEPTED_CURRENT && switch(d.reviewState()) {
+            case APPLIED, USER_TRUSTED, SOURCE_REFRESHED -> true; default -> false;
+        };
+    }
+    public LoreCatalogue replace(Map<String, Document> replacements) {
+        Set<String> ids = new HashSet<>(); documents.forEach(d -> ids.add(d.id()));
+        if(!ids.containsAll(replacements.keySet()) || replacements.entrySet().stream().anyMatch(e -> !e.getKey().equals(e.getValue().id())))
+            throw new IllegalArgumentException("Replacement must preserve catalogue IDs");
+        return new LoreCatalogue(revision, documents.stream().map(d -> replacements.getOrDefault(d.id(), d)).toList(), orphanedReviewIds);
+    }
     public List<Document> currentDocuments() {
-        return documents.stream().filter(d -> d.status() == Status.ACCEPTED_CURRENT && d.reviewState() == ReviewState.APPLIED).toList();
+        return documents.stream().filter(LoreCatalogue::isCurrent).toList();
     }
     public List<Document> reviewQueue() {
-        return documents.stream().filter(d -> d.reviewState() != ReviewState.APPLIED || d.status() == Status.UNKNOWN).toList();
+        return documents.stream().filter(d -> d.reviewState() == ReviewState.UNREVIEWED || d.reviewState() == ReviewState.STALE || d.status() == Status.UNKNOWN).toList();
     }
     public List<String> orphanedReviewIds() { return orphanedReviewIds; }
 
@@ -111,7 +126,7 @@ public final class LoreCatalogue {
             Optional<String> author = Optional.ofNullable(optional(raw, "author")).filter(s -> !s.isBlank());
             documents.add(new Document(id, title, url, author, snapshotAt, body, digest, fingerprint, text(raw, "family"), text(raw, "category"),
                     strings(raw, "search_aliases"), role(raw), effective, state, Optional.ofNullable(decision),
-                    thread, strings(doc, "coverage_gaps")));
+                    thread, strings(doc, "coverage_gaps"), Optional.empty()));
         }
         return new LoreCatalogue(revision, documents, decisions.keySet().stream().filter(id -> !ids.contains(id)).sorted().toList());
     }
@@ -180,6 +195,8 @@ public final class LoreCatalogue {
         item.addProperty("role", document.role().name().toLowerCase(Locale.ROOT));
         item.addProperty("status", document.status().name().toLowerCase(Locale.ROOT));
         item.addProperty("review_state", document.reviewState().name().toLowerCase(Locale.ROOT));
+        document.trust().ifPresent(t -> { JsonObject trust = new JsonObject();trust.addProperty("basis",t.basis());trust.addProperty("checked_at",t.checkedAt().toString());
+            trust.add("pages",JSON.toJsonTree(t.pages()));item.add("source_trust",trust); });
         document.decision().ifPresent(d -> {
             item.addProperty("reviewer", d.reviewer()); item.addProperty("reviewed_at", d.reviewedAt().toString());
             JsonArray evidence = new JsonArray();
@@ -203,8 +220,8 @@ public final class LoreCatalogue {
         JsonArray current = new JsonArray(), queue = new JsonArray(), other = new JsonArray();
         for (Document doc : documents) {
             JsonObject summary = summary(doc);
-            if (doc.status() == Status.ACCEPTED_CURRENT && doc.reviewState() == ReviewState.APPLIED) current.add(summary);
-            else if (doc.reviewState() != ReviewState.APPLIED || doc.status() == Status.UNKNOWN) queue.add(summary);
+            if (isCurrent(doc)) current.add(summary);
+            else if (doc.reviewState() == ReviewState.UNREVIEWED || doc.reviewState() == ReviewState.STALE || doc.status() == Status.UNKNOWN) queue.add(summary);
             else other.add(summary);
         }
         report.add("current_documents", current); report.add("review_queue", queue); report.add("other_reviewed_documents", other);

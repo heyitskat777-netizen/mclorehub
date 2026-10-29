@@ -1,6 +1,58 @@
 # Current status
 
-## Latest checkpoint — Phase 5
+## Latest checkpoint — Phase 6
+
+Latest user scope is implemented: the supplied database is accepted/accurate by
+user confirmation, rich formatting is out of scope, and updates are manual per
+open topic. A matching `trust.json` makes **all 488 references available normally**
+without per-record acceptance reviews. The immutable raw import is still a candidate;
+user trust, optional review overrides and fetched source provenance are separate.
+
+**Refresh topic** fetches only that official topic and its pagination, compares
+main text/replies, validates/indexes and atomically saves a persistent overlay.
+Cancel, error retention and per-topic Undo are implemented. Original pack, favorites
+and character sheets remain separate. Source moves into known shelving/pending
+locations are recorded; missing/blocked pages do not erase stored lore.
+
+Verification: full build/install and **179 core tests passed**, with no failures,
+errors or skips. Native shell/library/characters/refresh scenarios passed with
+locks/checksums enforced and no rewrite flags. The full real database rendered
+with 488 normally available references. Live **Tawkin refresh inside Minecraft**
+fetched two pages and 23 replies, saved persistently, survived library restart and
+left the original pack unchanged. Screenshots of live reading, source/Undo and
+HTTP-error retention were inspected. Live evidence is retained under ignored
+`local-data/verification/phase6-live-native-evidence/`; the final frozen native run
+also passed without repeating the live network request.
+
+Jsoup 1.21.2 was added for non-executing HTML parsing. Its JAR/POM match official
+Maven Central SHA-256 values; all prior checksum entries are preserved. The cloud
+helper propagates the platform CA store to game launches without disabling TLS.
+The optional live test requires explicit `MCLOREHUB_TEST_LIVE_TOPIC`; ordinary
+fixture/native tests do not perform that live topic fetch.
+
+See [Phase 6](PHASE_6.md) and [installation](INSTALL.md). Remaining work is sourced
+compatibility/eligibility and curated character lore selection, plus actual user
+modpack/physical hardware/authenticated-server acceptance. Whole-pack import UX
+and supported authenticated forum fetching are optional later additions. Rich
+formatting and a new acceptance audit of this supplied baseline are not required.
+
+Release artifact: `client/build/libs/mclorehub-0.1.0-phase6.jar`, 642,231 bytes,
+SHA-256 `595ec32d5cec158ec12b7906a22ba78e01406b12c7adcb5cec5b7dd799a0acdf`.
+Nested core/Jsoup and exact client metadata were checked; Jsoup original entries
+match the upstream JAR byte-for-byte. Private data is not embedded in the mod.
+The separate ignored `local-data/distributions/lotc-trusted-data-phase6.zip` contains
+the original deterministic pack plus its matching user-confirmation trust file;
+no live snapshots, player state or staff review assertions are included.
+Independent raw-import verification still preserves all 488 complete records,
+1,290 posts, source bytes/nulls and deterministic packs. Its unsigned-candidate
+report remains unknown by design; runtime with the supplied trust manifest is 488
+normally available references. Live trust/pointer/snapshot files passed their formal
+schemas. Current source checkpoint identity/backups are recorded outside the commit
+in `/workspace/mclorehub-phase6-backup.json`.
+
+The sections below are historical checkpoints under earlier scope and test counts.
+
+## Previous checkpoint — Phase 5
 
 Character sheets are now implemented alongside the Phase 4 browser/reader. Multiple
 characters, magic branch/tier, explicit CA/FA, application URLs, recorded statuses,

@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Manually refreshed plain-text forum topic",
+  "type": "object", "additionalProperties": false,
+  "required": ["schema_version", "document_id", "url", "title", "author", "body", "posts", "pages", "fetched_at", "observed_status", "absent_posts"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "document_id": {"type": "string", "pattern": "^lotc:topic:[1-9][0-9]{0,17}$"},
+    "url": {"type": "string", "format": "uri"},
+    "title": {"type": "string", "minLength": 1},
+    "author": {"type": "string"},
+    "body": {"type": "string", "minLength": 1},
+    "posts": {"type": "array", "maxItems": 1000, "items": {"$ref": "#/$defs/post"}},
+    "pages": {"type": "array", "minItems": 1, "maxItems": 20, "items": {"type": "string", "format": "uri"}},
+    "fetched_at": {"type": "string", "format": "date-time"},
+    "observed_status": {"enum": ["", "UNKNOWN", "ACCEPTED_CURRENT", "LEGACY", "SHELVED", "SUPERSEDED", "PENDING"]},
+    "absent_posts": {"type": "array", "items": {"type": "string", "pattern": "^[1-9][0-9]{0,17}$"}}
+  },
+  "$defs": {
+    "post": {
+      "type": "object", "additionalProperties": false,
+      "required": ["id", "author", "url", "text"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[1-9][0-9]{0,17}$"},
+        "author": {"type": "string"}, "url": {"type": "string", "format": "uri"}, "text": {"type": "string"}
+      }
+    }
+  }
+}

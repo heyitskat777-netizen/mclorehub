@@ -7,8 +7,10 @@ provides a validated catalogue with separate acceptance reviews. The Fabric clie
 loads local packs asynchronously and supports current/audit browsing, title/alias/
 text/reply search, categories, a plain-text reader, favorites and reading resume.
 Local character sheets support magic branch/tier, separate CA/FA entries, links,
-user-recorded statuses, notes and archive/restore. Sourced compatibility rules,
-actual current-lore curation and transactional/forum updates remain incomplete.
+user-recorded statuses, notes and archive/restore. The supplied database is trusted
+using the user's confirmation. Refresh topic fetches only the open forum thread
+and its reply pages, saves changes persistently and supports Undo refresh.
+Sourced compatibility rules and a curated character lore picker remain incomplete.
 
 **Recovery note:** this environment reset to an empty checkout on October 28.
 Source was reconstructed from the recorded implementation and the original ZIP
@@ -32,6 +34,7 @@ report for the exact distinction, limits and persistence steps.
 - [Phase 4 installation, browser and reader](docs/PHASE_4.md)
 - [Phase 5 character sheets](docs/PHASE_5.md)
 - [Personal installation](docs/INSTALL.md)
+- [Phase 6 trusted baseline and per-topic updates](docs/PHASE_6.md)
 
 ## Build and use the core
 
@@ -51,5 +54,5 @@ With your own Java 21 JDK, use the same tasks via `./gradlew` (Windows:
 The root importer ZIP is a developer utility, not a Fabric mod JAR.
 
 The private export and all generated/review/player data are ignored by Git. A
-fresh clone requires supplying the original export separately. No real topics
-have been reviewed as current by the software in this phase.
+fresh clone requires supplying the original export separately. The private data
+bundle includes matching pack.json/trust.json; it does not fabricate staff reviews.

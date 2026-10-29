@@ -5,6 +5,11 @@
   revisions, and uncertainty. Do not invent missing formatting, images or redlines.
 - Imported candidates are partial, plain text, unknown/requires review. Folder
   membership, title marks and keyword flags do not certify current acceptance.
+- The user explicitly confirmed the supplied database is accepted/accurate.
+  Runtime `trust.json` binds that confirmation to pack revision plus individual
+  record fingerprints, providing normal access without fabricated staff reviews.
+  A mismatched record/revision does not inherit that confirmation. Explicit bound
+  local status overrides still take precedence over the baseline default.
 - Reviewed statuses: unknown, accepted_current, legacy, shelved, superseded, pending.
   Acceptance, availability, player eligibility and artifact ownership are distinct.
 - Hubs/context/disconnection notices are not extra learnable magics. CArt/MArt are
@@ -16,11 +21,21 @@
   review dates. Evidence content/authority still needs human/source verification.
 - Fingerprints include all raw source fields, including status metadata and replies;
   object-key order does not matter, array order does. Any changed source record
-  makes an old bound review stale; it does not auto-renew current status.
-- Current-only results use applied accepted_current decisions. Unknown/stale stay
-  in review queues. Orphan decisions are reported; input manifests are not rewritten.
-- Do not automatically overwrite active data, remove missing records from partial
-  snapshots, or mutate character/favorite stores during imports/catalogue reads.
+  makes an old bound review stale; it does not renew that review. Separate user
+  baseline trust/manual source provenance can still provide a current reference.
+- Normal results use accepted/current applied reviews, explicit user trust or
+  manually refreshed source provenance. Unknown/stale remain outside normal
+  results. User trust does not imply eligibility, ownership or compatibility.
+- Refresh only the selected official HTTPS topic, following its pagination. Public
+  breadcrumbs/title prefixes can record explicit accepted/shelved/pending locations;
+  body keywords do not decide status. HTTP failures/missing pages never erase lore.
+- Validate complete fetched pages and index the proposed catalogue before switching
+  the atomic topic pointer. Retain immutable snapshots/previous pointer and per-topic
+  Undo. A failed/cancelled/partial fetch does not activate. Old replies absent from
+  the public refresh are retained and labeled as previously captured, not deleted.
+- Do not mutate the original pack, trust/review manifests, characters or favorites
+  during refresh. Reading resumes safely with the new source fingerprint. Manual
+  full-pack replacement remains separate from the implemented per-topic transaction.
 - Compatibility later requires exact source passages, conditions, exceptions,
   prerequisites and revision dependency. Missing coverage is not assessed.
 

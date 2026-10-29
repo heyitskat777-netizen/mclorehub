@@ -12,7 +12,7 @@ class ReaderContentTest {
     Document doc;
     @BeforeEach void setup()throws Exception{doc=LibraryFixtures.catalogue(temp).documents().getLast();}
     Document withBody(String body){return new Document(doc.id(),doc.title(),doc.url(),doc.author(),doc.exportSnapshotAt(),body,doc.revision(),doc.fingerprint(),doc.family(),
-            doc.category(),doc.aliases(),doc.role(),doc.status(),doc.reviewState(),doc.decision(),doc.posts(),doc.coverageGaps());}
+            doc.category(),doc.aliases(),doc.role(),doc.status(),doc.reviewState(),doc.decision(),doc.posts(),doc.coverageGaps(),doc.trust());}
     @Test void chunkingPreservesEveryCharacterAndStableReplyBlocks(){String text="x".repeat(5999)+"😀\n\n"+"  paragraph\n".repeat(2000);var content=ReaderContent.document(withBody(text));
         assertEquals(text,content.sections().stream().filter(s->s.blockId().equals("body")).map(ReaderContent.Section::text).reduce("",String::concat));
         for(var s:content.sections()){assertTrue(s.text().length()<=6000);if(!s.text().isEmpty())assertFalse(Character.isHighSurrogate(s.text().charAt(s.text().length()-1)));}

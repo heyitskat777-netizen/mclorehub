@@ -22,18 +22,20 @@
 
 - Personal-use client-only offline wiki: terms, title/alias/full-text search,
   categories, document reader, favorites, and last document/scroll restoration.
-- Default wiki results contain reviewed accepted/current lore with source/date
-  information. A successful import, checkmark title, or folder is not certification.
-- Preserve available formatting; label plain-text limitations. Never invent missing
-  headings/redlines/image rules. Reader/UI are separate from immutable source data.
+- The user explicitly confirmed the supplied database is accepted/accurate. Trust
+  that exact baseline via fingerprint-bound user confirmation; do not require a
+  new acceptance audit for its 488 records. Keep later explicit status overrides.
+- Plain text is sufficient; richer formatting is out of scope per the latest user
+  instruction. Preserve text/paragraphs, without inventing absent source content.
 - Local character sheets: multiple characters, magic/branch/tier, applicable CA/FA,
   optional application links and user-recorded approval, notes, sourced conflicts.
 - CA = Creature Application; FA = Feat Application. CArt and MArt are artifact
   categories, not applications, extra magics, or ownership/craft permission.
 - Compatibility needs curated source-backed conditions, exceptions, dates, and
   revision dependencies. Missing coverage means not assessed, not compatible.
-- Replacement imports first. Forum fetching later needs permitted supported access,
-  rate limits, staging, review, rollback, and authentication boundaries. No bypasses.
+- Updates are manual and per topic: open a lore document, Refresh its forum topic,
+  compare/save changes persistently. Fetch only that topic and its pagination,
+  not global search/discovery. Preserve rollback and personal files; no bypasses.
 - No mandatory server, backend, AI service, account, or telemetry.
 
 ## Correctness and handoff
@@ -42,8 +44,10 @@
   revisions, and coverage gaps. A hub/context/disconnection notice is not a magic.
 - Use the Lorekeeper skill and actual matching sources when making lore rulings.
   This project does not automatically verify a reviewer's evidence or staff status.
-- Review decisions are separate from candidates, bound to content and the entire
-  source-record fingerprint. Changed metadata/replies must invalidate old reviews.
+- Explicit review decisions are separate from candidates, bound to content and the entire
+  source-record fingerprint. Changed metadata/replies invalidate old bound reviews;
+  the user's baseline trust and manually refreshed source provenance are distinct
+  from independently verified staff decisions. Never fabricate citations/approvals.
 - Never let a failed import/report overwrite working data or personal state.
 - Distinguish passed, failed, blocked, unrun, and historical checks; no zero-test
   claims. A core build does not establish client readiness. Inspect real screenshots.

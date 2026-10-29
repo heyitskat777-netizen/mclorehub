@@ -80,15 +80,32 @@ public final class LibraryClientGameTest implements FabricClientGameTest {
     private static void realCorpus(ClientGameTestContext context,Path pack)throws Exception{
         Path root=Files.createTempDirectory("mclorehub-real-corpus-");Files.createDirectories(root.resolve("packs/active"));
         Files.copy(pack,root.resolve("packs/active/pack.json"));long started=System.nanoTime();
+        String trustPath=System.getenv("MCLOREHUB_TEST_TRUST");boolean confirmed=trustPath!=null&&!trustPath.isBlank();
+        if(confirmed)Files.copy(Path.of(trustPath),root.resolve("packs/active/trust.json"));
+        String liveTopic=System.getenv("MCLOREHUB_TEST_LIVE_TOPIC");String liveFingerprint=null;
         try(var service=new LibraryService(root)){
             var loaded=service.reload().get(30,TimeUnit.SECONDS);check(loaded.phase()==LibraryService.Phase.READY,"Real corpus failed to load: "+loaded.message());
             check(loaded.library().orElseThrow().catalogue().documents().size()==488,"Full corpus record count differs");
-            check(loaded.library().orElseThrow().catalogue().currentDocuments().isEmpty(),"Real import certified unreviewed lore");
-            context.setScreen(()->new WikiScreen(new TitleScreen(),service));context.waitFor(c->c.screen.getNarrationMessage().getString().contains("0 current / 488 imported"));
+            check(loaded.library().orElseThrow().catalogue().currentDocuments().size()==(confirmed?488:0),"Source confirmation/current count differs");
+            context.setScreen(()->new WikiScreen(new TitleScreen(),service));context.waitFor(c->c.screen.getNarrationMessage().getString().contains((confirmed?"488":"0")+" current / 488 imported"));
             context.clickScreenButton("screen.mclorehub.audit_off");context.waitFor(c->c.screen.getNarrationMessage().getString().contains("488 results"));
             context.runOnClient(c->edit(c.screen).setValue("magic"));context.waitTicks(5);boundsOnClient(context);context.takeScreenshot("phase4-real-corpus-audit");
-            LoggerFactory.getLogger("mclorehub-test").info("REAL_CORPUS_PASS: 488 records, 0 automatic approvals, load/search/render {} ms",(System.nanoTime()-started)/1_000_000);
+            LoggerFactory.getLogger("mclorehub-test").info("REAL_CORPUS_PASS: 488 records, user confirmation={}, load/search/render {} ms",confirmed,(System.nanoTime()-started)/1_000_000);
+            if(liveTopic!=null&&!liveTopic.isBlank()){
+                var doc=service.view().library().orElseThrow().catalogue().documents().stream().filter(d->d.id().equals(liveTopic)).findFirst().orElseThrow();
+                context.setScreen(()->new ReaderScreen(new TitleScreen(),service,doc,false,false));context.clickScreenButton("screen.mclorehub.refresh_topic");
+                context.waitFor(c->service.refreshStatus().phase()==LibraryService.RefreshPhase.IDLE,1200);
+                var updated=service.view().library().orElseThrow().catalogue().documents().stream().filter(d->d.id().equals(liveTopic)).findFirst().orElseThrow();
+                check(updated.reviewState()==LoreCatalogue.ReviewState.SOURCE_REFRESHED,"Live topic update failed: "+service.refreshStatus().message());
+                liveFingerprint=updated.fingerprint();context.waitTicks(5);context.takeScreenshot("phase6-live-topic-refreshed");
+                check(java.util.Arrays.equals(Files.readAllBytes(pack),Files.readAllBytes(root.resolve("packs/active/pack.json"))),"Live refresh rewrote baseline");
+            }
             context.setScreen(TitleScreen::new);
+        }
+        if(liveFingerprint!=null)try(var reopened=new LibraryService(root)){
+            var data=reopened.reload().get(10,TimeUnit.SECONDS);var doc=data.library().orElseThrow().catalogue().documents().stream().filter(d->d.id().equals(liveTopic)).findFirst().orElseThrow();
+            check(doc.fingerprint().equals(liveFingerprint),"Live topic did not survive restart");
+            LoggerFactory.getLogger("mclorehub-test").info("LIVE_TOPIC_SCENARIO_PASS: {}, {} pages, {} replies, immutable baseline and restart verified",liveTopic,doc.trust().orElseThrow().pages().size(),doc.posts().size());
         }
     }
     private static EditBox edit(net.minecraft.client.gui.screens.Screen s){return s.children().stream().filter(EditBox.class::isInstance).map(EditBox.class::cast).findFirst().orElseThrow();}
@@ -97,7 +114,7 @@ public final class LibraryClientGameTest implements FabricClientGameTest {
     private static void bounds(net.minecraft.client.gui.screens.Screen s){s.children().stream().filter(AbstractWidget.class::isInstance).map(AbstractWidget.class::cast).forEach(b->{
         check(b.getX()>=0&&b.getY()>=0&&b.getRight()<=s.width&&b.getBottom()<=s.height,"Widget outside screen: "+b.getMessage().getString());});}
     private static void check(boolean condition,String message){if(!condition)throw new AssertionError(message);}
-    private static void fixture(Path root)throws Exception{
+    static void fixture(Path root)throws Exception{
         Files.createDirectories(root.resolve("packs/active"));JsonObject export=new JsonObject(),metadata=new JsonObject();metadata.addProperty("record_count",3);
         metadata.addProperty("generated_utc","2026-09-21T00:00:00Z");export.add("metadata",metadata);JsonArray records=new JsonArray();
         for(int i=0;i<3;i++){

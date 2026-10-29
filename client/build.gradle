@@ -1,12 +1,16 @@
 plugins { id 'net.fabricmc.fabric-loom-remap' version '1.17.21' }
 group = 'net.mclorehub'
-version = '0.1.0-phase5'
+version = '0.1.0-phase6'
 base { archivesName = 'mclorehub' }
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)
     withSourcesJar()
 }
 loom {
+    def platformTrust = providers.environmentVariable('MCLOREHUB_TRUSTSTORE')
+    runs.configureEach {
+        if (platformTrust.isPresent()) vmArg "-Djavax.net.ssl.trustStore=${platformTrust.get()}"
+    }
     splitEnvironmentSourceSets()
     mods {
         mclorehub {
@@ -18,6 +22,7 @@ loom {
 dependencies {
     implementation project(':')
     include project(':')
+    include 'org.jsoup:jsoup:1.21.2'
     minecraft 'com.mojang:minecraft:1.21.11'
     mappings loom.officialMojangMappings()
     modImplementation 'net.fabricmc:fabric-loader:0.20.1'

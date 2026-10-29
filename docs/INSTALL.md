@@ -2,17 +2,20 @@
 
 1. Use an instance of **Minecraft 1.21.11**, Java 21, Fabric Loader 0.20.1 or later,
    and Fabric API 0.141.6+1.21.11 (the verified combination).
-2. Copy **mclorehub-0.1.0-phase5.jar** from `client/build/libs/` into that instance's
+2. Copy **mclorehub-0.1.0-phase6.jar** from `client/build/libs/` into that instance's
    `mods` folder. The core is included; no second importer JAR is needed. Do not
-   install source JARs or developer CLI distributions as mods.
+   install source JARs or developer CLI distributions as mods. Remove the older
+   MCLoreHub mod JAR when upgrading so two versions are not installed together.
 3. With Minecraft closed, create `config/mclorehub/packs/active/` in the instance.
-   Copy the generated **pack.json** there. A separately supplied private candidate
-   pack ZIP can be extracted there; it must contain pack.json directly in active,
+   Copy the supplied **pack.json and trust.json** there. The separate private trusted
+   data ZIP can be extracted there; it must contain these files directly in active,
    not another nested folder. Keep the previous pack/source backed up.
-4. Optionally place a valid local review manifest as **reviews.json** beside it.
-   See [Phase 3](PHASE_3.md). The imported database itself certifies no current status.
+4. `trust.json` records your confirmation that the supplied database is accepted/
+   accurate, bound to its record fingerprints. All 488 references are available
+   normally. Optional **reviews.json** remains available for explicit status overrides;
+   see [Phase 3](PHASE_3.md). A different export needs its own explicit confirmation.
 5. Enter a world and press **K** (configurable under Controls). Normal browsing shows
-   reviewed current lore. **Audit** lets you inspect unreviewed/historical material.
+   trusted/current references. **Audit** also lets you inspect unconfirmed/historical material.
    Search titles/aliases/main text/replies; filter categories or favorites.
 6. Open a result to read. Use the wheel/arrows/Page Up/Down/Home/End to scroll,
    Previous/Next for source sections, and Source and review for evidence/dates.
@@ -20,18 +23,26 @@
    the last available document. Revisions are checked before restoring an offset.
 7. Choose **Characters** to maintain local magic/CA/FA records. Approval labels are
    user-recorded. Compatibility remains not assessed until sourced rules exist.
+8. In a document, choose **Refresh topic** to fetch its official forum topic and
+   pagination, compare and save changes locally. **Cancel refresh** stops a fetch.
+   **Source and review → Undo refresh** restores that topic's previous saved version.
+   The action does not search unrelated topics or change favorites/character sheets.
 
-The original export is plain text: missing original colors, images/fonts and
-forum layout cannot be reproduced. Nothing automatically fetches forum changes.
+Plain text is the selected format; richer formatting is out of scope. Nothing
+automatically fetches forum changes; refreshing is explicit and per topic.
 For a replacement export, use the importer while the game is closed and back up
 the previous pack/reviews before copying the new candidate. Reload files validates
-it; old reviews become stale when bound source evidence changes. In-game staged
-updates/rollback and automatic forum discovery are not implemented yet.
+it; matching user trust or explicit reviews determine normal access. Per-topic
+updates use atomic snapshots/Undo. Whole-pack in-game imports and automatic forum
+discovery are not implemented.
 
 Back up the entire **config/mclorehub/personal/** directory for favorites, reading
 state and characters. Keep it separate from pack replacement. Read-only warnings
 mean the mod preserved invalid/externally changed files; inspect and back them up
 before manual repair. Reload files/Reload sheets retry corrected files.
+
+Back up **config/mclorehub/updates/** too if retaining downloaded topic revisions
+and Undo history. The original pack remains immutable under Refresh topic.
 
 This development build was tested in a real Minecraft client using software
 rendering. Your actual modpack, GPU, audio and authenticated multiplayer still need

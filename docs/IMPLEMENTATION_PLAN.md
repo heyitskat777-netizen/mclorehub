@@ -1,5 +1,11 @@
 # Ordered creation plan
 
+Latest scope: the supplied database is user-confirmed accepted/accurate; no new
+per-record audit gate is required. Plain text is sufficient. Fetching is manual,
+per open topic including its pagination, with immediate persistent validated
+activation and Undo. Phase 6 implements these changes; earlier conservative scope
+notes below are historical where superseded.
+
 At each phase: inspect status/user changes, implement a bounded slice, run relevant
 positive/negative tests, fix setup/code failures, record evidence, back up source,
 and stop with the next step. Never replace useful tests with trivial passing checks.
@@ -12,19 +18,18 @@ and stop with the next step. Never replace useful tests with trivial passing che
    replies and nulls; repeat imports safely; derive conservative roles; separate
    explicit current-status evidence from raw source. Phase 3 adds catalogue/review
    manifests and stale/orphan handling. Phase 4 connects async client loading and
-   source/review presentation. Remaining: fine-grained entities, actual current-lore
-   review coverage, and an in-game review editor.
+   source/review presentation. Phase 6 trusts the user-confirmed supplied database;
+   no fresh acceptance audit is required. Fine-grained entities remain future work.
 3. **M2: Search/favorites.** Index reviewed current data, aliases/categories/body;
    deterministic ranking/snippets, cancellation/pagination and coverage information;
    persist favorites by stable ID. Test known queries, Unicode, filters, empty results,
    full-corpus performance, restart and missing references. Phase 4 implements
    deterministic current/audit search, categories, pagination and saved favorites.
-4. **M3: Reader/resume.** Safe structured headings/lists/redlines/tables/spoilers/links
-   and images with offline fallbacks; display provenance/status/as-of dates. Resume
+4. **M3: Reader/resume.** Plain-text reader with provenance/status/as-of dates. Resume
    by document/revision/block/offset. Test long text, scales, changed/deleted sections,
    link handling, restarts, and source formatting comparisons in Minecraft.
    Phase 4 implements bounded plain-text main/reply reading, source/review details,
-   URL copying and stable resume. Rich-source formatting/images remain incomplete.
+   URL copying and stable resume. Rich-source formatting/images are out of scope.
 5. **M4: Character sheets.** Independent versioned storage; create/select/rename/delete
    with recovery; magic/branch/tier and CA/FA, optional race/application links/notes;
    unknown slot costs stay unknown. Test multiple characters, migration, restart,
@@ -44,6 +49,10 @@ and stop with the next step. Never replace useful tests with trivial passing che
    available; pagination, amendments, provenance, safe redirects, limits, caching,
    cancellation/backoff; restricted access only through authorized supported routes.
    Reuse M6 review pipeline. A missing page is not proof of revocation.
+   Phase 6 provides the selected-topic public-page fetcher, complete pagination,
+   strict host/topic redirects, cancellation/backoff, atomic snapshots and Undo.
+   There is no global crawler or mandatory pre-activation review dialog. Whole-pack
+   import UX/authenticated fetching remain optional later work.
 9. **M8: Personal release.** Full clean install and actual client acceptance sequence;
    correct pins/metadata; source and binary hashes; private-data exclusions; tested
    install/start/backup guide; honest remaining coverage and modpack limitations.

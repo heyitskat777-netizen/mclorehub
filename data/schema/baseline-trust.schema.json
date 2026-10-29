@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Explicit user confirmation of a supplied reference database",
+  "type": "object",
+  "required": ["schema_version", "basis", "confirmed_at", "pack_revision", "records"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "basis": {"const": "user_confirmed_database"},
+    "confirmed_at": {"type": "string", "format": "date-time"},
+    "pack_revision": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "records": {
+      "type": "object", "maxProperties": 10000,
+      "propertyNames": {"pattern": "^lotc:topic:[1-9][0-9]{0,17}$"},
+      "additionalProperties": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+    }
+  }
+}

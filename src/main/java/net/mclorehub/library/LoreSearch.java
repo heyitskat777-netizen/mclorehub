@@ -35,7 +35,7 @@ public final class LoreSearch {
         entries = List.copyOf(result);
     }
     public static boolean isCurrent(Document d) {
-        return d.status() == LoreCatalogue.Status.ACCEPTED_CURRENT && d.reviewState() == LoreCatalogue.ReviewState.APPLIED;
+        return LoreCatalogue.isCurrent(d);
     }
     public List<String> categories(boolean audit) {
         return entries.stream().filter(e -> audit || isCurrent(e.document())).map(e -> e.document().category()).distinct().sorted().toList();
