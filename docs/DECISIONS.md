@@ -52,8 +52,9 @@ store extraction/challenge bypass. Actual restricted MArt access needs that acco
 
 ## Outstanding choices
 
-Phase 8 adds eight curated options and four initial checks, bound to main-post
-content/metadata, with explicit source disagreements and manual requirements.
+Phase 9 expands to 23 curated choices and 26 rules, bound to main-post
+content/metadata, with explicit source disagreements and conditional requirements.
+Sprite/Herblore and Seer/Shapeshifting notices are not permanent exclusions.
 Broader entity/rule coverage, typed eligibility/history and modpack acceptance
 remain. Optional local session import exists; real authenticated MArt access
 remains unverified. Inaccessible pages retain stored lore. Rich formatting and a fresh audit of

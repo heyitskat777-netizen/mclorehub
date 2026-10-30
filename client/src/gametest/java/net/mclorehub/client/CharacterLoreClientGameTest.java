@@ -49,12 +49,12 @@ public final class CharacterLoreClientGameTest implements FabricClientGameTest {
             }
             var entries=characters.view().book().selected().orElseThrow().entries();check(entries.size()==4&&entries.stream().allMatch(e->!e.loreDocumentId().isEmpty()),"Curated links not saved");
             byte[] personal=Files.readAllBytes(root.resolve("personal/characters.json")),base=Files.readAllBytes(root.resolve("packs/active/pack.json"));
-            c.waitFor(m->m.screen.getNarrationMessage().getString().contains("1 conflict(s)"));c.takeScreenshot("phase8-sheet-summary");
-            c.clickScreenButton("Compatibility");c.waitFor(m->m.screen.getNarrationMessage().getString().contains("1 conflict(s)"));bounds(c);c.takeScreenshot("phase8-compatibility");
+            c.waitFor(m->m.screen.getNarrationMessage().getString().contains("2 conflict(s)"));c.takeScreenshot("phase8-sheet-summary");
+            c.clickScreenButton("Compatibility");c.waitFor(m->m.screen.getNarrationMessage().getString().contains("2 conflict(s)"));bounds(c);c.takeScreenshot("phase8-compatibility");
             c.clickScreenButton("Read source");c.waitFor(m->m.screen instanceof ReaderScreen);c.clickScreenButton("screen.mclorehub.refresh_topic");
             c.waitFor(m->library.view().library().orElseThrow().characterLore().availability("lotc:topic:249533")==CharacterLore.Availability.NEEDS_REVIEW);
-            c.clickScreenButton("gui.back");c.waitFor(m->m.screen instanceof CompatibilityScreen&&m.screen.getNarrationMessage().getString().contains("0 conflict(s), 1 need review"));c.takeScreenshot("phase8-source-needs-review");
-            library.rollback("lotc:topic:249533").get(10,TimeUnit.SECONDS);c.waitFor(m->m.screen.getNarrationMessage().getString().contains("1 conflict(s)"));
+            c.clickScreenButton("gui.back");c.waitFor(m->m.screen instanceof CompatibilityScreen&&m.screen.getNarrationMessage().getString().contains("1 conflict(s), 1 need review"));c.takeScreenshot("phase8-source-needs-review");
+            library.rollback("lotc:topic:249533").get(10,TimeUnit.SECONDS);c.waitFor(m->m.screen.getNarrationMessage().getString().contains("2 conflict(s)"));
             check(Arrays.equals(personal,Files.readAllBytes(root.resolve("personal/characters.json"))),"Source update/Undo changed characters");check(Arrays.equals(base,Files.readAllBytes(root.resolve("packs/active/pack.json"))),"Source update changed original pack");
             for(int guiScale:new int[]{1,2}){c.runOnClient(m->{m.options.guiScale().set(guiScale);m.resizeDisplay();});bounds(c);c.takeScreenshot("phase8-checks-scale-"+guiScale);}
             c.setScreen(TitleScreen::new);

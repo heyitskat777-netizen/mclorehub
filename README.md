@@ -12,8 +12,8 @@ using the user's confirmation. Main-post refresh compares saved lore with the
 forum, saves changes persistently and supports Undo. Monthly automatic checks,
 pause controls and optional explicitly imported forum sessions are available.
 A curated character lore picker and initial cited compatibility checks are available.
-Coverage is limited; unassessed combinations and conflicting source statements
-remain explicit. See Phase 8 for supported options and rules.
+Coverage now includes 23 choices and 26 rules; unassessed combinations, conditional
+provisions and conflicting source statements remain explicit. See Phase 9 for scope.
 
 **Recovery note:** this environment reset to an empty checkout on October 28.
 Source was reconstructed from the recorded implementation and the original ZIP
@@ -40,6 +40,8 @@ report for the exact distinction, limits and persistence steps.
 - [Phase 6 trusted baseline and per-topic updates](docs/PHASE_6.md)
 - [Phase 7 main-only monthly checks](docs/PHASE_7.md)
 - [Phase 8 character lore picker and sourced checks](docs/PHASE_8.md)
+- [Phase 9 expanded character lore and conditions](docs/PHASE_9.md)
+- [Character lore coverage directory](docs/CHARACTER_LORE_COVERAGE.md)
 - [Optional forum session / MArt access](docs/FORUM_SESSION.md)
 
 ## Build and use the core

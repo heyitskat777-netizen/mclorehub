@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "curated_on": "2026-10-29",
-  "scope": "Initial limited selection and checks from the user-confirmed September 2026 main-post snapshot; not a live verification or complete eligibility/compatibility catalogue.",
+  "scope": "Expanded limited selection and checks from the user-confirmed September 2026 main-post snapshot, curated October 29, 2026; not live verification or a complete eligibility/compatibility catalogue.",
   "sources": [
     {
       "id": "lotc:topic:211641",
@@ -41,7 +41,8 @@
         "• Templarism occupies [3] Magic Slots.",
         "• Templarism is incompatible with other Deific Magics, Dark Magics and Dark CAs. This includes Palm-Reading.",
         "• Templarism is incompatible with any race other than the Descendent Races: Humans, Orcs, Elves and Dwarves.",
-        "• In the event that a Templar be severed from Malchediael’s tether a third time,  willingly or otherwise, they will be ineligible to receive it a fourth."
+        "• In the event that a Templar be severed from Malchediael’s tether a third time,  willingly or otherwise, they will be ineligible to receive it a fourth.",
+        "The Blessing of Malchediael forms a tether to a Descendant’s soul and enables them to draw upon the bold aura of their Patron. When harnessed, the Blessing manifests as a blanched and holy flame, a reflection of Malchediael’s deific, yet furious nature. The boons available to a Templar are intended to be force amplifiers rather than crutches; thus, Malchediael intends for his servants to continue honing their skills and achieve victory by their own will."
       ],
       "main_fingerprint": "197052d030bdeb9f9991bab6e8c3173a8e52f905c0cf064d3d22f8d5eecfed84"
     },
@@ -93,6 +94,216 @@
         "Overall, out of the evocations air distinguishes itself with its unique emphasis on utility albeit with a more offensive emphasis compared to water as you would expect from its fluid nature. More seasoned air evocationists are granted the ability to manifest air as sound or even storm. As a Voidal magic air evocation at a baseline requires one magic slot and being taught by a valid TA holder. The maintenance of spells and progression of tiers is subject to currently accepted standards for Voidal connection."
       ],
       "main_fingerprint": "31f1f7c84a5f6bfeab612dfad3cf2b5e8026c57382c35beea3896ab8b5791903"
+    },
+    {
+      "id": "lotc:topic:262013",
+      "title": "[✓] [Magic Lore] Blood Magic",
+      "url": "https://www.lordofthecraft.net/forums/topic/262013-%E2%9C%93-magic-lore-blood-magic/",
+      "revision": "e72288d09ae2291ea44cd4798399481debd3e25ac4f476058febb4c00eaaf139",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "❉ Bʟᴏᴏᴅ Mᴀɢɪᴄ is a [1] slot Dark Magic, progenitive of the exsanguinated scraps of knowledge and prowess left over from the old arts of truer, untampered Blood Magic, diminished down to bare motes of what once was.",
+        "❉ Bʟᴏᴏᴅ Mᴀɢɪᴄ is compatible with all beings who bear both Genus and a Soul; it is a craft of the mortal and immortal alike, distinguishing not whom wields the prowess of blood-carved runes. All spells and rituals must be learned at the listed pace; spells may not be learned “ahead of time”.",
+        "❉ Bʟᴏᴏᴅ Mᴀɢɪᴄ is a magic that does not bear the traditional tier system, rather bearing [2] rungs of progression- Lesser and Greater. One ascends from Lesser to Greater via Evoking Enlightenment- a ritual led by a Greater Blood Mage and assisted by another Blood Mage of either tier."
+      ],
+      "main_fingerprint": "bddbd2e2eaf67a46cf08d1f2c13b051715bdb90c008e6e67008fe1bb93daefd1"
+    },
+    {
+      "id": "lotc:topic:192017",
+      "title": "[✓] [Magic Lore] Housemagery (featuring Soupmancy)",
+      "url": "https://www.lordofthecraft.net/forums/topic/192017-%E2%9C%93-magic-lore-housemagery-featuring-soupmancy/",
+      "revision": "f79872226db53a01e74fa20d68a8e31c2570780b9a08df228faa60290417f22c",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "It is also open to those with lesser souls, providing they have their own innate source of mana. Housemagery as a whole takes up one magic slot, whether you use Domestic, Culimancy, or both. Please specify on your MA whether you are taking only one of the subtypes or both."
+      ],
+      "main_fingerprint": "12bc28a30cd0b0fa2e9e5eb5187c6895631173b2cb94ace2699a5565d70c7440"
+    },
+    {
+      "id": "lotc:topic:249435",
+      "title": "[✓] [Magic Lore] Fire Evocation",
+      "url": "https://www.lordofthecraft.net/forums/topic/249435-%E2%9C%93-magic-lore-fire-evocation/",
+      "revision": "38e01cbe15767a01582a24e464854b7ee039593d7bc09cf37b15470ec9171e13",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "As a Voidal magic fire evocation at a baseline requires one magic slot and being taught by a valid TA holder. The maintenance of spells and progression of tiers is subject to currently accepted standards for Voidal connection."
+      ],
+      "main_fingerprint": "3985f1b5fc5bd626f46a7fd44236dee7f350807e1099e2869295e8dad9d1915a"
+    },
+    {
+      "id": "lotc:topic:234197",
+      "title": "[✓] [Magic Lore] Water Evocation",
+      "url": "https://www.lordofthecraft.net/forums/topic/234197-%E2%9C%93-magic-lore-water-evocation/",
+      "revision": "f1a9e0130ae7a914903015ccc835a428c0369c4db66b8a3f57b472341bb13dab",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "As a Voidal magic water evocation at a baseline requires one magic slot and being taught by a valid TA holder. The maintenance of spells and progression of tiers is subject to currently accepted standards for Voidal connection."
+      ],
+      "main_fingerprint": "ae40cab1e3af51d8005ae863b71c2350d91b72855de4a9e780ca8fca063db52f"
+    },
+    {
+      "id": "lotc:topic:234418",
+      "title": "[✓] [Magic Lore] Earth Evocation",
+      "url": "https://www.lordofthecraft.net/forums/topic/234418-%E2%9C%93-magic-lore-earth-evocation/",
+      "revision": "f5c30d7597c19ae909d430df142079fd8e7876527ef2cc57ba928a0fdd35e706",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "As a Voidal magic Earth Evocation at a baseline requires one magic slot and being taught by a valid TA holder. The maintenance of spells and progression of tiers is subject to currently accepted standards for Voidal connection."
+      ],
+      "main_fingerprint": "04fd8173ec04a398485660e3a19632ff3654ada962f9e904f67ff52a4e30cf47"
+    },
+    {
+      "id": "lotc:topic:190562",
+      "title": "[✓] [Magic Lore] Sensory Illusion",
+      "url": "https://www.lordofthecraft.net/forums/topic/190562-%E2%9C%93-magic-lore-sensory-illusion/",
+      "revision": "69ab10f36298628e6bd293ced15551f0ebae3cd075ec63fa5a4c4cf3df7dae8c",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "- Arcane Illusion is a one (1) magic-slot Voidal Magic.",
+        "- A Voidal connection is required to practice Arcane Illusion.",
+        "- Arcane Illusion can be used IRP, once players have an accepted [MA].",
+        "- Arcane Illusion can be taught by players who possess an accepted [TA]."
+      ],
+      "main_fingerprint": "e0d64c2646d9acd678709a1c0a7a5b087c47315e426310cb180e76a5f97eb9ca"
+    },
+    {
+      "id": "lotc:topic:192184",
+      "title": "[✓] [Magic Lore] - Transfiguration: Artisans of the Arcane",
+      "url": "https://www.lordofthecraft.net/forums/topic/192184-%E2%9C%93-magic-lore-transfiguration-artisans-of-the-arcane/",
+      "revision": "2b1dfd5ce015452df79cae0851956905f70f0f3fd86f2021463a6022381f4007",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "- Transfiguration takes up [1] Magic Slot. It is not a feat.",
+        "- Transfiguration requires a voidal connection and mana to cast.",
+        "- Transfiguration may be taught by players who possess a valid [TA].",
+        "- Players must have a valid [MA] to use Transfiguration as an in-game magic."
+      ],
+      "main_fingerprint": "1a9694e9d068989462690c37fb386ee8dbe04512464b6fccea0ccd9b6f4c4d7d"
+    },
+    {
+      "id": "lotc:topic:192239",
+      "title": "[✓] [Magic Reformat] - Voidal Translocation",
+      "url": "https://www.lordofthecraft.net/forums/topic/192239-%E2%9C%93-magic-reformat-voidal-translocation/",
+      "revision": "70a8139530ea4d8b21bbdecb3d37e40e4f5503a595e00a3ba2a5cc24ef6d12fd",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "- Translocation takes up one magic slot, it is not a feat.",
+        "- Translocation requires a valid MA to use in game.",
+        "- Translocation requires a stable connection to the void and mana to cast.",
+        "- Translocation may be taught with a valid TA."
+      ],
+      "main_fingerprint": "b303dbfbb7caa438f1ded955323d9c852f0db63e88097d6358c4971c2a1bc3c6"
+    },
+    {
+      "id": "lotc:topic:247990",
+      "title": "[✓] [Magic Lore] The Clerics of Tahariae",
+      "url": "https://www.lordofthecraft.net/forums/topic/247990-%E2%9C%93-magic-lore-the-clerics-of-tahariae/",
+      "revision": "ac352e3e72223cab621ee9ed142c46aad35b2280725adb66abbc0c1ffa40ef47",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "» Clericism is a [3] slot holy-deific [MA] with compatibility guidelines as follows:",
+        "» Descendants, Seers, and Barrowborn may take up Clericism without repercussions. This includes any hybrid descendant races. Those formerly scorned and disconnected from a holy-deific magic are ineligible.",
+        "» Soul-warped CAs such as Machine Spirits, Klones and Azdrazi are incompatible with Clericism.",
+        "» As a deific magic, Clericism requires a greater soul. Therefore lesser soul CAs such as Musin and Sorvians, and artificial Daemonic souls such as Kharajyr and Hou-Zi are incompatible with Clericism.",
+        "⬢ Clericism is a deific magic that is incompatible with any [CA] and any other class of dark, voidal and deific magic."
+      ],
+      "main_fingerprint": "e78fb65bf13f33c67ef53bd92d7b433b92496d268f28223899b946728c9000d2"
+    },
+    {
+      "id": "lotc:topic:192726",
+      "title": "[✓] [Magic Lore] Mysticism",
+      "url": "https://www.lordofthecraft.net/forums/topic/192726-%E2%9C%93-magic-lore-mysticism/",
+      "revision": "9c4ac73b83b1b48e72bcc3e09dbc0421a806f51184ff6a77eead04b2949999d3",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "- A Mystic may be created by being Conjoined with a phantom by a Wight or TA holding Mystic. Conjoinment, when taught, must be put on a mystic's MA for them to be eligable for making a TA.",
+        "- Mysticism takes [1] slot at T1 & T2, and [2] slots at T3 & T4.",
+        "- At T5, Wights take [3] magic slots.",
+        "- Mysticism is incompatible with other heavily soul-altering arts or creatures, such as Frost Witchdom, and Nephilim, or Holy/Deific Magics save for Seer. It retains compatibility with Voidal Magic, alongside other Dark Magics except where specifically deemed incompatible.",
+        "- A Mystic may be sapped a maximum of 2 times before permanently losing the ability to reconnect to the magic, as the damage suffered from sapping is too great.",
+        "- Should a Mystic be permanently disconnected from the magic, they will not lose their magic slots"
+      ],
+      "main_fingerprint": "2376ee30b1acca0fc8e414574e6c59df3269f7c1c83c75c2fd9af2461158cd72"
+    },
+    {
+      "id": "lotc:topic:238660",
+      "title": "[✓] [CA] Nephilim, The Lesser Dragonkin",
+      "url": "https://www.lordofthecraft.net/forums/topic/238660-%E2%9C%93-ca-nephilim-the-lesser-dragonkin/",
+      "revision": "bb3d306a074bb1aefb3284b66c7b30e9347fcbd63d90c396d8c77ae58933e981",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "- Nephilim possess a draconic soul after the Transference is complete. They're considered full draconic creatures.",
+        "- The trials and tests which a mortal must undergo prior to becoming a Nephilim are mandatory and may not be evaded. This is an enforced roleplay mechanic that may not be ignored.",
+        "- Only descendants with a greater soul can become a Nephilim, and may become a whelping.",
+        "Becoming a Nephilim requires a valid Creature Application which may be submitted once the acolyte completes all of their trials."
+      ],
+      "main_fingerprint": "f67a17db6d9319f2ff69898a7978f57eb99ae76f755f483bb80a1909da629707"
+    },
+    {
+      "id": "lotc:topic:242890",
+      "title": "[✓] [CA] Sprites, the Faeries of a Thousand Whims",
+      "url": "https://www.lordofthecraft.net/forums/topic/242890-%E2%9C%93-ca-sprites-the-faeries-of-a-thousand-whims/",
+      "revision": "aa7d6fc6307887c1ac11c494d1120765e091d9a8363b4070adaa87f435a74bb8",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "While sprites possess a Lesser Fae Soul, which bars them from learning and practicing most magical arts of the mortal world, they aren’t inhibited from all of them. Their innate talent in manipulating mana allows them to quickly pick up on some of the less straining mortal arts when taught them. While sprites can manipulate mundane mana in addition to fae mana, it still ends up being channeled in the form of their faerie dust.",
+        "This is a list of valid compatibilities sprites have with various magics and feats as well as special interactions with other lore present on the server. Any magic or feat not listed here should be presumed incompatible. Anything which is to be compatible with sprites will either require it to be specified in their lore submission or amended with valid reasoning.",
+        "Sprites possess [5 Magic Slots]",
+        "Bardmancy",
+        "Sprites may learn all facets of Bardmancy.",
+        "Housemagery",
+        "Sprites may learn all facets of Housemagery.",
+        "Blood Magic",
+        "Sprites may learn all facets of Blood Magic.",
+        "Herblore",
+        "Sprites may learn Herblore due to the similarities it has to their inherent talent in floramancy, being capable of mimicking all facets of the feat through Wealdweaver with proper guidance.",
+        "- Sprites require a Creature Application to be made, and then accepted, before one can be played."
+      ],
+      "main_fingerprint": "5900eb5f2a191cd8193f4cac40056327b0200a6ed38610e800b4716bada898ae"
+    },
+    {
+      "id": "lotc:topic:265262",
+      "title": "[✓] [CA] - Mori'Quessir, Children of Nemiisae",
+      "url": "https://www.lordofthecraft.net/forums/topic/265262-%E2%9C%93-ca-moriquessir-children-of-nemiisae/",
+      "revision": "03e61fb4b91df48eac2c8c64db2350e961718ed44697f138fef70030b2a42df2",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "ⱒ Mori’Quessir require an accepted [CA] to be played, including children and offspring.",
+        "ⱒ Mori’Quessir are an Open CA and may be applied for by anyone so long as they are in good lore standing.",
+        "ⱒ Mori’Quessir are counted as altered souls, though not tainted.",
+        "ⱒ Despite their status as nontainted altered souls, Mori’Quessir would be unable to take “Holy” classed deific magics, even if theoretically compatible.",
+        "ⱒ Mori’Quessir possess [5] magic slots."
+      ],
+      "main_fingerprint": "9d9eba1224a00269b4d0db0d165a4315716ceac4eb4d0e65a9f31e6b0f56d8f7"
+    },
+    {
+      "id": "lotc:topic:223449",
+      "title": "[✓] [Druidic Feat] - Herblore",
+      "url": "https://www.lordofthecraft.net/forums/topic/223449-%E2%9C%93-druidic-feat-herblore/",
+      "revision": "425b45653469b68102b30cd7ed74050c22c9621ac19d92df0c36425f8d5df18d",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "Herblore is a Druidic Feat that requires one to be a druid of at least Tier 3.",
+        "Herblore is taught via a teacher that must hold a approved [TA].",
+        "Required to be tier 3 in Herblore to be taught.",
+        "Required to be tier 5 in Communion & Control with the spell Druidic Infusion.",
+        "Should this lore be accepted I’ll likely ask for all existing MAs to be considered as FAs going forward simply not taking up a magic slot anymore. While also asking for three injections to be given out to three of the druidic communities to create circulation once more."
+      ],
+      "main_fingerprint": "7724e0cd819cc67cf31c8cfdd03b70b2b798bd884b0779ab7cfec591fd1015eb"
+    },
+    {
+      "id": "lotc:topic:228215",
+      "title": "[✓] [Druidism]: [FA] Shapeshifting",
+      "url": "https://www.lordofthecraft.net/forums/topic/228215-%E2%9C%93-druidism-fa-shapeshifting/",
+      "revision": "bba61bf68a3e6031db5f1aea4ecc2199717a08d8e63dc908d674d3467f1a48a5",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "-Requires being in the Grotto of Cerridwen to complete the Third Trial (Ritual of Change).",
+        "-Once the trials are completed, a FA is then made. The animal that is chosen must be marked on the FA.",
+        "-One may apply for a TA after reaching T3 and holding an FA for 2  months. One must also be taught how each trial is done and have access to a Grotto of Cerridwen. Both IC and OOC aspects of it.",
+        "All other Magics and Feats: None of these can be performed or done in animal form. Seer Druids blind will not be able to use Seer magic in animal form, however they may use the Druid Communion ability Greensight to passively see. Must follow all redlines regarding Greensight."
+      ],
+      "main_fingerprint": "6a7e139872e8654f6dcc22a4df0bfc4e53696abf0146a83876a9091836678d1e"
     }
   ],
   "options": [
@@ -151,6 +362,111 @@
       "kind": "MAGIC",
       "source_id": "lotc:topic:234439",
       "notes": "Baseline one magic slot and instruction from a valid TA holder. Other Voidal requirements and the rest of the sheet are not assessed."
+    },
+    {
+      "key": "blood-magic",
+      "name": "Blood Magic",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:262013",
+      "notes": "One-slot dark magic requiring both Genus and a soul. Lesser/Greater progression, ritual instruction and persistent banes need manual assessment; selection does not verify an MA."
+    },
+    {
+      "key": "housemagery",
+      "name": "Housemagery",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:192017",
+      "notes": "Domestic and Culimancy share the source; one slot covers either or both. A personal mana source is required, including for lesser souls. Specify the learned subtypes in Branch and on the application; no blanket eligibility is inferred."
+    },
+    {
+      "key": "fire-evocation",
+      "name": "Fire Evocation",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:249435",
+      "notes": "Baseline one magic slot and teaching by a valid TA holder. Voidal connection/progression and other prerequisites remain manually assessed; no MA is verified."
+    },
+    {
+      "key": "water-evocation",
+      "name": "Water Evocation",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:234197",
+      "notes": "Baseline one magic slot and teaching by a valid TA holder. Voidal connection/progression and other prerequisites remain manually assessed; no MA is verified."
+    },
+    {
+      "key": "earth-evocation",
+      "name": "Earth Evocation",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:234418",
+      "notes": "Baseline one magic slot and teaching by a valid TA holder. Voidal connection/progression and other prerequisites remain manually assessed; no MA is verified."
+    },
+    {
+      "key": "sensory-illusion",
+      "name": "Sensory Illusion",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:190562",
+      "notes": "Arcane/Sensory Illusion is a one-slot Voidal magic requiring Voidal connection, an accepted MA and instruction from an accepted TA. These conditions are not verified by editing a sheet."
+    },
+    {
+      "key": "transfiguration",
+      "name": "Transfiguration",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:192184",
+      "notes": "One-slot magic, not a feat. Requires Voidal connection and mana, a valid MA, and teaching by a valid TA. Eligibility and learned abilities remain manual."
+    },
+    {
+      "key": "voidal-translocation",
+      "name": "Voidal Translocation",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:192239",
+      "notes": "One-slot magic, not a feat; requires a stable Voidal connection, mana, a valid MA and instruction by a valid TA. Expatriation and Shifting share this source and slot."
+    },
+    {
+      "key": "clericism",
+      "name": "Clericism",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:247990",
+      "notes": "Three-slot holy-deific MA. Greater-soul and prior holy-disconnection requirements need manual assessment. The stored text specifically includes Seers but also broadly excludes other deific magic; the paired source-conflict finding preserves this disagreement."
+    },
+    {
+      "key": "mysticism",
+      "name": "Mysticism",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:192726",
+      "notes": "Slot use changes by tier and Wight status. Soul alteration and disconnection history need manual assessment. Seer is an explicit exception to the deific restriction; Voidal magic is not automatically excluded."
+    },
+    {
+      "key": "nephilim",
+      "name": "Nephilim",
+      "kind": "CA",
+      "source_id": "lotc:topic:238660",
+      "notes": "Nephilim/Azdrazi require a valid Creature Application and completed trials. Greater-soul, transformation and teacher/ritual restrictions remain manually assessed; no CA is verified."
+    },
+    {
+      "key": "sprite",
+      "name": "Sprite",
+      "kind": "CA",
+      "source_id": "lotc:topic:242890",
+      "notes": "Requires an accepted Creature Application. This source lists Bardmancy, Housemagery, Blood Magic and Herblore, with special fae-soul interactions. Do not treat these as an automatic approval or extrapolate them to all magic."
+    },
+    {
+      "key": "mori-quessir",
+      "name": "Mori'Quessir",
+      "kind": "CA",
+      "source_id": "lotc:topic:265262",
+      "notes": "Requires an accepted CA, including for children. Altered but untainted souls cannot take holy deific magic even if otherwise theoretically compatible. Other soul/ancestry restrictions remain manually assessed."
+    },
+    {
+      "key": "herblore",
+      "name": "Druidic Herblore",
+      "kind": "FA",
+      "source_id": "lotc:topic:223449",
+      "notes": "Druidic feat; this source requires at least T3 Druidism and an approved TA. Creature-specific provisions can differ: inspect the Sprite/Herblore conditional notice rather than assuming all prerequisite questions are resolved."
+    },
+    {
+      "key": "druidic-shapeshifting",
+      "name": "Druidic Shapeshifting",
+      "kind": "FA",
+      "source_id": "lotc:topic:228215",
+      "notes": "The trial redlines require an FA identifying the chosen animal. Trials, Grotto access, progression and animal-form restrictions remain manual. Holding another magic is distinct from being able to cast it while shifted."
     }
   ],
   "rules": [
@@ -214,6 +530,337 @@
         "lotc:topic:228968"
       ],
       "summary": "Sun and Moon advanced Kani abilities cannot be used together. The source permits switching paths once per OOC month by the specified ritual, with an MA update/SREQ. This checks recorded simultaneous paths, not historical training or permission to switch."
+    },
+    {
+      "key": "templar-tree-lord",
+      "type": "EXCLUSION",
+      "left": [
+        "templar"
+      ],
+      "right": [
+        "tree-lord"
+      ],
+      "sources": [
+        "lotc:topic:228224",
+        "lotc:topic:191272"
+      ],
+      "summary": "Tree Lord lore explicitly requires a Templar druid to choose: becoming a Soul Tree drops Templarism. This is a restriction on the recorded combination, not a verified transformation history."
+    },
+    {
+      "key": "templar-blood-magic",
+      "type": "EXCLUSION",
+      "left": [
+        "templar"
+      ],
+      "right": [
+        "blood-magic"
+      ],
+      "sources": [
+        "lotc:topic:228224",
+        "lotc:topic:262013"
+      ],
+      "summary": "Templar lore excludes other deific and dark magics. The linked source identifies this practice as dark or holy-deific. Exceptions and source disagreements are assessed separately; this is not a general title/category heuristic."
+    },
+    {
+      "key": "templar-mysticism",
+      "type": "EXCLUSION",
+      "left": [
+        "templar"
+      ],
+      "right": [
+        "mysticism"
+      ],
+      "sources": [
+        "lotc:topic:228224",
+        "lotc:topic:192726"
+      ],
+      "summary": "Templar lore excludes other deific and dark magics. The linked source identifies this practice as dark or holy-deific. Exceptions and source disagreements are assessed separately; this is not a general title/category heuristic."
+    },
+    {
+      "key": "templar-clericism",
+      "type": "EXCLUSION",
+      "left": [
+        "templar"
+      ],
+      "right": [
+        "clericism"
+      ],
+      "sources": [
+        "lotc:topic:228224",
+        "lotc:topic:247990"
+      ],
+      "summary": "Templar lore excludes other deific and dark magics. The linked source identifies this practice as dark or holy-deific. Exceptions and source disagreements are assessed separately; this is not a general title/category heuristic."
+    },
+    {
+      "key": "cleric-necromancy",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "necromancy"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:249533"
+      ],
+      "summary": "Clericism excludes dark magic and Necromancy excludes deific magic other than its named exceptions. Clericism is not a named Necromancy exception."
+    },
+    {
+      "key": "cleric-blood-magic",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "blood-magic"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:262013"
+      ],
+      "summary": "Clericism explicitly excludes dark and Voidal magic. The paired main source identifies this specific practice; the check does not infer exclusions for uncurated entries."
+    },
+    {
+      "key": "cleric-mysticism",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "mysticism"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:192726"
+      ],
+      "summary": "Clericism explicitly excludes dark and Voidal magic. The paired main source identifies this specific practice; the check does not infer exclusions for uncurated entries."
+    },
+    {
+      "key": "cleric-air-evocation",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "air-evocation"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:234439"
+      ],
+      "summary": "Clericism explicitly excludes dark and Voidal magic. The paired main source identifies this specific practice; the check does not infer exclusions for uncurated entries."
+    },
+    {
+      "key": "cleric-fire-evocation",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "fire-evocation"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:249435"
+      ],
+      "summary": "Clericism explicitly excludes dark and Voidal magic. The paired main source identifies this specific practice; the check does not infer exclusions for uncurated entries."
+    },
+    {
+      "key": "cleric-water-evocation",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "water-evocation"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:234197"
+      ],
+      "summary": "Clericism explicitly excludes dark and Voidal magic. The paired main source identifies this specific practice; the check does not infer exclusions for uncurated entries."
+    },
+    {
+      "key": "cleric-earth-evocation",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "earth-evocation"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:234418"
+      ],
+      "summary": "Clericism explicitly excludes dark and Voidal magic. The paired main source identifies this specific practice; the check does not infer exclusions for uncurated entries."
+    },
+    {
+      "key": "cleric-sensory-illusion",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "sensory-illusion"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:190562"
+      ],
+      "summary": "Clericism explicitly excludes dark and Voidal magic. The paired main source identifies this specific practice; the check does not infer exclusions for uncurated entries."
+    },
+    {
+      "key": "cleric-transfiguration",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "transfiguration"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:192184"
+      ],
+      "summary": "Clericism explicitly excludes dark and Voidal magic. The paired main source identifies this specific practice; the check does not infer exclusions for uncurated entries."
+    },
+    {
+      "key": "cleric-voidal-translocation",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "voidal-translocation"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:192239"
+      ],
+      "summary": "Clericism explicitly excludes dark and Voidal magic. The paired main source identifies this specific practice; the check does not infer exclusions for uncurated entries."
+    },
+    {
+      "key": "cleric-seer-disagreement",
+      "type": "SOURCE_CONFLICT",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "seer-magic",
+        "seer-feat"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:211641"
+      ],
+      "summary": "Needs a ruling: Cleric explanation specifically permits Seers, but its redlines broadly exclude other deific magic. Both statements are preserved; no automatic exclusion or compatibility ruling is made for Seer."
+    },
+    {
+      "key": "cleric-nephilim",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "nephilim"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:238660"
+      ],
+      "summary": "Cleric lore names Azdrazi among its incompatible soul-warped CAs; the paired Nephilim source identifies their draconic soul."
+    },
+    {
+      "key": "cleric-sprite",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "sprite"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:242890"
+      ],
+      "summary": "Clericism requires a greater soul, while Sprite lore specifies a Lesser Fae Soul. Cleric redlines also exclude CAs. The recorded pairing conflicts; no soul conversion or approval is inferred."
+    },
+    {
+      "key": "cleric-mori-quessir",
+      "type": "EXCLUSION",
+      "left": [
+        "clericism"
+      ],
+      "right": [
+        "mori-quessir"
+      ],
+      "sources": [
+        "lotc:topic:247990",
+        "lotc:topic:265262"
+      ],
+      "summary": "Mori'Quessir lore explicitly forbids holy-class deific magic, and Clericism is holy-deific. A theoretically compatible altered soul does not override that prohibition."
+    },
+    {
+      "key": "mysticism-nephilim",
+      "type": "EXCLUSION",
+      "left": [
+        "mysticism"
+      ],
+      "right": [
+        "nephilim"
+      ],
+      "sources": [
+        "lotc:topic:192726",
+        "lotc:topic:238660"
+      ],
+      "summary": "Mysticism explicitly lists Nephilim among incompatible heavily soul-altering creatures. Seer remains a named exception to Mysticism's separate deific exclusion."
+    },
+    {
+      "key": "templar-mori",
+      "type": "EXCLUSION",
+      "left": [
+        "templar"
+      ],
+      "right": [
+        "mori-quessir"
+      ],
+      "sources": [
+        "lotc:topic:228224",
+        "lotc:topic:265262"
+      ],
+      "summary": "Mori'Quessir lore forbids holy-class deific magic, even if theoretically compatible; Templar lore describes its deific holy flame. The recorded pairing conflicts."
+    },
+    {
+      "key": "sprite-herblore-provision",
+      "type": "CONDITIONAL_NOTICE",
+      "left": [
+        "sprite"
+      ],
+      "right": [
+        "herblore"
+      ],
+      "sources": [
+        "lotc:topic:242890",
+        "lotc:topic:223449"
+      ],
+      "summary": "Sprite lore explicitly permits learning Herblore through the stated Wealdweaver/floramancy provision with proper guidance. The Herblore source separately describes Druidic prerequisites. This is a creature-specific provision to read with both sources, not a denial merely because no Druidism entry is recorded or a certification that all abilities/prerequisites are met."
+    },
+    {
+      "key": "seer-while-shifted",
+      "type": "CONDITIONAL_NOTICE",
+      "left": [
+        "seer-magic"
+      ],
+      "right": [
+        "druidic-shapeshifting"
+      ],
+      "sources": [
+        "lotc:topic:211641",
+        "lotc:topic:228215"
+      ],
+      "summary": "While in animal form, Shapeshifting lore bars other magic/feats and specifically Seer magic. It mentions Greensight under its own redlines as an alternative. This restricts casting while shifted; it does not prohibit holding both entries or grant Greensight automatically."
     }
   ]
 }

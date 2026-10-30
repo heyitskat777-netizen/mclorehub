@@ -33,10 +33,12 @@
   categories, not applications, extra magics, or ownership/craft permission.
 - Compatibility needs curated source-backed conditions, exceptions, dates, and
   revision dependencies. Missing coverage means not assessed, not compatible.
-  Phase 8's eight options/four checks are limited initial coverage. Preserve its
-  explicit Seer/Templar source disagreement. Rules bind main-post content/metadata;
+  Phase 9 expands to 23 choices/26 rules, still partial coverage. Preserve explicit
+  Seer/Templar and Seer/Cleric source disagreements; conditional notices must not
+  become permanent exclusions. Rules bind main-post content/metadata;
   unchanged check dates/archived replies must not retire them. Changed sources
-  suspend checks without deleting personal entries. See docs/PHASE_8.md for curation.
+  suspend checks without deleting personal entries. See docs/PHASE_9.md and the
+  Phase 8 curation procedure. Keep unrelated rule dependencies independent.
 - Default reading/search/update comparison covers the main lore post only. Keep
   previously captured replies as an explicit archive, without fetching discussion.
 - Check saved main lore pages automatically once per calendar month while Minecraft

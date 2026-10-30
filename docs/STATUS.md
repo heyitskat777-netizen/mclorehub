@@ -1,6 +1,48 @@
 # Current status
 
-## Latest checkpoint — Phase 8
+## Latest checkpoint — Phase 9
+
+Expanded character lore now offers **23 choices from 22 main sources**: 15 MAGIC,
+four FA and four CA. Added options include common Voidal practices, Blood Magic,
+Mysticism, Clericism, Housemagery, Nephilim, Sprite, Mori'Quessir and Druidic feats.
+Source titles/family/category and apostrophe variants are searchable in the picker.
+Existing character references and personal fields remain compatible.
+
+The **26 rules** comprise 21 pair exclusions, one Kani branch exclusion, two source
+disagreements and two conditional notices. Seer/Templar remains unresolved; Cleric
+text's specific permission for Seers versus its broader deific exclusion is now
+also explicit. Sprite/Herblore and Seer/Shapeshifting produce conditional requirements
+rather than permanent exclusions. Zero warnings never establishes compatibility.
+No typed race/soul/history facts, automatic slot totals or approval verification
+are implied. Each rule binds its own sources, so changed evidence suspends only
+its dependent checks. Undo restores matching rules without touching characters.
+
+Normal full build/install and **231 core tests passed**, zero failures/errors/skips.
+Native Minecraft exited 0 with every prior marker plus EXPANDED_LORE_SCENARIO_PASS.
+The supplied 488-reference pack/trust matched every curated option's main evidence
+and binding. Tests exercised picker pagination/category search, new magic/CA/FA
+saves, three exclusions, the conditional notice, granular source invalidation and
+Undo, unchanged character/base bytes and persisted links. Fresh picker/conflict/
+conditional screenshots were inspected. Log: `/tmp/mclorehub-phase9-client.log`.
+No live forum requests or real authenticated MArt tests were performed in this phase.
+Pins, locks, dependency checksums and Minecraft 1.21.11 are unchanged.
+
+Artifact: `client/build/libs/mclorehub-0.1.0-phase9.jar`, **719,428 bytes**,
+SHA-256 `dafa7e11357fba43fb65ffaf7839e0b5fec7fed95b3c6476bff6e0027395dcd2`.
+The existing Phase 7 trusted-data ZIP works unchanged. The production JAR excludes
+the private corpus, player/auth data and test entrypoints. Source checkpoints include
+tests and exclude private files. Only selected public main-post policy excerpts
+are deliberately bundled.
+Source/backups are identified in `/workspace/mclorehub-phase9-backup.json`.
+See [Phase 9](PHASE_9.md), [coverage directory](CHARACTER_LORE_COVERAGE.md) and
+[installation](INSTALL.md). The older phase sections below describe historical scope.
+
+Next substantial work: typed eligibility/acquisition history and further curated
+coverage as needed. Actual MArt account access, user modpack/hardware/multiplayer
+acceptance remain unverified. Whole-pack import UI and readable update diffs remain
+optional additions. Rich formatting and a new baseline acceptance audit are out of scope.
+
+## Previous checkpoint — Phase 8
 
 Character entries now offer **Choose lore** with eight curated choices from seven
 main documents: five MAGIC, two FA and one CA. Names may be edited without losing
@@ -39,8 +81,9 @@ Current artifact: `client/build/libs/mclorehub-0.1.0-phase8.jar`, **711,786 byte
 SHA-256 `d51c289f2022ab4ab55fd26acf5b0f5220faa733d6b8f891d6308ac1696f2dd3`.
 The existing Phase 7 trusted-data ZIP is compatible and does not need replacement.
 Only selected public main-post policy excerpts are bundled with curated rules;
-private corpus/player/auth files and test entrypoints are excluded from the JAR
-and source checkpoints. See [Phase 8](PHASE_8.md) and [installation](INSTALL.md).
+private corpus/player/auth files are excluded from the JAR and source checkpoints,
+and test entrypoints are excluded from the production JAR. See [Phase 8](PHASE_8.md)
+and [installation](INSTALL.md).
 
 Next: expand curated entities and source-backed rules; add typed eligibility,
 acquisition history and fuller exception handling as needed. Real account MArt

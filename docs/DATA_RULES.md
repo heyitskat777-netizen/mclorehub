@@ -43,6 +43,10 @@
   replies do not invalidate these bindings. Changed sources suspend their checks.
   Keep conditions, exceptions, prerequisites and disagreements visible. Missing
   coverage is not assessed; zero warnings does not establish compatibility.
+- Phase 9's conditional notices cite every interacting source and produce
+  requirements, never a permanent exclusion. Preserve the Sprite/Herblore provision,
+  animal-form casting conditions and Seer/Templar + Seer/Cleric disagreements.
+  Keep separate pair-rule dependencies independent when adding curated options.
 - Monthly checks cover only known saved IDs, run off the render thread while
   Minecraft is running, persist next-due dates, and catch up after restart. Manual
   success resets the monthly date. Pause/cancel and HTTP Retry-After are respected.

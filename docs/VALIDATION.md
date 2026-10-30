@@ -69,3 +69,10 @@ selection/save, sheet summary and cited conflict, no-change refresh retaining ru
 changed-source suspension, Undo, scales and unchanged character/base files. Without
 these variables the test checks unavailable selection and explicitly reports that
 the real curated-corpus scenario was not run. No private corpus fixture enters Git.
+
+Phase 9 additionally requires `EXPANDED_LORE_SCENARIO_PASS` with the same private
+pack/trust inputs and exit 0. Every one of the 23 choices must match its real main
+source/evidence. The native flow checks pagination/category search, new magic/CA/FA
+links, three exclusions, a conditional provision rather than an exclusion, granular
+source invalidation/Undo, unchanged personal/base files and persistence. Without
+private inputs it explicitly reports `EXPANDED_LORE_SCENARIO_NOT_RUN`.

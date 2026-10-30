@@ -12,7 +12,7 @@ import static net.mclorehub.importer.JsonSupport.*;
 /** Small curated main-post ruleset. No inference from titles, categories or unlinked names. */
 public final class CharacterLore {
     public enum Availability { AVAILABLE, MISSING, NEEDS_REVIEW, NOT_CURRENT }
-    public enum Type { EXCLUSION, SOURCE_CONFLICT, BRANCH_EXCLUSION }
+    public enum Type { EXCLUSION, SOURCE_CONFLICT, BRANCH_EXCLUSION, CONDITIONAL_NOTICE }
     public enum Outcome { EXCLUSION, SOURCE_CONFLICT, NEEDS_REVIEW, REQUIREMENTS, NOT_ASSESSED }
     public record Source(String id,String title,String url,String revision,String mainFingerprint,String snapshot,List<String> passages) {
         public Source { passages=List.copyOf(passages); }
@@ -39,10 +39,14 @@ public final class CharacterLore {
     private final List<Rule> rules;
     private final String scope;
     private final Map<String,Availability> availability;
+    private final Map<String,String> searchText;
     private CharacterLore(Map<String,Source> sources,List<Option> options,List<Rule> rules,List<Document> documents,String scope) {
         this.sources=Map.copyOf(sources);this.options=List.copyOf(options);this.rules=List.copyOf(rules);this.scope=scope;
         Map<String,Document> byId=new HashMap<>();documents.forEach(d->byId.put(d.id(),d));this.documents=Map.copyOf(byId);
         Map<String,Availability> checked=new HashMap<>();sources.keySet().forEach(id->checked.put(id,checkAvailability(id)));availability=Map.copyOf(checked);
+        Map<String,String> searchable=new HashMap<>();for(var option:options){var doc=byId.get(option.sourceId());
+            searchable.put(option.key(),normalize(option.name()+" "+(doc==null?"":doc.title()+" "+doc.family()+" "+doc.category()+" "+String.join(" ",doc.aliases()))));}
+        searchText=Map.copyOf(searchable);
     }
     /** Called only on the library file worker, including after refresh and Undo. */
     public static CharacterLore bundled(LoreCatalogue catalogue) throws IOException {
@@ -101,10 +105,8 @@ public final class CharacterLore {
     }
     public List<Choice> choices(CharacterBook.Kind kind,String query) {
         String[] terms=normalize(query).split(" ");
-        return options.stream().filter(o->o.kind()==kind).filter(o->{
-            var doc=documents.get(o.sourceId());String haystack=normalize(o.name()+" "+(doc==null?"":String.join(" ",doc.aliases())));
-            return Arrays.stream(terms).allMatch(haystack::contains);
-        }).sorted(Comparator.comparing(Option::name).thenComparing(Option::key))
+        return options.stream().filter(o->o.kind()==kind).filter(o->Arrays.stream(terms).allMatch(searchText.get(o.key())::contains))
+                .sorted(Comparator.comparing(Option::name).thenComparing(Option::key))
                 .map(o->new Choice(o,sources.get(o.sourceId()),availability(o.sourceId()))).toList();
     }
     public Optional<Choice> resolve(CharacterBook.Entry entry) {
@@ -136,7 +138,11 @@ public final class CharacterLore {
                 var evidence=rule.sources().stream().map(sources::get).toList();
                 if(rule.sources().stream().anyMatch(s->availability(s)!=Availability.AVAILABLE))continue;
                 if(rule.type()==Type.BRANCH_EXCLUSION&&!(Set.of("sun","moon").contains(path(a.branch()))&&Set.of("sun","moon").contains(path(b.branch()))&&!path(a.branch()).equals(path(b.branch()))))continue;
-                covered=true;Outcome outcome=rule.type()==Type.SOURCE_CONFLICT?Outcome.SOURCE_CONFLICT:Outcome.EXCLUSION;
+                covered=true;Outcome outcome=switch(rule.type()) {
+                    case SOURCE_CONFLICT -> Outcome.SOURCE_CONFLICT;
+                    case CONDITIONAL_NOTICE -> Outcome.REQUIREMENTS;
+                    default -> Outcome.EXCLUSION;
+                };
                 findings.add(new Finding(outcome,a.name()+" + "+b.name()+": "+rule.summary(),evidence));
             }
             if(covered)checked++;
@@ -145,6 +151,6 @@ public final class CharacterLore {
         findings.sort(Comparator.comparing(Finding::outcome));
         return new Report(findings,checked,total,unresolved);
     }
-    private static String normalize(String text){return Normalizer.normalize(text,Normalizer.Form.NFKC).toLowerCase(Locale.ROOT).replaceAll("[\\s\\p{Z}]+"," ").strip();}
+    private static String normalize(String text){return Normalizer.normalize(text,Normalizer.Form.NFKC).toLowerCase(Locale.ROOT).replace('\u2019','\'').replace('\u2018','\'').replaceAll("[\\s\\p{Z}]+"," ").strip();}
     private static String path(String value){return normalize(value).replaceFirst("^(?:path of (?:the )?|(?:the )?path of )","");}
 }

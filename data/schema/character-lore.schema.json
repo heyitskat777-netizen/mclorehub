@@ -138,7 +138,8 @@
             "enum": [
               "EXCLUSION",
               "SOURCE_CONFLICT",
-              "BRANCH_EXCLUSION"
+              "BRANCH_EXCLUSION",
+              "CONDITIONAL_NOTICE"
             ]
           },
           "left": {

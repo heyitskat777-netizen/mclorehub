@@ -45,9 +45,11 @@ library on its file worker. The picker filters explicit kinds and links stable
 document IDs. `LibraryService.assess` evaluates an immutable sheet on that worker;
 screens consume futures and invalidate by library/character generations. Rules
 bind main-post body/metadata and quoted evidence, excluding archived replies and
-refresh timestamps. Four initial checks distinguish exclusions from source
-disagreements and keep unknown coverage visible. No positive compatibility or
-full eligibility engine is implied. See PHASE_8.md for the initial scope.
+refresh timestamps. Phase 9's 26 rules distinguish exclusions, source disagreements
+and conditional requirements, with independent source dependencies. Picker search
+also projects source titles/family/category and apostrophe variants. Keep unknown
+coverage visible; no positive compatibility or full eligibility engine is implied.
+See PHASE_9.md for current scope.
 
 Per-topic activation validates a snapshot, prepares the catalogue/search/character
 projection, then atomically switches the pointer and publishes the prepared library.
