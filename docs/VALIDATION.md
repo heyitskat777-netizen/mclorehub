@@ -1,5 +1,14 @@
 # Validation
 
+Release 1.0.2 additionally requires `READING_POLISH_SCENARIO_PASS` on exact Loader
+0.19.5: delayed per-character typing, caret insertion and selection retention across
+async search/reload, explicit category navigation, wheel traversal across old chunk
+boundaries and reverse, scrollbar click/drag, true Home/End, center/left toggle,
+resize/end pinning and source-offset restart. The expanded real-corpus scenario
+also types Klones in the CA picker, selects the Tawkin-linked option and saves it
+as a separate CA. Inspect fresh result/category/Tawkin/CA/reader screenshots. There
+are 72 curated references now, from the same 67 sources; no private corpus is bundled.
+
 Release 1.0.0 adds pack import/comparison, slot arithmetic and prerequisite behavior
 and failure tests. Run the normal full build plus native tests with all three private
 variables: MCLOREHUB_TEST_PACK, MCLOREHUB_TEST_TRUST and MCLOREHUB_TEST_EXPORT. Require

@@ -29,6 +29,16 @@ class LoreSearchTest {
         assertEquals(1,index.search(new LoreSearch.Query("","",false,true,favorites,0,10)).total());
         assertEquals(2,index.search(new LoreSearch.Query("","",true,true,favorites,0,10)).total());}
     @Test void categoryListIsSortedAndImmutable(){assertEquals(List.of("feat","magic"),index.categories(false));assertThrows(UnsupportedOperationException.class,()->index.categories(true).add("x"));}
+    @Test void alphabeticalResultsIgnoreForumPrefixesWhileRetainingOriginalTitles()throws Exception {
+        var catalogue=LibraryFixtures.catalogue(temp.resolve("sorting"));var replacements=new HashMap<String,net.mclorehub.catalogue.LoreCatalogue.Document>();
+        for(var d:catalogue.documents())if(d.id().equals("lotc:topic:101")||d.id().equals("lotc:topic:102")){
+            String title=d.id().endsWith("101")?"[✓] [CA] Zebra needle":"[Magic Lore] Alpha needle";
+            replacements.put(d.id(),new net.mclorehub.catalogue.LoreCatalogue.Document(d.id(),title,d.url(),d.author(),d.exportSnapshotAt(),d.body(),d.revision(),d.fingerprint(),d.family(),d.category(),d.aliases(),d.role(),d.status(),d.reviewState(),d.decision(),d.posts(),d.coverageGaps(),d.trust()));
+        }
+        var page=new LoreSearch(catalogue.replace(replacements)).search(new LoreSearch.Query("needle","",false,false,Set.of(),0,10));
+        assertEquals(List.of("lotc:topic:102","lotc:topic:101"),page.hits().stream().map(h->h.document().id()).toList());
+        assertEquals("[✓] [CA] Zebra needle",page.hits().getLast().document().title());
+    }
     @Test void resultsAreImmutable(){assertThrows(UnsupportedOperationException.class,()->search("",true).hits().clear());}
     @Test void invalidBoundsFail(){assertThrows(IllegalArgumentException.class,()->new LoreSearch.Query("x".repeat(257),"",false,false,Set.of(),0,10));
         assertThrows(IllegalArgumentException.class,()->new LoreSearch.Query("","",false,false,Set.of(),-1,10));

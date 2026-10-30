@@ -2,7 +2,7 @@
 
 Personal-use **Minecraft 1.21.11 Fabric** wiki mod, developed in tested phases.
 
-**1.0.1** supports **Fabric Loader 0.19.5+** on Minecraft 1.21.11 and provides
+**1.0.2** supports **Fabric Loader 0.19.5+** on Minecraft 1.21.11 and provides
 offline main-lore search, favorites, reading resume, character
 sheets, monthly page updates and manual refresh/Undo. Database import now runs in
 Minecraft with previews, readable comparisons and whole-database Undo. Reports also
@@ -10,7 +10,7 @@ include complete previous/current main text in bounded sections; replies stay in
 an explicit archive.
 
 The supplied 488-reference database is trusted by the user's confirmation. Character
-selection includes 71 references, 178 relationship rules, seven fact/history checks,
+selection includes 72 references (including the Klone CA), 178 relationship rules, seven fact/history checks,
 14 prerequisite policies and 48 slot policies. Known facts, history, optional slot
 allocations, permanent loss and special allowances retain citations and explicit
 unknowns/source disagreements. No server approval is fabricated.
@@ -19,9 +19,13 @@ Start with [installation](docs/INSTALL.md), the [release guide](docs/RELEASE_1_0
 and [character coverage](docs/CHARACTER_LORE_COVERAGE.md). Java 21, Minecraft 1.21.11,
 Fabric Loader and Fabric API are required. No server component or AI service is needed.
 
-[Download MCLoreHub 1.0.1](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.0.1.jar).
+[Download MCLoreHub 1.0.2](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.0.2.jar).
 Requires Loader 0.19.5+, API 0.141.6+1.21.11 and Java 21. Import your original
 LoreDB ZIP in-game; the private database is supplied separately.
+
+Search retains the caret while results arrive. Browse named categories with counts
+and separated result cards; lore pages use centered, paragraph-spaced text and one
+continuous scroll with a scrollbar, Top/Bottom and an optional left-alignment toggle.
 
 **Recovery note:** this environment reset to an empty checkout on October 28.
 Source was reconstructed from the recorded implementation and the original ZIP

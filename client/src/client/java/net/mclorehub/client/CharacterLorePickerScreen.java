@@ -12,6 +12,7 @@ import java.util.function.Consumer;
 /** Only deliberately curated, revision-matching options. Manual entries remain available. */
 final class CharacterLorePickerScreen extends Screen {
     private final Screen parent;private final LibraryService library;private final CharacterBook.Kind kind;
+    private EditBox search;private Button previous,next;private final List<AbstractWidget> rows=new ArrayList<>();
     private final Consumer<CharacterLore.Choice> selected;private String query="",error="";private int page;private long generation=-1;
     CharacterLorePickerScreen(Screen parent,LibraryService library,CharacterBook.Kind kind,Consumer<CharacterLore.Choice> selected){
         super(Component.literal("Choose "+kind.name().toLowerCase(Locale.ROOT)+" lore"));this.parent=parent;this.library=library;this.kind=kind;this.selected=selected;
@@ -20,25 +21,33 @@ final class CharacterLorePickerScreen extends Screen {
     private List<CharacterLore.Choice> choices(){return library.view().library().map(l->l.characterLore().choices(kind,query)).orElse(List.of());}
     private Button button(String text,int x,int y,int w,Button.OnPress action){return addRenderableWidget(Button.builder(Component.literal(text),action).bounds(x,y,w,20).build());}
     @Override protected void init(){
-        var search=addRenderableWidget(new EditBox(font,16,34,width-32,20,Component.literal("Search lore options")));search.setMaxLength(128);search.setValue(query);
-        search.setResponder(v->{query=v;page=0;rebuildWidgets();setFocused(children().stream().filter(EditBox.class::isInstance).findFirst().orElse(null));});
+        if(search==null){
+            search=new EditBox(font,16,34,width-32,20,Component.literal("Search lore options"));search.setMaxLength(128);search.setHint(Component.literal("Search lore options"));search.setValue(query);
+            search.setResponder(v->{query=v;page=0;refreshRows();});
+        }
+        search.setWidth(width-32);addRenderableWidget(search);
+        previous=button("Previous",16,height-54,80,b->{page--;refreshRows();});
+        next=button("Next",width-96,height-54,80,b->{page++;refreshRows();});
+        button("Back",(width-120)/2,height-28,120,b->onClose());refreshRows();
+    }
+    @Override protected void setInitialFocus(){setInitialFocus(search);}
+    private void refreshRows(){
+        rows.forEach(this::removeWidget);rows.clear();
         var list=choices();page=Math.min(page,Math.max(0,(list.size()-1)/size()));
         for(int i=page*size();i<Math.min(list.size(),(page+1)*size());i++){
             var choice=list.get(i);int y=86+(i-page*size())*40;
             var choose=button(choice.option().name(),16,y,width-120,b->{
                 var fresh=choices().stream().filter(c->c.option().key().equals(choice.option().key())).findFirst();
                 if(fresh.isPresent()&&fresh.get().availability()==CharacterLore.Availability.AVAILABLE){selected.accept(fresh.get());minecraft.setScreen(parent);}
-                else {error="This lore changed or is unavailable; use a manual entry.";rebuildWidgets();}
-            });choose.active=choice.availability()==CharacterLore.Availability.AVAILABLE;choose.setTooltip(Tooltip.create(Component.literal(choice.option().notes())));
-            button("Read lore",width-100,y,84,b->library.view().library().flatMap(l->l.characterLore().document(choice.option().sourceId()))
-                    .ifPresent(d->minecraft.setScreen(new ReaderScreen(this,library,d,!net.mclorehub.catalogue.LoreCatalogue.isCurrent(d),false))))
-                    .active=library.view().library().flatMap(l->l.characterLore().document(choice.option().sourceId())).isPresent();
+                else {error="This lore changed or is unavailable; use a manual entry.";refreshRows();}
+            });rows.add(choose);choose.active=choice.availability()==CharacterLore.Availability.AVAILABLE;choose.setTooltip(Tooltip.create(Component.literal(choice.option().notes())));
+            var read=button("Read lore",width-100,y,84,b->library.view().library().flatMap(l->l.characterLore().document(choice.option().sourceId()))
+                    .ifPresent(d->minecraft.setScreen(new ReaderScreen(this,library,d,!net.mclorehub.catalogue.LoreCatalogue.isCurrent(d),false))));
+            read.active=library.view().library().flatMap(l->l.characterLore().document(choice.option().sourceId())).isPresent();rows.add(read);
         }
-        button("Previous",16,height-54,80,b->{page--;rebuildWidgets();}).active=page>0;
-        button("Next",width-96,height-54,80,b->{page++;rebuildWidgets();}).active=(page+1)*size()<list.size();
-        button("Back",(width-120)/2,height-28,120,b->onClose());setInitialFocus(search);
+        previous.active=page>0;next.active=(page+1)*size()<list.size();
     }
-    @Override public void tick(){if(generation!=library.view().generation()){generation=library.view().generation();rebuildWidgets();}}
+    @Override public void tick(){if(generation!=library.view().generation()){generation=library.view().generation();refreshRows();}}
     @Override public void render(GuiGraphics g,int x,int y,float delta){
         g.drawCenteredString(font,title,width/2,10,0xFFFFFFFF);
         g.drawCenteredString(font,font.plainSubstrByWidth(error.isEmpty()?"Limited curated list • Manual entry remains available":error,width-32),width/2,65,0xFFFFC477);

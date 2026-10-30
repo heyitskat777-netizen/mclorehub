@@ -54,7 +54,7 @@ public final class LoreSearch {
                     : terms.stream().allMatch(t -> e.title().contains(t) || aliases.contains(t)) ? 4 : 5;
             found.add(new Ranked(e, rank));
         }
-        found.sort(Comparator.comparingInt(Ranked::rank).thenComparing(r -> r.entry().title()).thenComparing(r -> r.entry().document().id()));
+        found.sort(Comparator.comparingInt(Ranked::rank).thenComparing(r -> normalize(BrowseLabels.title(r.entry().document().title()))).thenComparing(r -> r.entry().document().id()));
         int start = Math.min(query.offset(), found.size());
         List<Hit> hits = new ArrayList<>();
         for (Ranked r : found.subList(start, Math.min(start + query.limit(), found.size()))) {

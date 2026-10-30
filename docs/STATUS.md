@@ -1,6 +1,56 @@
 # Current status
 
-## Latest checkpoint — Release 1.0.1 / Fabric Loader 0.19.5
+## Latest checkpoint — Release 1.0.2 / search and reading fixes
+
+User testing found the wiki search caret/focus resetting during typing. The search
+editor now stays intact while async results/generations replace only result rows;
+the same fix covers the character lore picker. Slow typing, insertion in the middle
+of a query and a selected substring through reload are verified in Minecraft.
+
+Category cycling is replaced by an explicit named chooser with counts. Results
+use separated title/category/status/snippet cards and alphabetical names independent
+of forum prefixes. Original source titles and IDs are retained. Lore pages now
+scroll continuously through the whole main document with wheel/Page controls,
+true Home/End, Top/Bottom and a draggable scrollbar. Default text is centered in a
+bounded column, with paragraph spacing and optional left alignment. Source bytes,
+fingerprints and reading anchors remain intact. Image placeholders/spoiler controls
+receive display-only cleanup. Font layout is lazy with a bounded 16-chunk cache.
+Resize retains the source anchor and keeps an end-pinned reader at the bottom.
+
+**Klone** is now an explicit **CA** choice, separate from the **Tawkin FA**.
+The stored Tawkin main post explicitly requires a Creature Application; selected
+CA/deific restriction passages are bound to that source. The real-corpus test
+types Klones, selects the CA, saves it and verifies persistence. Selection does
+not silently update Known facts or claim approval. Coverage is **72 choices from
+67 sources** (30 MAGIC, 21 FA, 21 CA), with the same 178 relationship rules.
+
+Final normal build/install passed. **294 core tests passed**, zero failures/errors/
+skips, and the native Minecraft runner exited 0 with all **12 markers**, including
+`READING_POLISH_SCENARIO_PASS`. Exact Minecraft **1.21.11**, **Loader 0.19.5**, Java
+21 and Fabric API 0.141.6+1.21.11 remain pinned; no dependency/verification changes.
+All previous corpus/import/character/refresh/monthly/session/migration scenarios
+also passed. Fresh search/category/Klone/Tawkin/continuous-reader screenshots were
+inspected at scales 1/2. The initial regression scrolled only to source offset 5,991;
+the corrected distance crosses 6,000 and tests the actual boundary in both directions.
+The resize/end-pinning behavior was fixed before the final successful run.
+
+Final logs: `/tmp/mclorehub-1.0.2-build-final.log` and
+`/tmp/mclorehub-1.0.2-client-final.log`. Evidence copies/screenshots are under ignored
+`local-data/verification/release-1.0.2-evidence/`. Acceptance is native clean Fabric
+with Mesa/software rendering. Real authenticated MArt access remains excluded;
+an external user modpack/hardware and live forum fetching were not tested here.
+
+Production JAR: `client/build/libs/mclorehub-1.0.2.jar`, **856,309 bytes**, SHA-256
+`28d8c6f6b6f9f01fddb6df1e35c6876b07fff0034a4a4e15ffccbd219347088b`.
+Privacy/metadata checks include nested dependencies and source archives. Source
+backups and verified remote/download identities:
+`/workspace/mclorehub-1.0.2-backup.json`.
+[Direct download](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.0.2.jar).
+Replace the old JAR and keep existing database/personal files. New installs import
+the original LoreDB ZIP as before. No database/player/session data is published;
+environment publication remains deferred and no environment settings changed.
+
+## Previous checkpoint — Release 1.0.1 / Fabric Loader 0.19.5
 
 The user requested compatibility with Fabric Loader **0.19.5**. Version **1.0.1**
 builds against exactly that loader and lowers the production metadata minimum to

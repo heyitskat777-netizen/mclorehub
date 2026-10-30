@@ -13,7 +13,13 @@ confirms all lore in the supplied database is accepted/accurate. Its matching
 fingerprint-bound `trust.json` makes all 488 references available normally without
 per-record acceptance reviews. This is user confirmation, not invented staff
 citations. Roles/eligibility/ownership remain separate. Rich formatting is dropped;
-plain text is sufficient. Updates are manual and per document: open Tawkin (for
+plain text is sufficient. Later 1.0.2 feedback requires basic presentation:
+paragraph spacing, centered text by default and continuous scrolling through the
+whole lore document. Search must retain focus/caret/selection while results change;
+use an explicit category chooser and separated result cards. Klones are a CA choice
+under Tawkin's Reincarnation source, distinct from the Tawkin alchemic feat. These
+display/reference fixes do not rewrite the original database or infer current facts.
+Updates are manual and per document: open Tawkin (for
 example), Refresh topic, fetch that topic's pages/replies and save its changes.
 Latest update: normal reading/search and update comparisons use the main lore post
 only. Previously captured discussion is an explicit archive. Check every saved

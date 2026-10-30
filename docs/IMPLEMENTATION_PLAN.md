@@ -1,5 +1,12 @@
 # Ordered creation plan
 
+Post-release 1.0.2 addresses user testing: retain the search editor through async
+results, slow typing and mid-query edits; replace category cycling with explicit
+navigation/result cards; center/space plain text and scroll continuously across
+bounded cached layouts; add the source-backed Klone CA reference. Regress search
+selection/reload, wheel boundaries/reverse, Home/End, resize and restart in actual
+Loader 0.19.5 Minecraft, then verify the updated direct download and private exclusions.
+
 Post-release 1.0.1 targets the user's Fabric Loader 0.19.5 installation: lower the
 build/metadata minimum together, verify the new pinned artifacts, run actual client
 acceptance on exactly 0.19.5, preserve existing data and publish a direct JAR download.

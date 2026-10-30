@@ -33,6 +33,10 @@
   new acceptance audit for its 488 records. Keep later explicit status overrides.
 - Plain text is sufficient; richer formatting is out of scope per the latest user
   instruction. Preserve text/paragraphs, without inventing absent source content.
+  The 1.0.2 feedback explicitly requests basic presentation: paragraph spacing,
+  centered text by default and continuous full-document scrolling. Keep source
+  offsets for resume and bound font layout with lazy caching; never rebuild a
+  search EditBox when results arrive or on each typed character.
 - Local character sheets: multiple characters, magic/branch/tier, applicable CA/FA,
   optional application links and user-recorded approval, notes, sourced conflicts.
 - CA = Creature Application; FA = Feat Application. CArt and MArt are artifact

@@ -49,7 +49,7 @@ public final class LibraryClientGameTest implements FabricClientGameTest {
             context.waitFor(c->c.screen.getNarrationMessage().getString().contains("starlight"));
             context.runOnClient(c->check(first.view().personal().reading().orElseThrow().blockId().equals("body"),"Archived discussion replaced main reading position"));
             context.takeScreenshot("phase7-archived-reader");context.clickScreenButton("gui.back");context.clickScreenButton("gui.back");
-            context.clickScreenButton("screen.mclorehub.next");context.getInput().pressKey(GLFW.GLFW_KEY_END);
+            context.getInput().pressKey(GLFW.GLFW_KEY_END);
             context.waitFor(c->first.view().personal().reading().map(p->p.offset()>6000).orElse(false));
             context.clickScreenButton("gui.back");context.waitForScreen(WikiScreen.class);
             context.clickScreenButton("screen.mclorehub.favorites_off");context.waitFor(c->c.screen.getNarrationMessage().getString().contains("1 results"));
@@ -60,7 +60,7 @@ public final class LibraryClientGameTest implements FabricClientGameTest {
             context.takeScreenshot("phase4-audit-reader");context.clickScreenButton("gui.back");context.waitForScreen(WikiScreen.class);
             context.runOnClient(c->edit(c.screen).setValue("reference alias"));context.waitFor(c->has(c.screen,TITLE));context.clickScreenButton(TITLE);
             context.waitFor(c->c.screen.getNarrationMessage().getString().contains("Line 0"));
-            context.clickScreenButton("screen.mclorehub.next");context.getInput().pressKey(GLFW.GLFW_KEY_END);
+            context.getInput().pressKey(GLFW.GLFW_KEY_END);
             context.waitFor(c->first.view().personal().reading().map(p->p.offset()>6000).orElse(false));
             context.setScreen(TitleScreen::new);first.close();
             library=new LibraryService(root);final LibraryService restarted=library;restarted.reload().get(10,TimeUnit.SECONDS);

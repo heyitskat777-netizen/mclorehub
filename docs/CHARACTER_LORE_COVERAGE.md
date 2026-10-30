@@ -1,7 +1,7 @@
 # Character reference and rule coverage — 1.0.0
 
-The picker contains **71 references from 67 main sources**: 30 MAGIC, 21 FA and
-20 CA entries. The wiki contains the supplied 488 references. Selection kinds
+The picker contains **72 references from 67 main sources**: 30 MAGIC, 21 FA and
+21 CA entries. The wiki contains the supplied 488 references. Selection kinds
 organize the sheet; they do not certify an application, independent MA, ownership
 or eligibility. Main text is from the user-confirmed September 2026 snapshot.
 
@@ -21,6 +21,7 @@ to stored sources, not a claim of live verification.
 | CA | Hou-Zi | Body/capacity handled separately | [234971](https://www.lordofthecraft.net/forums/topic/234971-ca-the-remnant-hou-zi/) |
 | CA | Inferi (compendium reference) | Body/capacity handled separately | [238390](https://www.lordofthecraft.net/forums/topic/238390-%E2%9C%93-ca-creature-lore-the-infernal-compendium/) |
 | CA | Kharajyr | Body/capacity handled separately | [197080](https://www.lordofthecraft.net/forums/topic/197080-%E2%9C%93-ca-race-lore-the-remnant-kha-updated/) |
+| CA | Klone | Body/capacity handled separately; Tawkin Reincarnation requires a CA | [198584](https://www.lordofthecraft.net/forums/topic/198584-%E2%9C%93-alchemic-lore-tawkin-%E2%80%94-take-ii/) |
 | CA | Lycanthropy | Body/capacity handled separately | [238654](https://www.lordofthecraft.net/forums/topic/238654-%E2%9C%93-playable-ca-lore-lycanthropy-the-cursed-man/) |
 | CA | Mori'Quessir | Body/capacity handled separately | [265262](https://www.lordofthecraft.net/forums/topic/265262-%E2%9C%93-ca-moriquessir-children-of-nemiisae/) |
 | CA | Musin | Body/capacity handled separately | [200075](https://www.lordofthecraft.net/forums/topic/200075-%E2%9C%93-ca-race-lore-musin-the-mousemen-of-almaris/) |

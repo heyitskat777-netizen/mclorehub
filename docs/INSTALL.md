@@ -1,10 +1,10 @@
-# Personal installation — 1.0.1
+# Personal installation — 1.0.2
 
-[Direct mod JAR download](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.0.1.jar).
+[Direct mod JAR download](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.0.2.jar).
 
 1. Use **Minecraft 1.21.11**, Java 21, Fabric Loader 0.19.5 or later and Fabric API
    0.141.6+1.21.11 (the tested combination). This mod is client-only.
-2. Put **mclorehub-1.0.1.jar** from `client/build/libs/` in the instance's `mods/`.
+2. Put **mclorehub-1.0.2.jar** from `client/build/libs/` in the instance's `mods/`.
    Remove older MCLoreHub JARs. The core and Jsoup are included; do not install the
    source JAR or developer importer distribution as a mod.
 3. Enter a world and press **K**, configurable in Controls. Choose **Database**,
@@ -29,8 +29,18 @@ for further replacements; the selected revisions live under `packs/revisions/`.
 
 ## Reading and updates
 
-Search titles/aliases/main text, filter categories/favorites and open a result.
-Wheel/arrows/Page Up/Down/Home/End scroll; Previous/Next change source sections.
+Search titles/aliases/main text, choose a named category with counts, filter favorites
+and open a result card. Results are alphabetized by their names rather than forum
+prefix tags; the original titles remain visible. Typing and cursor/selection edits
+stay focused while results arrive, including in the character lore picker.
+
+Lore uses one continuous scroll through the whole document. Wheel/arrows/Page
+Up/Down cross internal boundaries automatically; Home/End and Top/Bottom reach the
+true beginning/end. Drag or click the right-hand scrollbar to seek. Text is centered
+in a bounded column with space between source paragraphs; **Text: centered** toggles
+left alignment. Source bytes/offsets remain intact, so old reading positions work.
+Image placeholders show a short source-view notice instead of unreadable identifiers.
+Forum spoiler control labels are hidden; the original saved source remains intact.
 Back/Escape returns, Resume reading or K restores the last available main document
 and position. Audit includes other/unconfirmed statuses. Archived replies are
 explicitly separate and do not replace the main reading position.
@@ -55,6 +65,9 @@ excluded from this release's acceptance testing as requested.
 Characters support magic/CA/FA references, branches/tiers, application links and
 user-recorded status, rename, archive/restore, notes, Known facts and independent
 History. Choose lore uses the expanded [coverage directory](CHARACTER_LORE_COVERAGE.md).
+The **Klone** CA is a separate choice from the **Tawkin** FA, linked to Tawkin's
+Kloning/Reincarnation section. Search either Klone or Klones. Choosing it does not
+automatically set Known facts or verify a CA approval.
 Facts and history never silently infer current identity or server approval.
 Compatibility shows cited exclusions, conditions, missing prerequisites and source
 conflicts. Missing information is not an automatic denial or a compatibility certificate.

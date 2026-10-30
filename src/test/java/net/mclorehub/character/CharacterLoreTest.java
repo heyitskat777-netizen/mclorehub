@@ -35,10 +35,21 @@ class CharacterLoreTest {
     Document change(Document d,String body,String fingerprint,Status status,Role role){return new Document(d.id(),d.title(),d.url(),d.author(),d.exportSnapshotAt(),body,hash(body),fingerprint,d.family(),d.category(),d.aliases(),role,status,d.reviewState(),d.decision(),d.posts(),d.coverageGaps(),d.trust());}
     CharacterLore changed(String id,UnaryOperator<Document> change)throws Exception{return CharacterLore.parse(manifest,docs.stream().map(d->d.id().equals(id)?change.apply(d):d).toList());}
     @Test void curatedKindsAreExplicitAndOnlySelectedTopicsAreOffered(){
-        assertEquals(30,lore.choices(CharacterBook.Kind.MAGIC,"").size());assertEquals(21,lore.choices(CharacterBook.Kind.FA,"").size());assertEquals(20,lore.choices(CharacterBook.Kind.CA,"").size());
+        assertEquals(30,lore.choices(CharacterBook.Kind.MAGIC,"").size());assertEquals(21,lore.choices(CharacterBook.Kind.FA,"").size());assertEquals(21,lore.choices(CharacterBook.Kind.CA,"").size());
         assertTrue(Arrays.stream(CharacterBook.Kind.values()).flatMap(k->lore.choices(k,"").stream()).allMatch(c->c.availability()==Availability.AVAILABLE));
     }
     @Test void searchUsesUnicodeCaseAliasesAndAllTerms(){assertEquals(1,lore.choices(CharacterBook.Kind.MAGIC,"ＲＡＤＩＡＮＴ　templar").size());assertEquals(30,lore.choices(CharacterBook.Kind.MAGIC,"test alias").size());assertTrue(lore.choices(CharacterBook.Kind.CA,"artifact").isEmpty());}
+    @Test void kloneCaIsSeparateFromTawkinFeatAndSuspendsWithItsOwnSource()throws Exception {
+        var choice=lore.choices(CharacterBook.Kind.CA,"Klones").getFirst();assertEquals("klone",choice.option().key());
+        assertEquals("lotc:topic:198584",choice.option().sourceId());assertEquals(Availability.AVAILABLE,choice.availability());
+        assertTrue(choice.source().passages().stream().anyMatch(p->p.contains("Klones require a valid Creature Application")));
+        var ca=entry("klone");var feat=entry("tawkin");assertEquals(CharacterBook.Kind.CA,ca.kind());assertEquals(CharacterBook.Kind.FA,feat.kind());
+        assertEquals(ca.loreDocumentId(),feat.loreDocumentId());assertEquals(-1,lore.slotCost(ca).maximum());
+        assertEquals(0,lore.slots(sheet(ca)).minimum());
+        var stale=changed(ca.loreDocumentId(),d->change(d,d.body()+" changed",hash("changed"),d.status(),d.role()));
+        assertEquals(Availability.NEEDS_REVIEW,stale.choices(CharacterBook.Kind.CA,"Klones").getFirst().availability());
+        assertEquals(Availability.AVAILABLE,stale.choices(CharacterBook.Kind.MAGIC,"Kani").getFirst().availability());
+    }
     @Test void necromancyTemplarConflictIsSymmetricAndCited()throws Exception {
         var a=entry("necromancy");var b=entry("templar");var r=lore.assess(sheet(a,b));var reversed=lore.assess(sheet(b,a));
         assertEquals(1,count(r,Outcome.EXCLUSION));assertEquals(1,count(reversed,Outcome.EXCLUSION));assertEquals(1,r.checkedPairs());

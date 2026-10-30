@@ -58,7 +58,7 @@ public final class CharacterLore {
         Map<String,Document> byId=new HashMap<>();documents.forEach(d->byId.put(d.id(),d));this.documents=Map.copyOf(byId);
         Map<String,Availability> checked=new HashMap<>();sources.keySet().forEach(id->checked.put(id,checkAvailability(id)));availability=Map.copyOf(checked);
         Map<String,String> searchable=new HashMap<>();for(var option:options){var doc=byId.get(option.sourceId());
-            searchable.put(option.key(),normalize(option.name()+" "+(doc==null?"":doc.title()+" "+doc.family()+" "+doc.category()+" "+String.join(" ",doc.aliases()))));}
+            searchable.put(option.key(),normalize(option.name()+" "+option.notes()+" "+(doc==null?"":doc.title()+" "+doc.family()+" "+doc.category()+" "+String.join(" ",doc.aliases()))));}
         searchText=Map.copyOf(searchable);
     }
     /** Called only on the library file worker, including after refresh and Undo. */

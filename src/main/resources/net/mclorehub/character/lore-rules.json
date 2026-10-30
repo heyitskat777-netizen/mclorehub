@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "curated_on": "2026-10-29",
+  "curated_on": "2026-10-30",
   "scope": "Complete character-reference inventory for the supplied snapshot core magic/feat/creature sources, with explicitly curated relationship rules, source excerpts and slot arithmetic. Shared variants and unresolved/uncovered conditions stay explicit; this is not a live ruling or blanket eligibility certificate.",
   "sources": [
     {
@@ -822,7 +822,9 @@
         "—Moulding an individual always requires OOC consent on the part of the recipient.",
         "The Tawkinist may manifest Alchemic Mutations within a living organism, endowing them with aesthetics and/or abilities which surpass their natural limit. The process demands the Tawkinist concoct the Transmutation Elixir and imbue it with the additional symbols required to manifest a particular mutation. The Tawkinist must then inject this alchemical solution into the bloodstream of the individual, or somehow manage to infuse them with it so that it bonds with them materially. In the event of a Greater Mutation, such may only be achieved in the event the host possesses a purely Alchemical Body [Homunculi + Klones]. Mutations fall into two distinct categories: Lesser and Greater.",
         "— Tawkin is an alchemic feat, which may only be practiced with a valid Tawkin Feat Application. It may be learned directly in-roleplay under any player who holds a valid TA, and may not be self-taught through any other means. In the event that the feat has died out, meaning there are no active users, then the ST may consult the loreholder and propose a means to revive it.",
-        "— Bolstered Strength causes its holders to continuously rasp and wheeze with each breath during combat. As a result, resonance from Kani is all-but incompatible."
+        "— Bolstered Strength causes its holders to continuously rasp and wheeze with each breath during combat. As a result, resonance from Kani is all-but incompatible.",
+        "— Klones require a valid Creature Application in order to be played. Should a Tawkinist attempt to have their Klone’s appearance be the same as another Player, they must receive OOC consent from said Player.",
+        "— Klones work near identically to that of normal descendant bodies, save for an adverse interaction with Aurum and Deific Magics. Given their profane nature, Aurum-inflicted wounds will render a searing and debilitating pain. Likewise, given a Klone's ability to cheat the Soul-Stream, those holding a Klone CA are incapable of holding a Deific Connection unless specifically specified."
       ],
       "main_fingerprint": "49f7c4a7bdfd8b322621d23ca0c7b9e29b98ba5b2ae3dbd4972046ce962141e9"
     },
@@ -1523,6 +1525,13 @@
       "kind": "CA",
       "source_id": "lotc:topic:187759",
       "notes": "Creature reference; refine the displayed name/notes for the exact form. Shared-source variants are not collapsed into one eligibility ruling. Applications, soul changes and creature-specific allowances need the cited main lore; selection does not confer ownership, crafting rights or approval."
+    },
+    {
+      "key": "klone",
+      "name": "Klone",
+      "kind": "CA",
+      "source_id": "lotc:topic:198584",
+      "notes": "Klones require a valid Creature Application under Tawkin Reincarnation. This is a body/CA reference, separate from learning the Tawkin alchemic feat. Read Kloning, mutation, death/PK and deific-connection restrictions in the source. Set Known facts explicitly; choosing this reference does not silently change body facts or verify approval."
     }
   ],
   "rules": [

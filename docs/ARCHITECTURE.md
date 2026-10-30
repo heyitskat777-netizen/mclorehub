@@ -1,5 +1,27 @@
 # Architecture
 
+## Release 1.0.2 presentation fixes
+
+Wiki/character searches keep their EditBox instances and only replace result rows.
+Async result/generation updates never rebuild the editor or reset its focus, caret
+or selection. Named category navigation exposes counts; result cards separate title,
+category/status and clipped snippet. Alphabetic ordering ignores forum title prefixes
+while retaining original source titles and IDs.
+
+The lore reader presents a continuous viewport over immutable 6,000-character
+source chunks. Font wrapping is lazy with a 16-chunk LRU cache; wheel/Page movement
+crosses chunks in either direction, and Home/End/scrollbar seek the whole document.
+Hard paragraph boundaries gain display spacing; default text is centered in a
+bounded column with optional left alignment. Display-only image/spoiler cleanup
+does not alter saved source text, fingerprints, comparisons or source-offset resume.
+Resize retains the source anchor and keeps an end-pinned viewport at the bottom.
+Details/discussion remain separate from main reading state; comparison reports
+retain their own explicit report pagination.
+
+Klone is a CA option from the Tawkin source, separate from its FA practice. The
+manifest quotes its explicit CA requirement. Shared source updates suspend both
+linked options/checks without changing player facts, application approval or entries.
+
 ## Release 1.0.0
 
 `PackImport` reads bounded original or normalized ZIP/JSON inputs without extracting
