@@ -2,20 +2,21 @@
 
 Personal-use **Minecraft 1.21.11 Fabric** wiki mod, developed in tested phases.
 
-The core imports the attached LoTC database, preserves source evidence, and now
-provides a validated catalogue with separate acceptance reviews. The Fabric client
-loads local packs asynchronously and supports current/audit browsing, title/alias/
-main-text search, categories, a plain-text reader, favorites and reading resume.
-Local character sheets support magic branch/tier, separate CA/FA entries, links,
-user-recorded statuses, notes and archive/restore. The supplied database is trusted
-using the user's confirmation. Main-post refresh compares saved lore with the
-forum, saves changes persistently and supports Undo. Monthly automatic checks,
-pause controls and optional explicitly imported forum sessions are available.
-A curated character lore picker and initial cited compatibility checks are available.
-Coverage now includes 23 choices and 26 rules; unassessed combinations, conditional
-provisions and conflicting source statements remain explicit. See Phase 9 for scope.
-Known facts and acquisition history add seven source-bound prerequisite/history
-checks with safe migration of older sheets; see Phase 10.
+**1.0.0** provides offline main-lore search, favorites, reading resume, character
+sheets, monthly page updates and manual refresh/Undo. Database import now runs in
+Minecraft with previews, readable comparisons and whole-database Undo. Reports also
+include complete previous/current main text in bounded sections; replies stay in
+an explicit archive.
+
+The supplied 488-reference database is trusted by the user's confirmation. Character
+selection includes 71 references, 178 relationship rules, seven fact/history checks,
+14 prerequisite policies and 48 slot policies. Known facts, history, optional slot
+allocations, permanent loss and special allowances retain citations and explicit
+unknowns/source disagreements. No server approval is fabricated.
+
+Start with [installation](docs/INSTALL.md), the [release guide](docs/RELEASE_1_0.md)
+and [character coverage](docs/CHARACTER_LORE_COVERAGE.md). Java 21, Minecraft 1.21.11,
+Fabric Loader and Fabric API are required. No server component or AI service is needed.
 
 **Recovery note:** this environment reset to an empty checkout on October 28.
 Source was reconstructed from the recorded implementation and the original ZIP
@@ -26,6 +27,7 @@ report for the exact distinction, limits and persistence steps.
 
 ## Guides
 
+- [Release 1.0.0 workflow and acceptance](docs/RELEASE_1_0.md)
 - [Agent instructions](AGENTS.md)
 - [Current status and test results](docs/STATUS.md)
 - [Confirmed requirements and decisions](docs/DECISIONS.md)

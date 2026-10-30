@@ -35,10 +35,10 @@ class CharacterLoreTest {
     Document change(Document d,String body,String fingerprint,Status status,Role role){return new Document(d.id(),d.title(),d.url(),d.author(),d.exportSnapshotAt(),body,hash(body),fingerprint,d.family(),d.category(),d.aliases(),role,status,d.reviewState(),d.decision(),d.posts(),d.coverageGaps(),d.trust());}
     CharacterLore changed(String id,UnaryOperator<Document> change)throws Exception{return CharacterLore.parse(manifest,docs.stream().map(d->d.id().equals(id)?change.apply(d):d).toList());}
     @Test void curatedKindsAreExplicitAndOnlySelectedTopicsAreOffered(){
-        assertEquals(15,lore.choices(CharacterBook.Kind.MAGIC,"").size());assertEquals(4,lore.choices(CharacterBook.Kind.FA,"").size());assertEquals(4,lore.choices(CharacterBook.Kind.CA,"").size());
+        assertEquals(30,lore.choices(CharacterBook.Kind.MAGIC,"").size());assertEquals(21,lore.choices(CharacterBook.Kind.FA,"").size());assertEquals(20,lore.choices(CharacterBook.Kind.CA,"").size());
         assertTrue(Arrays.stream(CharacterBook.Kind.values()).flatMap(k->lore.choices(k,"").stream()).allMatch(c->c.availability()==Availability.AVAILABLE));
     }
-    @Test void searchUsesUnicodeCaseAliasesAndAllTerms(){assertEquals(1,lore.choices(CharacterBook.Kind.MAGIC,"ＲＡＤＩＡＮＴ　templar").size());assertEquals(15,lore.choices(CharacterBook.Kind.MAGIC,"test alias").size());assertTrue(lore.choices(CharacterBook.Kind.CA,"artifact").isEmpty());}
+    @Test void searchUsesUnicodeCaseAliasesAndAllTerms(){assertEquals(1,lore.choices(CharacterBook.Kind.MAGIC,"ＲＡＤＩＡＮＴ　templar").size());assertEquals(30,lore.choices(CharacterBook.Kind.MAGIC,"test alias").size());assertTrue(lore.choices(CharacterBook.Kind.CA,"artifact").isEmpty());}
     @Test void necromancyTemplarConflictIsSymmetricAndCited()throws Exception {
         var a=entry("necromancy");var b=entry("templar");var r=lore.assess(sheet(a,b));var reversed=lore.assess(sheet(b,a));
         assertEquals(1,count(r,Outcome.EXCLUSION));assertEquals(1,count(reversed,Outcome.EXCLUSION));assertEquals(1,r.checkedPairs());
@@ -116,7 +116,7 @@ class CharacterLoreTest {
         var r=lore.assess(sheet(entry("necromancy"),entry("templar")));assertThrows(UnsupportedOperationException.class,()->r.findings().clear());assertThrows(UnsupportedOperationException.class,()->r.findings().getFirst().sources().clear());assertThrows(UnsupportedOperationException.class,()->lore.rules().clear());
     }
     @Test void emptyAndHundredEntrySheetsHaveBoundedHonestCoverage()throws Exception {
-        assertEquals(0,lore.assess(sheet()).totalPairs());List<CharacterBook.Entry> entries=new ArrayList<>();for(int i=0;i<100;i++)entries.add(entry("air-evocation"));var r=lore.assess(new CharacterBook.Sheet(UUID.randomUUID().toString(),"max","",false,entries));assertEquals(4950,r.totalPairs());assertEquals(0,r.checkedPairs());assertEquals(2,r.findings().size());
+        assertEquals(0,lore.assess(sheet()).totalPairs());List<CharacterBook.Entry> entries=new ArrayList<>();for(int i=0;i<100;i++)entries.add(entry("air-evocation"));var r=lore.assess(new CharacterBook.Sheet(UUID.randomUUID().toString(),"max","",false,entries));assertEquals(4950,r.totalPairs());assertEquals(0,r.checkedPairs());assertEquals(3,r.findings().size());
     }
     @Test void expandedVoidalAndDarkExclusionsAreSpecificToClericism()throws Exception {
         for(String key:List.of("air-evocation","earth-evocation","fire-evocation","water-evocation","sensory-illusion","transfiguration","voidal-translocation","blood-magic","mysticism","necromancy")) {

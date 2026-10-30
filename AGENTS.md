@@ -4,6 +4,10 @@
    `docs/IMPLEMENTATION_PLAN.md` before editing. Check Git status; preserve user work.
 2. Continue one bounded phase within the user's request. Test meaningful behavior
    and failures at each stop. Record actual results, blockers, and the next step.
+   The latest user explicitly authorized completing all remaining work, including
+   import/diff polish, except real MArt access testing. Continue through successive
+   tested phases without stopping for another Continue. Actual user modpack/account
+   acceptance cannot be claimed without that environment; record evidence honestly.
 3. Use this existing checkout. Cloud tasks are isolated; do not create a Git worktree
    unless explicitly requested. Do not repeat settled preference questions.
 4. Keep the target **Minecraft 1.21.11 / Fabric / Java 21**. No silent version changes.
@@ -45,6 +49,13 @@
   the Body portion, not merely holding Dark/Voidal magic. Retain Klone exceptions.
   Read schema 1 without writing; save schema 2 with an exact previous-file backup.
   Preserve facts/history through all other sheet edits. See docs/PHASE_10.md.
+- Release 1.0.0 completes the requested implementation/polish: 71 references,
+  178 relationship rules, 14 prerequisite policies, 48 slot policies and seven
+  fact/history checks; immutable pack import/preview/Undo and full before/after
+  main comparisons. Read docs/RELEASE_1_0.md for boundaries and acceptance gates.
+  Character writer is schema 3; versions 1/2 read without writing and migrate on
+  explicit save with exact previous bytes. Carry budget through every sheet edit.
+  Source disagreements, unknown costs and manual allocations must stay explicit.
 - Default reading/search/update comparison covers the main lore post only. Keep
   previously captured replies as an explicit archive, without fetching discussion.
 - Check saved main lore pages automatically once per calendar month while Minecraft

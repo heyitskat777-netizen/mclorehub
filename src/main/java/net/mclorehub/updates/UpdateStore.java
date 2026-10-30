@@ -72,4 +72,8 @@ public final class UpdateStore {
         new TreeMap<>(next.entries()).forEach((id,e)->{JsonObject item=new JsonObject();item.addProperty("base_fingerprint",e.baseFingerprint());item.addProperty("active",e.active());item.addProperty("previous",e.previous());topics.add(id,item);});
         json.add("topics",topics);return new State(next.entries(),Optional.of(pointer.save(json,next.fileHash())));
     }
+    public Document previous(Document base,State state)throws IOException {
+        var entry=state.entries().get(base.id());if(entry==null||!entry.baseFingerprint().equals(base.fingerprint()))throw new IOException("No saved main-post comparison");
+        if(entry.previous().isEmpty())return base;Path file=snapshots.resolve(entry.previous()+".json");byte[] bytes;try(var in=Files.newInputStream(file)){bytes=bounded(in,16<<20);}if(!hash(bytes).equals(entry.previous()))throw new IOException("Previous snapshot checksum mismatch");return TopicSnapshot.parse(parse(bytes)).apply(base);
+    }
 }

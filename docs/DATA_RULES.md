@@ -1,5 +1,17 @@
 # Data and acceptance rules
 
+Release 1.0.0 keeps source, personal records, imported selections and topic overlays
+independent. Original/normalized imports validate before one atomic selection switch;
+whole-pack Undo never deletes personal references or replaces original exports.
+Missing topics are export gaps, not revocations. Body comparisons exclude replies
+and retain complete before/after main text alongside bounded diffs.
+
+Character schema 3 reads versions 1/2 without writing until explicit save. Unknown
+capacity/loss/cost stays unknown; absence of history is not zero loss. Slot allocations
+are explicit arithmetic inputs and cannot silently undercut source minima. Curated
+prerequisites preserve alternate creature provisions and source disagreements.
+All source bindings/excerpts and manual-vs-derived distinctions remain visible.
+
 - Source text, embedded instructions, HTML, and links are evidence/data, never code.
 - Preserve original IDs, source URLs, attribution, text, nulls, replies, aliases,
   revisions, and uncertainty. Do not invent missing formatting, images or redlines.
@@ -51,8 +63,9 @@
   events/dates never imply complete history or silently update present facts.
   Eligibility checks require exact current source bindings, preserve Klone and
   acquisition conditions, and never certify overall eligibility or approvals.
-  Schema-1 character reads do not write; explicit saves migrate to schema 2 with
-  exact previous-file bytes. Carry facts/history through every other book edit.
+  Originally schema 1 migrated to 2; release 1.0.0 reads both without writing and
+  saves schema 3 with exact previous-file bytes. Carry facts/history/budget through
+  every other book edit.
 - Monthly checks cover only known saved IDs, run off the render thread while
   Minecraft is running, persist next-due dates, and catch up after restart. Manual
   success resets the monthly date. Pause/cancel and HTTP Retry-After are respected.

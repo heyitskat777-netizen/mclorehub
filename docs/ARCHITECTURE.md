@@ -1,5 +1,27 @@
 # Architecture
 
+## Release 1.0.0
+
+`PackImport` reads bounded original or normalized ZIP/JSON inputs without extracting
+supplied paths. `PackStore` stages complete immutable revisions with checksums;
+`packs/selection.json` atomically selects a prepared catalogue/search/character
+projection and retains the previous revision. Legacy packs remain readable.
+Generation, selection and external-file guards reject stale activation. Personal
+state is untouched. Topic overlays retain their own independent snapshot pointer.
+
+`LoreDiff` computes bounded main-only edits, and `ReaderContent.comparison` exposes
+both complete versions as 6,000-character sections. `ReportScreen` is read-only and
+does not save wiki scroll state. Import preview rows use the same comparison path.
+
+`SlotBudget` adds explicit capacity/loss/allocation values to schema-3 sheets.
+`CharacterSlots` computes intervals, groups duplicate source references, preserves
+unknowns, permanent losses and special allowances. Curated prerequisites compare
+known tiers/investment without inferring missing practices. All parsing, comparison,
+indexing and assessment runs on the existing worker; render code only lays out
+bounded text. Schema-1/2 reads preserve old bytes until explicit save.
+
+The sections below retain component history; see RELEASE_1_0.md for current scope.
+
 The root Java application is independent of Minecraft. `client/` contains Fabric
 metadata and client source sets. `-PcoreOnly` skips the client subproject. The client
 depends on and nests the catalogue core JAR. `LibraryService` owns separate file
@@ -35,7 +57,8 @@ off the render thread. No processes are assumed to survive a cloud snapshot.
 Implemented paths include `packs/active/{pack.json,trust.json,reviews.json}`,
 `updates/{active.json,snapshots/,monthly.json}`, `personal/state.json` and
 `personal/characters.json`. Optional credentials live separately under `auth/`.
-Whole-pack activation UI remains future work. `CharacterService` owns a separate
+Release 1.0.0 adds `packs/{selection.json,revisions/}` for whole-pack activation.
+`CharacterService` owns a separate
 worker and immutable `CharacterBook`; its schema and atomic previous-file backup
 are independent of reading/favorites and lore. Application status is user-recorded;
 there is no automatic eligibility or application-approval inference.
@@ -49,7 +72,7 @@ refresh timestamps. Phase 9's 26 rules distinguish exclusions, source disagreeme
 and conditional requirements, with independent source dependencies. Picker search
 also projects source titles/family/category and apostrophe variants. Keep unknown
 coverage visible; no positive compatibility or full eligibility engine is implied.
-See PHASE_9.md for current scope.
+See PHASE_9.md for that historical scope and RELEASE_1_0.md for current coverage.
 
 Phase 10 adds immutable `CharacterFacts` and `HistoryEvent` values to sheets.
 `CharacterStore` reads versions 1/2 and writes version 2 only on explicit save,

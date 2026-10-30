@@ -29,7 +29,7 @@ class CharacterStoreTest {
         var first=store.save(book,Optional.empty());store.save(book.removeEntry(book.selectedId(),e.id()),first.hash());
         assertEquals(1,new CharacterStore(file.resolveSibling("characters.previous.json")).load().book().selected().orElseThrow().entries().size());}
     @Test void corruptFutureUnknownAndDuplicateFieldsAreNeverReset()throws Exception{Files.createDirectories(file.getParent());
-        for(String invalid:List.of("bad json","{\"schema_version\":3,\"selected_id\":\"\",\"sheets\":[]}","{\"schema_version\":1,\"selected_id\":\"\",\"sheets\":[],\"future\":true}",
+        for(String invalid:List.of("bad json","{\"schema_version\":4,\"selected_id\":\"\",\"sheets\":[]}","{\"schema_version\":1,\"selected_id\":\"\",\"sheets\":[],\"future\":true}",
                 "{\"schema_version\":1,\"schema_version\":1,\"selected_id\":\"\",\"sheets\":[]}")){
             Files.writeString(file,invalid);assertThrows(java.io.IOException.class,store::load);assertEquals(invalid,Files.readString(file));}}
     @Test void externalEditsAreNotOverwritten()throws Exception{var loaded=store.save(CharacterBook.empty(),Optional.empty());Files.writeString(file,"external");

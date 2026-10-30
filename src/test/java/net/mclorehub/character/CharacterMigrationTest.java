@@ -15,14 +15,14 @@ class CharacterMigrationTest {
     CharacterBook.HistoryEvent event(String id){return new CharacterBook.HistoryEvent(id,"Lost practice","lotc:topic:249533",CharacterBook.EventType.DISCONNECTED,"2026-10-01","Personal notes");}
     void writeLegacy()throws Exception{
         var root=new JsonObject();root.addProperty("schema_version",1);root.addProperty("selected_id",book.selectedId());var sheets=JSON.toJsonTree(book.sheets()).getAsJsonArray();
-        for(var s:sheets){s.getAsJsonObject().remove("facts");s.getAsJsonObject().remove("history");}root.add("sheets",sheets);Files.writeString(file,JSON.toJson(root));
+        for(var s:sheets){s.getAsJsonObject().remove("facts");s.getAsJsonObject().remove("history");s.getAsJsonObject().remove("budget");}root.add("sheets",sheets);Files.writeString(file,JSON.toJson(root));
     }
     @Test void legacyReadDoesNotWriteOrInventFacts()throws Exception{
         writeLegacy();byte[] before=Files.readAllBytes(file);var loaded=store.load();assertEquals(book,loaded.book());assertEquals(CharacterFacts.unknown(),loaded.book().selected().orElseThrow().facts());assertTrue(loaded.book().selected().orElseThrow().history().isEmpty());assertArrayEquals(before,Files.readAllBytes(file));
     }
     @Test void firstEditMigratesAndPreservesExactLegacyBackup()throws Exception{
         writeLegacy();byte[] before=Files.readAllBytes(file);var loaded=store.load();var edited=loaded.book().facts(book.selectedId(),CharacterFacts.unknown().set(CharacterFacts.Field.SOUL,"LESSER"));store.save(edited,loaded.hash());
-        assertEquals(2,read(file,1<<20).get("schema_version").getAsInt());assertArrayEquals(before,Files.readAllBytes(file.resolveSibling("characters.previous.json")));assertEquals(book,new CharacterStore(file.resolveSibling("characters.previous.json")).load().book());assertEquals(edited,store.load().book());
+        assertEquals(3,read(file,1<<20).get("schema_version").getAsInt());assertArrayEquals(before,Files.readAllBytes(file.resolveSibling("characters.previous.json")));assertEquals(book,new CharacterStore(file.resolveSibling("characters.previous.json")).load().book());assertEquals(edited,store.load().book());
     }
     @Test void factsAndHistorySurviveAllOtherBookEdits()throws Exception{
         var e=event(UUID.randomUUID().toString());var facts=CharacterFacts.unknown().set(CharacterFacts.Field.KLONE,"YES");String id=book.selectedId();book=book.facts(id,facts).putHistory(id,e).rename(id,"After","Notes").archive(id,true).archive(id,false).select(id);
@@ -54,5 +54,10 @@ class CharacterMigrationTest {
     @Test void completeFactsAndUnlinkedUnicodeHistoryRoundTrip()throws Exception{
         var f=new CharacterFacts(CharacterFacts.Soul.GREATER,CharacterFacts.Truth.YES,CharacterFacts.Truth.NO,CharacterFacts.Truth.YES,CharacterFacts.Truth.NO,CharacterFacts.Truth.YES,CharacterFacts.Truth.NO,CharacterFacts.Truth.YES,CharacterFacts.Severances.THREE_OR_MORE);
         var h=new CharacterBook.HistoryEvent(UUID.randomUUID().toString(),"Unlinked 薄明","",CharacterBook.EventType.OTHER,"","No sourced inference");book=book.facts(book.selectedId(),f).putHistory(book.selectedId(),h);store.save(book,Optional.empty());assertEquals(book,store.load().book());assertThrows(UnsupportedOperationException.class,()->book.selected().orElseThrow().history().clear());
+    }
+    @Test void schemaTwoFactsAndHistoryLoadWithoutWritingAndMigrateWithExactBackup()throws Exception{
+        var event=event(UUID.randomUUID().toString());book=book.facts(book.selectedId(),CharacterFacts.unknown().set(CharacterFacts.Field.SOUL,"GREATER")).putHistory(book.selectedId(),event);
+        var root=new JsonObject();root.addProperty("schema_version",2);root.addProperty("selected_id",book.selectedId());var sheets=JSON.toJsonTree(book.sheets()).getAsJsonArray();for(var s:sheets)s.getAsJsonObject().remove("budget");root.add("sheets",sheets);Files.writeString(file,JSON.toJson(root));byte[] before=Files.readAllBytes(file);
+        var loaded=store.load();assertEquals(book,loaded.book());assertArrayEquals(before,Files.readAllBytes(file));var next=book.budget(book.selectedId(),new SlotBudget(5,0,Map.of()));store.save(next,loaded.hash());assertEquals(next,store.load().book());assertArrayEquals(before,Files.readAllBytes(file.resolveSibling("characters.previous.json")));
     }
 }

@@ -1,5 +1,13 @@
 # Validation
 
+Release 1.0.0 adds pack import/comparison, slot arithmetic and prerequisite behavior
+and failure tests. Run the normal full build plus native tests with all three private
+variables: MCLOREHUB_TEST_PACK, MCLOREHUB_TEST_TRUST and MCLOREHUB_TEST_EXPORT. Require
+all prior markers plus IMPORT_COMPARISON_SCENARIO_PASS and RELEASE_SCENARIO_PASS,
+successful runner exit, current schemas and inspected screenshots. Final release
+metadata must be client-only/exact 1.21.11 with no test/private data in the JAR.
+See RELEASE_1_0.md and STATUS.md for scope and actual evidence.
+
 From the repository root:
 
 ```sh
@@ -71,7 +79,7 @@ these variables the test checks unavailable selection and explicitly reports tha
 the real curated-corpus scenario was not run. No private corpus fixture enters Git.
 
 Phase 9 additionally requires `EXPANDED_LORE_SCENARIO_PASS` with the same private
-pack/trust inputs and exit 0. Every one of the 23 choices must match its real main
+pack/trust inputs and exit 0. Every choice (23 in Phase 9, 71 in 1.0.0) must match its real main
 source/evidence. The native flow checks pagination/category search, new magic/CA/FA
 links, three exclusions, a conditional provision rather than an exclusion, granular
 source invalidation/Undo, unchanged personal/base files and persistence. Without
@@ -82,4 +90,4 @@ pack/trust and exit 0: exact schema-1 backup, explicit-save migration, fact edit
 Kani Klone exception with lung failure/recovery, history/date validation, disconnected
 Necromancy without active entry, source suspension/Undo, persistence and scales.
 Without those inputs it explicitly reports not run. Validate the actual saved
-schema-2 file and the initial legacy backup against their respective schemas.
+current schema-3 file and the initial legacy backup against their respective schemas.

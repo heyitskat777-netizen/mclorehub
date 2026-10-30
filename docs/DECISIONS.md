@@ -50,7 +50,17 @@ store extraction/challenge bypass. Actual restricted MArt access needs that acco
   activation, retain Undo and immutable snapshots, and preserve personal data.
   Optional local session import; no login/challenge bypass or unrelated discovery.
 
-## Outstanding choices
+## Release completion
+
+The latest request authorized all remaining implementation and polish except real
+MArt access testing. Release 1.0.0 delivers expanded source coverage, prerequisites,
+slot arithmetic, in-game database import/Undo and readable/full-text comparisons.
+Unknown source conditions and staff-level contradictions remain visible rather than
+fabricated. Character schema 3 reads versions 1/2 without writing until explicit save.
+The acceptance target is clean Fabric 1.21.11: an optional mod-list question received
+no response during this task. Environment publication stays deferred.
+
+## Earlier checkpoints
 
 Phase 9 expands to 23 curated choices and 26 rules, bound to main-post
 content/metadata, with explicit source disagreements and conditional requirements.

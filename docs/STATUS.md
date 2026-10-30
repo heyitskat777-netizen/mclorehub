@@ -1,6 +1,60 @@
 # Current status
 
-## Latest checkpoint — Phase 10
+## Latest checkpoint — Release 1.0.0
+
+The requested implementation and polish are complete. In-game database import
+accepts the original ZIP/JSON and normalized packs, previews changes with readable
+comparisons, and activates immutable revisions with persistent Undo. Main-page
+comparisons include added/removed text, metadata and complete before/after versions.
+Topic refresh/monthly automation remain separate from whole-database replacement.
+
+Character coverage now includes **71 references from 67 main sources**, **178
+relationship rules**, **14 prerequisite policies**, **48 slot policies** and the
+seven existing fact/history checks. The Slots editor supports unknown capacity,
+allocations, duplicate dedication grouping, source ranges, permanent loss and narrow
+documented allowances. Source disagreements and uncovered conditions stay explicit.
+Schema 3 preserves every sheet field; versions 1/2 migrate only on an explicit save
+with exact prior-file backup. No source rule claims overall eligibility or approval.
+
+Final normal build/install and **292 core tests passed**, zero failures/errors/skips.
+The native Minecraft 1.21.11 client runner exited 0 with all **11** required markers:
+shell, library, real corpus, characters, refresh, monthly/session, curated lore,
+expanded lore, facts/history, import/comparison and clean-release scenarios. The
+fresh-install flow imported the original ZIP through the UI, exposed all 488 normal
+references, matched all 71 selected source bindings, exercised slot overflow/loss
+and recovery, persisted/restarted and rendered at GUI scales 1/2. Fresh screenshots
+were inspected. Actual saved schema-3 files and legacy migration backups validated.
+The production JAR metadata, private/test exclusions and kit contents passed checks.
+Tool pins, dependency locks/checksums and exact Minecraft target are unchanged.
+
+Final logs: `/tmp/mclorehub-release-build-frozen.log` and
+`/tmp/mclorehub-release-client-frozen.log`; evidence is copied under ignored
+`local-data/verification/release-1.0.0-evidence/`. These tests use native Minecraft
+with Mesa/software rendering and clean Fabric. They do not establish a separately
+configured user modpack, physical hardware or authenticated multiplayer behavior.
+No actual MArt account access was tested, as explicitly excluded by the user.
+Synthetic session checks are not a verified forum login. No live forum requests
+were made for this release; prior public-page checks remain historical evidence.
+
+Artifact: `client/build/libs/mclorehub-1.0.0.jar`, **845,381 bytes**, SHA-256
+`f62cba9d06a89787eff284954b4ce952a7fb5606cc41cf84cdc9f51558b65a73`.
+Private fresh-install kit:
+`local-data/distributions/mclorehub-personal-kit-1.0.0.zip`, **5,395,221 bytes**,
+SHA-256 `0d95efa2e3dfeca931f21b492d359b6766dbada0595267f63d23051800879b17`.
+The kit includes only the JAR, original normalized pack, matching user trust and
+installation text; no characters, session credentials, schedules or topic overlays.
+Keep it private. Existing installations normally need only the replacement JAR.
+Source backup identities and verified remote commit are recorded in
+`/workspace/mclorehub-1.0.0-backup.json`; source archives exclude the private corpus.
+
+See [release details](RELEASE_1_0.md), [installation](INSTALL.md) and
+[coverage](CHARACTER_LORE_COVERAGE.md). There are no remaining planned feature
+implementation items in this request. Real MArt account testing remains excluded;
+unknown source details require matching evidence or staff clarification rather
+than invented rules. Environment publication remains deferred by the user; no
+environment settings were changed or publication requested.
+
+## Previous checkpoint — Phase 10
 
 Character sheets now include **Known facts** and independent **History** editors.
 Nine typed current facts retain explicit unknown values. Events record acquisitions,

@@ -30,6 +30,7 @@ public final class WikiScreen extends Screen {
         return addRenderableWidget(Button.builder(Component.translatable(key),action).bounds(x,y,w,20).build());
     }
     @Override protected void init(){
+        button("Database",16,7,80,b->minecraft.setScreen(new DatabaseImportScreen(this,service)));
         button("screen.mclorehub.updates",width-80,7,64,b->minecraft.setScreen(new UpdateSettingsScreen(this,MCLoreHubClient.monthly(),service.session())));
         if(lastPageSize!=pageSize()||needsRequest){lastPageSize=pageSize();needsRequest=false;offset=0;results=new LoreSearch.Page(List.of(),0,0);request();}
         boolean focus=search!=null&&search.isFocused();int col=(width-40)/3;

@@ -24,8 +24,9 @@ public final class CharacterSheetScreen extends Screen {
             else minecraft.setScreen(new ConfirmScreen(yes->{if(yes)service.edit(book->book.archive(id,true));minecraft.setScreen(yes?parent:this);},
                     Component.literal("Archive character?"),Component.literal("The sheet is retained under Archived characters and can be restored.")));}).active=service.view().writable();
         page=Math.min(page,Math.max(0,(sheet.entries().size()-1)/size()));
-        button("Known facts",16,68,half,b->minecraft.setScreen(new CharacterFactsScreen(this,service,sheet))).active=writable;
-        button("History",20+half,68,half,b->minecraft.setScreen(new CharacterHistoryScreen(this,service,id,library)));
+        int tools=(width-40)/3;button("Known facts",16,68,tools,b->minecraft.setScreen(new CharacterFactsScreen(this,service,sheet))).active=writable;
+        button("History",20+tools,68,tools,b->minecraft.setScreen(new CharacterHistoryScreen(this,service,id,library)));
+        button("Slots",24+2*tools,68,tools,b->minecraft.setScreen(new SlotBudgetScreen(this,service,library,sheet))).active=writable;
         for(int i=page*size();i<Math.min(sheet.entries().size(),(page+1)*size());i++){
             var e=sheet.entries().get(i);Button entry=button(e.kind()+": "+e.name()+(e.kind()==CharacterBook.Kind.MAGIC?" • "+e.branch()+" "+e.tier():" • "+e.status().name().toLowerCase().replace('_',' ')),16,114+(i-page*size())*24,width-32,b->minecraft.setScreen(new CharacterEntryScreen(this,service,id,e.kind(),e,library)));
             entry.active=writable;entry.setTooltip(Tooltip.create(Component.literal(e.notes()+"\nUser-recorded status. Open Compatibility for checks and evidence.")));}

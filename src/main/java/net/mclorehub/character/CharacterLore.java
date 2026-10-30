@@ -29,6 +29,9 @@ public final class CharacterLore {
     public record Finding(Outcome outcome,String message,List<Source> sources) {
         public Finding { sources=List.copyOf(sources); }
     }
+    public record SlotRule(String option,String mode,int minimum,int maximum,boolean permanent,boolean voidal){}
+    public record Prerequisite(String option,List<String> required,int voidalSlots,List<String> sources,Map<String,Integer> minimumTiers,List<String> alternatives,boolean greaterBlood){public Prerequisite{required=List.copyOf(required);sources=List.copyOf(sources);minimumTiers=Map.copyOf(minimumTiers);alternatives=List.copyOf(alternatives);}}
+    public record Cost(int minimum,int maximum,String basis,List<Source> sources,boolean voidal){public Cost{sources=List.copyOf(sources);}}
     public record Report(List<Finding> findings,int checkedPairs,int totalPairs,int unresolvedEntries) {
         public Report { findings=List.copyOf(findings); }
         public String summary() {
@@ -45,9 +48,13 @@ public final class CharacterLore {
     private final String scope;
     private final Map<String,Availability> availability;
     private final Map<String,String> searchText;
-    private CharacterLore(Map<String,Source> sources,List<Option> options,List<Rule> rules,List<EligibilityRule> eligibility,List<Document> documents,String scope) {
+    private final Map<String,SlotRule> slotRules;
+    private final List<Prerequisite> prerequisites;
+    private CharacterLore(Map<String,Source> sources,List<Option> options,List<Rule> rules,List<EligibilityRule> eligibility,Map<String,SlotRule> slots,List<Prerequisite> prerequisites,List<Document> documents,String scope) {
         this.sources=Map.copyOf(sources);this.options=List.copyOf(options);this.rules=List.copyOf(rules);this.scope=scope;
         this.eligibility=List.copyOf(eligibility);
+        slotRules=Map.copyOf(slots);
+        this.prerequisites=List.copyOf(prerequisites);
         Map<String,Document> byId=new HashMap<>();documents.forEach(d->byId.put(d.id(),d));this.documents=Map.copyOf(byId);
         Map<String,Availability> checked=new HashMap<>();sources.keySet().forEach(id->checked.put(id,checkAvailability(id)));availability=Map.copyOf(checked);
         Map<String,String> searchable=new HashMap<>();for(var option:options){var doc=byId.get(option.sourceId());
@@ -93,12 +100,37 @@ public final class CharacterLore {
             for(var option:options)if(rule.options().contains(option.key())&&!rule.sources().contains(option.sourceId()))throw new IOException("Eligibility omits source dependency");
             eligibility.add(rule);
         }
-        return new CharacterLore(sources,options,rules,eligibility,documents,scope);
+        Map<String,SlotRule> slots=new HashMap<>();if(root.has("slots"))for(var value:array(root.get("slots"),"slots")){
+            var r=object(value,"slot rule");String key=text(r,"option");var slot=new SlotRule(key,text(r,"mode"),integer(r,"minimum"),integer(r,"maximum"),r.get("permanent").getAsBoolean(),r.get("voidal").getAsBoolean());
+            if(!keys.contains(key)||slots.putIfAbsent(key,slot)!=null||slot.minimum()<0||slot.maximum()<slot.minimum()||slot.maximum()>100||!Set.of("FIXED","RANGE","MYSTIC","EVOCATION").contains(slot.mode()))throw new IOException("Invalid slot rule");
+        }
+        List<Prerequisite> requirements=new ArrayList<>();if(root.has("prerequisites"))for(var value:array(root.get("prerequisites"),"prerequisites")){
+            var r=object(value,"prerequisite");Map<String,Integer> tiers=new HashMap<>();if(r.has("minimum_tiers")){var t=object(r.get("minimum_tiers"),"minimum_tiers");for(String key:t.keySet())tiers.put(key,integer(t,key));}
+            var rule=new Prerequisite(text(r,"option"),strings(r,"requires"),integer(r,"voidal_slots"),strings(r,"sources"),tiers,r.has("alternatives")?strings(r,"alternatives"):List.of(),r.has("greater_blood")&&r.get("greater_blood").getAsBoolean());
+            if(!keys.contains(rule.option())||!keys.containsAll(rule.required())||rule.sources().isEmpty()||!sources.keySet().containsAll(rule.sources())||rule.voidalSlots()<0||rule.voidalSlots()>100)throw new IOException("Invalid prerequisite");
+            if(!keys.containsAll(rule.alternatives())||!keys.containsAll(tiers.keySet())||tiers.values().stream().anyMatch(t->t<1||t>5))throw new IOException("Invalid tier prerequisite");
+            for(var option:options)if((option.key().equals(rule.option())||rule.required().contains(option.key())||rule.alternatives().contains(option.key())||tiers.containsKey(option.key()))&&!rule.sources().contains(option.sourceId()))throw new IOException("Prerequisite omits source dependency");requirements.add(rule);
+        }
+        return new CharacterLore(sources,options,rules,eligibility,slots,requirements,documents,scope);
     }
     private static void topic(String id)throws IOException {if(!id.matches("lotc:topic:[1-9][0-9]{0,17}"))throw new IOException("Invalid character source ID");}
     public String scope(){return scope;}
     public List<Rule> rules(){return rules;}
     public List<EligibilityRule> eligibilityRules(){return eligibility;}
+    public Cost slotCost(CharacterBook.Entry entry){
+        var choice=resolve(entry);if(choice.isEmpty()||choice.get().availability()!=Availability.AVAILABLE)return new Cost(0,-1,"Unknown/stale source cost",List.of(),false);
+        var c=choice.get();var rule=slotRules.get(c.option().key());if(rule==null)return new Cost(0,-1,"No explicit slot cost curated",List.of(c.source()),false);
+        int min=rule.minimum(),max=rule.maximum();String tier=entry.tier().strip().toUpperCase(Locale.ROOT).replace("TIER ","T");
+        if(rule.mode().equals("MYSTIC")){if(Set.of("1","2","T1","T2").contains(tier))min=max=1;else if(Set.of("3","4","T3","T4").contains(tier))min=max=2;else if(Set.of("5","T5").contains(tier)){min=2;max=3;if(entry.branch().equalsIgnoreCase("Wight"))min=max=3;}}
+        if(rule.mode().equals("EVOCATION")&&Set.of("1","2","3","4","T1","T2","T3","T4").contains(tier))min=max=1;
+        return new Cost(min,max,rule.mode().equals("FIXED")?"Source cost":"Source range; record allocation if known",List.of(c.source()),rule.voidal());
+    }
+    public boolean validAllocation(CharacterBook.Entry entry,int value){
+        var c=resolve(entry);if(c.isPresent()&&c.get().availability()==Availability.AVAILABLE&&c.get().option().key().equals("palmreading"))return value==0||value==3;
+        var cost=slotCost(entry);return cost.maximum()<0||value>=cost.minimum()&&value<=cost.maximum();
+    }
+    public boolean permanentDedication(CharacterBook.Entry entry){return resolve(entry).filter(c->c.availability()==Availability.AVAILABLE).map(c->slotRules.get(c.option().key())).map(SlotRule::permanent).orElse(false);}
+    public CharacterSlots.Report slots(CharacterBook.Sheet sheet){return CharacterSlots.assess(this,sheet);}
     public Optional<Document> document(String id){return Optional.ofNullable(documents.get(id));}
     public Availability availability(String id) {return availability.getOrDefault(id,Availability.MISSING);}
     private Availability checkAvailability(String id) {
@@ -175,7 +207,22 @@ public final class CharacterLore {
             CharacterEligibility.evaluate(rule,sheet.facts(),applicable,history,evidence).ifPresent(findings::add);
         }
         if(sheet.history().stream().anyMatch(h->h.loreDocumentId().isEmpty()))findings.add(new Finding(Outcome.NOT_ASSESSED,"Unlinked history is retained as user notes; no lore or current facts are inferred from it.",List.of()));
-        findings.add(new Finding(Outcome.NOT_ASSESSED,(total-checked)+" of "+total+" entry pairs have no applicable current check. Selected known facts are checked separately; other requirements, exceptions, slots and application approvals remain manually assessed. History never silently changes current facts. Zero warnings does not establish compatibility.",List.of()));
+        var slots=slots(sheet);findings.add(new Finding(slots.overBudget()||slots.contradictions()>0?Outcome.ELIGIBILITY_CONFLICT:Outcome.REQUIREMENTS,slots.text(),slots.sources()));
+        Set<String> recordedOptions=new HashSet<>();choices.values().forEach(c->recordedOptions.add(c.option().key()));
+        for(var rule:prerequisites)if(recordedOptions.contains(rule.option())&&rule.sources().stream().allMatch(s->availability(s)==Availability.AVAILABLE)){
+            boolean alternative=rule.alternatives().stream().anyMatch(recordedOptions::contains);var missing=options.stream().filter(o->!alternative&&rule.required().contains(o.key())&&!recordedOptions.contains(o.key())).map(Option::name).toList();String message="Prerequisites for "+options.stream().filter(o->o.key().equals(rule.option())).findFirst().orElseThrow().name()+": ";
+            message+=missing.isEmpty()?"required practice references are recorded, but training/tier/approval remain unverified.":"required references not recorded: "+String.join(", ",missing)+". Missing sheet data is not proof that the character lacks them.";
+            boolean failed=false;if(alternative)message+=" The recorded creature-specific alternative applies; read its guidance and ability limits rather than assuming a general Druid prerequisite.";
+            if(!alternative)for(var requirement:rule.minimumTiers().entrySet()){
+                var matching=sheet.entries().stream().filter(e->choices.containsKey(e.id())&&choices.get(e.id()).option().key().equals(requirement.getKey())).toList();int highest=0;boolean unknown=matching.isEmpty();
+                for(var e:matching){String t=e.tier().strip().toUpperCase(Locale.ROOT).replace("TIER ","T");if(t.matches("T?[1-5]"))highest=Math.max(highest,Integer.parseInt(t.substring(t.length()-1)));else unknown=true;}
+                if(!unknown&&highest<requirement.getValue()){failed=true;message+=" Recorded "+requirement.getKey()+" tier is below required T"+requirement.getValue()+".";}else if(unknown)message+=" Required "+requirement.getKey()+" T"+requirement.getValue()+" is not fully recorded.";
+            }
+            if(rule.greaterBlood())for(var e:sheet.entries())if(choices.containsKey(e.id())&&choices.get(e.id()).option().key().equals("blood-magic")){if(e.tier().equalsIgnoreCase("Lesser")){failed=true;message+=" Current Blood Magic source reserves marriage abilities for Greater Blood Mages.";}else if(!e.tier().equalsIgnoreCase("Greater"))message+=" Greater Blood Magic status is not recorded.";}
+            if(rule.voidalSlots()>0){Map<String,Integer> counted=new HashMap<>();for(var e:sheet.entries()){var cost=slotCost(e);if(cost.voidal())counted.merge(SlotBudget.key(e),sheet.budget().allocations().getOrDefault(SlotBudget.key(e),cost.minimum()),Math::max);}int base=counted.values().stream().mapToInt(Integer::intValue).sum()-slots.credit();message+=" Source requires "+rule.voidalSlots()+" dedicated base Voidal slots; recorded allocation lower bound is "+base+". This is not an acquisition approval.";}
+            findings.add(new Finding(failed?Outcome.ELIGIBILITY_CONFLICT:Outcome.REQUIREMENTS,message,rule.sources().stream().map(sources::get).toList()));
+        }
+        findings.add(new Finding(Outcome.NOT_ASSESSED,(total-checked)+" of "+total+" entry pairs have no applicable current check. Selected known facts and slot arithmetic are checked separately; other requirements, exceptions and approvals remain manually assessed. History never silently changes current facts. Zero warnings does not establish compatibility.",List.of()));
         findings.sort(Comparator.comparing(Finding::outcome));
         return new Report(findings,checked,total,unresolved);
     }

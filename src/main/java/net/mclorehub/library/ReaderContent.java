@@ -15,6 +15,11 @@ public record ReaderContent(List<Section> sections) {
     public record Section(String blockId, int offset, String heading, String text) {}
     public record Resume(int section, int offset, boolean changed) {}
     public ReaderContent { sections=List.copyOf(sections); }
+    public static ReaderContent text(String heading,String text){var sections=new ArrayList<Section>();add(sections,"report",heading,text);return new ReaderContent(sections);}
+    public static ReaderContent comparison(Document before,Document after){
+        var sections=new ArrayList<Section>();add(sections,"diff","Changes (- previous / + current)",LoreDiff.compare(before,after).text());
+        add(sections,"previous","Full previous main post",before.body());add(sections,"current","Full current main post",after.body());return new ReaderContent(sections);
+    }
     public static ReaderContent document(Document doc) {
         List<Section> result=new ArrayList<>();add(result,"body","Main post",doc.body());
         return new ReaderContent(result);

@@ -30,12 +30,12 @@ public final class ExpandedLoreClientGameTest implements FabricClientGameTest {
             check(library.reload().get(20,TimeUnit.SECONDS).phase()==LibraryService.Phase.READY,"Library failed to load");
             var lore=library.view().library().orElseThrow().characterLore();int options=0;
             for(var kind:CharacterBook.Kind.values())for(var choice:lore.choices(kind,"")){options++;check(choice.availability()==Availability.AVAILABLE,"Real source/evidence mismatch: "+choice.option().key());}
-            check(options==23&&lore.rules().size()==26,"Expanded manifest scope differs");
+            check(options==71&&lore.rules().size()==178,"Expanded manifest scope differs");
             characters.reload().get(5,TimeUnit.SECONDS);characters.edit(b->b.create("Expanded lore fixture")).get(5,TimeUnit.SECONDS);String id=characters.view().book().selectedId();
             c.runOnClient(m->{m.options.guiScale().set(2);m.resizeDisplay();});
             c.setScreen(()->new CharacterSheetScreen(new TitleScreen(),characters,id,library));
             c.clickScreenButton("Add magic");c.clickScreenButton("Choose lore");c.clickScreenButton("Next");
-            checkButton(c,"Clericism");bounds(c);c.takeScreenshot("phase9-expanded-picker-page-2");c.clickScreenButton("Previous");
+            checkButton(c,"Bardmancy");bounds(c);c.takeScreenshot("phase9-expanded-picker-page-2");c.clickScreenButton("Previous");
             set(c,"Search lore options","voidal");c.waitTicks(2);
             c.runOnClient(m->check(m.screen.children().stream().filter(Button.class::isInstance).map(Button.class::cast).anyMatch(b->b.active&&b.getMessage().getString().equals("Air Evocation")),"Voidal category not searchable"));
             c.takeScreenshot("phase9-voidal-picker");set(c,"Search lore options","Blood");c.clickScreenButton("Blood Magic");c.clickScreenButton("Save entry");c.waitFor(m->m.screen instanceof CharacterSheetScreen);
@@ -58,7 +58,7 @@ public final class ExpandedLoreClientGameTest implements FabricClientGameTest {
             check(library.assess(characters.view().book().selected().orElseThrow()).get(5,TimeUnit.SECONDS).findings().stream().anyMatch(f->f.message().contains("creature-specific provision")),"Undo failed to restore conditional evidence");
             check(Arrays.equals(personal,Files.readAllBytes(root.resolve("personal/characters.json"))),"Source updates changed characters");check(Arrays.equals(base,Files.readAllBytes(root.resolve("packs/active/pack.json"))),"Source updates changed base");
             c.setScreen(TitleScreen::new);check(new CharacterStore(root.resolve("personal/characters.json")).load().book().selected().orElseThrow().entries().size()==5,"Expanded links did not persist");
-            LoggerFactory.getLogger("mclorehub-test").info("EXPANDED_LORE_SCENARIO_PASS: 23 choices/22 real sources/26 rules, pagination/category search, new magic/CA/FA links, three exclusions, conditional provision, granular source invalidation/Undo, persistence");
+            LoggerFactory.getLogger("mclorehub-test").info("EXPANDED_LORE_SCENARIO_PASS: 71 choices/67 real sources/178 rules, pagination/category search, new magic/CA/FA links, three exclusions, conditional provision, granular source invalidation/Undo, persistence");
         }finally{c.setScreen(TitleScreen::new);c.runOnClient(m->{m.options.guiScale().set(scale);m.resizeDisplay();});}
     }
     private static void set(ClientGameTestContext c,String label,String value){c.runOnClient(m->m.screen.children().stream().filter(EditBox.class::isInstance).map(EditBox.class::cast).filter(e->e.getMessage().getString().equals(label)).findFirst().orElseThrow().setValue(value));}

@@ -63,6 +63,7 @@ public final class ReaderScreen extends Screen {
         previous.active=content!=null&&section>0;next.active=content!=null&&section+1<content.sections().size();
         if(details&&!document.posts().isEmpty())addRenderableWidget(Button.builder(Component.translatable("screen.mclorehub.archived_replies"),b->minecraft.setScreen(new ReaderScreen(this,service,document,audit,false,true)))
                 .bounds(16,height-28,col,20).build());
+        if(details)addRenderableWidget(Button.builder(Component.literal("Compare changes"),b->minecraft.setScreen(new ReportScreen(this,"Main lore changes",service.comparison(document.id())))).bounds(24+col*2,height-28,col,20).build()).active=service.canRollback(document.id());
         addRenderableWidget(Button.builder(Component.translatable("gui.back"),b->onClose()).bounds(20+col,height-28,col,20).build());
         updateFavorite();
     }

@@ -26,10 +26,11 @@ public record CharacterBook(List<Sheet> sheets,String selectedId) {
             if(!loreDocumentId.isEmpty()&&!loreDocumentId.matches("lotc:topic:[1-9][0-9]{0,17}"))throw new IllegalArgumentException("Invalid history lore reference");
             date=text(date,10,false);if(!date.isEmpty()){if(!date.matches("[0-9]{4}-[0-9]{2}-[0-9]{2}"))throw new IllegalArgumentException("Use YYYY-MM-DD for the event date");try{LocalDate.parse(date);}catch(java.time.DateTimeException e){throw new IllegalArgumentException("Invalid event date",e);}}}
     }
-    public record Sheet(String id,String name,String notes,boolean archived,List<Entry> entries,CharacterFacts facts,List<HistoryEvent> history){
-        public Sheet(String id,String name,String notes,boolean archived,List<Entry> entries){this(id,name,notes,archived,entries,CharacterFacts.unknown(),List.of());}
+    public record Sheet(String id,String name,String notes,boolean archived,List<Entry> entries,CharacterFacts facts,List<HistoryEvent> history,SlotBudget budget){
+        public Sheet(String id,String name,String notes,boolean archived,List<Entry> entries){this(id,name,notes,archived,entries,CharacterFacts.unknown(),List.of(),SlotBudget.unknown());}
+        public Sheet(String id,String name,String notes,boolean archived,List<Entry> entries,CharacterFacts facts,List<HistoryEvent> history){this(id,name,notes,archived,entries,facts,history,SlotBudget.unknown());}
         public Sheet{uuid(id);name=text(name,128,true);notes=text(notes,4096,false);entries=List.copyOf(entries);
-            Objects.requireNonNull(facts);history=List.copyOf(history);
+            Objects.requireNonNull(facts);Objects.requireNonNull(budget);history=List.copyOf(history);
             if(entries.size()>100||history.size()>100)throw new IllegalArgumentException("A sheet supports up to 100 entries and 100 history events");}
     }
     public CharacterBook{
@@ -46,14 +47,15 @@ public record CharacterBook(List<Sheet> sheets,String selectedId) {
     public CharacterBook create(String name){List<Sheet> next=new ArrayList<>(sheets);String id=UUID.randomUUID().toString();next.add(new Sheet(id,name,"",false,List.of()));return new CharacterBook(next,id);}
     public CharacterBook select(String id){return new CharacterBook(sheets,id);}
     public Optional<Sheet> selected(){return sheets.stream().filter(s->s.id().equals(selectedId)).findFirst();}
-    public CharacterBook rename(String id,String name,String notes){return update(id,s->new Sheet(s.id(),name,notes,s.archived(),s.entries(),s.facts(),s.history()),selectedId);}
-    public CharacterBook archive(String id,boolean archived){return update(id,s->new Sheet(s.id(),s.name(),s.notes(),archived,s.entries(),s.facts(),s.history()),archived&&id.equals(selectedId)?"":selectedId);}
+    public CharacterBook rename(String id,String name,String notes){return update(id,s->new Sheet(s.id(),name,notes,s.archived(),s.entries(),s.facts(),s.history(),s.budget()),selectedId);}
+    public CharacterBook archive(String id,boolean archived){return update(id,s->new Sheet(s.id(),s.name(),s.notes(),archived,s.entries(),s.facts(),s.history(),s.budget()),archived&&id.equals(selectedId)?"":selectedId);}
     public CharacterBook putEntry(String sheetId,Entry entry){return update(sheetId,s->{List<Entry> next=new ArrayList<>(s.entries());next.removeIf(e->e.id().equals(entry.id()));next.add(entry);
-        return new Sheet(s.id(),s.name(),s.notes(),s.archived(),next,s.facts(),s.history());},selectedId);}
-    public CharacterBook removeEntry(String sheetId,String entryId){return update(sheetId,s->new Sheet(s.id(),s.name(),s.notes(),s.archived(),s.entries().stream().filter(e->!e.id().equals(entryId)).toList(),s.facts(),s.history()),selectedId);}
-    public CharacterBook facts(String id,CharacterFacts facts){return update(id,s->new Sheet(s.id(),s.name(),s.notes(),s.archived(),s.entries(),facts,s.history()),selectedId);}
-    public CharacterBook putHistory(String id,HistoryEvent event){return update(id,s->{var next=new ArrayList<>(s.history());next.removeIf(e->e.id().equals(event.id()));next.add(event);return new Sheet(s.id(),s.name(),s.notes(),s.archived(),s.entries(),s.facts(),next);},selectedId);}
-    public CharacterBook removeHistory(String id,String eventId){return update(id,s->new Sheet(s.id(),s.name(),s.notes(),s.archived(),s.entries(),s.facts(),s.history().stream().filter(e->!e.id().equals(eventId)).toList()),selectedId);}
+        return new Sheet(s.id(),s.name(),s.notes(),s.archived(),next,s.facts(),s.history(),s.budget());},selectedId);}
+    public CharacterBook removeEntry(String sheetId,String entryId){return update(sheetId,s->new Sheet(s.id(),s.name(),s.notes(),s.archived(),s.entries().stream().filter(e->!e.id().equals(entryId)).toList(),s.facts(),s.history(),s.budget()),selectedId);}
+    public CharacterBook facts(String id,CharacterFacts facts){return update(id,s->new Sheet(s.id(),s.name(),s.notes(),s.archived(),s.entries(),facts,s.history(),s.budget()),selectedId);}
+    public CharacterBook budget(String id,SlotBudget budget){return update(id,s->new Sheet(s.id(),s.name(),s.notes(),s.archived(),s.entries(),s.facts(),s.history(),budget),selectedId);}
+    public CharacterBook putHistory(String id,HistoryEvent event){return update(id,s->{var next=new ArrayList<>(s.history());next.removeIf(e->e.id().equals(event.id()));next.add(event);return new Sheet(s.id(),s.name(),s.notes(),s.archived(),s.entries(),s.facts(),next,s.budget());},selectedId);}
+    public CharacterBook removeHistory(String id,String eventId){return update(id,s->new Sheet(s.id(),s.name(),s.notes(),s.archived(),s.entries(),s.facts(),s.history().stream().filter(e->!e.id().equals(eventId)).toList(),s.budget()),selectedId);}
     private CharacterBook update(String id,UnaryOperator<Sheet> update,String selected){boolean found=sheets.stream().anyMatch(s->s.id().equals(id));if(!found)throw new IllegalArgumentException("Sheet not found");
         return new CharacterBook(sheets.stream().map(s->s.id().equals(id)?update.apply(s):s).toList(),selected);}
 }

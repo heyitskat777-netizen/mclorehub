@@ -1,5 +1,10 @@
 # Ordered creation plan
 
+Release 1.0.0 completes the remaining implementation requested after Phase 10,
+including the suggested import/comparison polish. Continue through all acceptance
+gates in docs/RELEASE_1_0.md without another Continue/approval question. Actual
+results are in STATUS.md. Historical milestone notes below describe earlier scope.
+
 Latest scope: the supplied database is user-confirmed accepted/accurate; no new
 per-record audit gate is required. Plain text is sufficient. Phase 7 defaults to
 main-post-only reading/search/comparison and monthly automatic checks of saved
