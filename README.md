@@ -2,7 +2,8 @@
 
 Personal-use **Minecraft 1.21.11 Fabric** wiki mod, developed in tested phases.
 
-**1.0.0** provides offline main-lore search, favorites, reading resume, character
+**1.0.1** supports **Fabric Loader 0.19.5+** on Minecraft 1.21.11 and provides
+offline main-lore search, favorites, reading resume, character
 sheets, monthly page updates and manual refresh/Undo. Database import now runs in
 Minecraft with previews, readable comparisons and whole-database Undo. Reports also
 include complete previous/current main text in bounded sections; replies stay in
@@ -17,6 +18,10 @@ unknowns/source disagreements. No server approval is fabricated.
 Start with [installation](docs/INSTALL.md), the [release guide](docs/RELEASE_1_0.md)
 and [character coverage](docs/CHARACTER_LORE_COVERAGE.md). Java 21, Minecraft 1.21.11,
 Fabric Loader and Fabric API are required. No server component or AI service is needed.
+
+[Download MCLoreHub 1.0.1](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.0.1.jar).
+Requires Loader 0.19.5+, API 0.141.6+1.21.11 and Java 21. Import your original
+LoreDB ZIP in-game; the private database is supplied separately.
 
 **Recovery note:** this environment reset to an empty checkout on October 28.
 Source was reconstructed from the recorded implementation and the original ZIP

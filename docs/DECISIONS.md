@@ -34,7 +34,9 @@ store extraction/challenge bypass. Actual restricted MArt access needs that acco
   body matches. Filtering and source dates remain visible.
 - Independent core and `client` Gradle project; `-PcoreOnly` omits Minecraft setup.
 - Gradle 9.8.2; Java 21 (cloud Temurin 21.0.13+9); Gson 2.13.2; JUnit 5.13.4.
-- Client pins: Loom 1.17.21, Loader 0.20.1, API 0.141.6+1.21.11, official mappings.
+- Client pins: Loom 1.17.21, Loader 0.19.5, API 0.141.6+1.21.11, official mappings.
+  The user requested Loader 0.19.5 compatibility after release 1.0.0; version 1.0.1
+  lowers the declared minimum and tests on exactly 0.19.5. Earlier phases used 0.20.1.
   The reconstructed client passed the full build and native scenario after the
   environment publication restored download access; see `STATUS.md`.
 - Default K, configurable in Controls; do not replace active screens. Vanilla

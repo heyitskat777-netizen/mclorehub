@@ -1,8 +1,10 @@
-# Personal installation — 1.0.0
+# Personal installation — 1.0.1
 
-1. Use **Minecraft 1.21.11**, Java 21, Fabric Loader 0.20.1 or later and Fabric API
+[Direct mod JAR download](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.0.1.jar).
+
+1. Use **Minecraft 1.21.11**, Java 21, Fabric Loader 0.19.5 or later and Fabric API
    0.141.6+1.21.11 (the tested combination). This mod is client-only.
-2. Put **mclorehub-1.0.0.jar** from `client/build/libs/` in the instance's `mods/`.
+2. Put **mclorehub-1.0.1.jar** from `client/build/libs/` in the instance's `mods/`.
    Remove older MCLoreHub JARs. The core and Jsoup are included; do not install the
    source JAR or developer importer distribution as a mod.
 3. Enter a world and press **K**, configurable in Controls. Choose **Database**,

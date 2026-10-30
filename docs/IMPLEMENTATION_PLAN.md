@@ -1,5 +1,10 @@
 # Ordered creation plan
 
+Post-release 1.0.1 targets the user's Fabric Loader 0.19.5 installation: lower the
+build/metadata minimum together, verify the new pinned artifacts, run actual client
+acceptance on exactly 0.19.5, preserve existing data and publish a direct JAR download.
+Keep Minecraft 1.21.11, Java 21, Fabric API and data schemas unchanged.
+
 Release 1.0.0 completes the remaining implementation requested after Phase 10,
 including the suggested import/comparison polish. Continue through all acceptance
 gates in docs/RELEASE_1_0.md without another Continue/approval question. Actual

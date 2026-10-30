@@ -17,7 +17,8 @@ public final class ReleaseClientGameTest implements FabricClientGameTest {
     @Override public void runTest(ClientGameTestContext c){try{scenario(c);}catch(Exception e){throw new AssertionError("Release acceptance failed",e);}}
     private void scenario(ClientGameTestContext c)throws Exception {
         c.waitForScreen(TitleScreen.class);String export=System.getenv("MCLOREHUB_TEST_EXPORT");if(export==null||export.isBlank()){LoggerFactory.getLogger("mclorehub-test").info("RELEASE_SCENARIO_NOT_RUN: supply private MCLOREHUB_TEST_EXPORT for fresh full-database acceptance");return;}
-        check(FabricLoader.getInstance().getModContainer("mclorehub").orElseThrow().getMetadata().getVersion().getFriendlyString().equals("1.0.0"),"Unexpected release version");
+        check(FabricLoader.getInstance().getModContainer("mclorehub").orElseThrow().getMetadata().getVersion().getFriendlyString().equals("1.0.1"),"Unexpected release version");
+        check(FabricLoader.getInstance().getModContainer("fabricloader").orElseThrow().getMetadata().getVersion().getFriendlyString().equals("0.19.5"),"Acceptance must run on requested Fabric Loader 0.19.5");
         Path root=Files.createTempDirectory("mclorehub-release-clean-");int oldScale=c.computeOnClient(m->m.options.guiScale().get());
         try(var library=new LibraryService(root);var chars=new CharacterService(root)){
             library.reload().get(10,TimeUnit.SECONDS);chars.reload().get(5,TimeUnit.SECONDS);c.runOnClient(m->{m.options.guiScale().set(2);m.resizeDisplay();});
@@ -31,7 +32,7 @@ public final class ReleaseClientGameTest implements FabricClientGameTest {
             c.waitFor(m->m.screen instanceof CharacterSheetScreen&&m.screen.getNarrationMessage().getString().contains("1 conflict(s)"));c.clickScreenButton("Compatibility");c.waitFor(m->m.screen.getNarrationMessage().getString().contains("Over recorded usable capacity"));c.takeScreenshot("release-slot-overflow");
             chars.edit(book->book.removeEntry(id,b.id())).get();c.waitFor(m->m.screen.getNarrationMessage().getString().contains("0 conflict(s)"));var sheet=chars.view().book().selected().orElseThrow();var slots=lore.slots(sheet);check(slots.minimum()==5&&slots.maximum()==5&&!slots.overBudget(),"Permanent loss was not retained after active entry removal");check(new CharacterStore(root.resolve("personal/characters.json")).load().book().equals(chars.view().book()),"Slot persistence failed");
             c.setScreen(()->new CharacterSheetScreen(new TitleScreen(),chars,id,library));for(int scale:new int[]{1,2}){c.runOnClient(m->{m.options.guiScale().set(scale);m.resizeDisplay();});bounds(c);c.takeScreenshot("release-sheet-scale-"+scale);}
-            c.setScreen(TitleScreen::new);LoggerFactory.getLogger("mclorehub-test").info("RELEASE_SCENARIO_PASS: clean 1.0.0 install, full original ZIP UI import, 488 normal references, all curated real sources, slot editor/overflow/permanent-loss recovery, persistence and scales; no authenticated MArt requests");
+            c.setScreen(TitleScreen::new);LoggerFactory.getLogger("mclorehub-test").info("RELEASE_SCENARIO_PASS: clean 1.0.1 install on Loader 0.19.5, full original ZIP UI import, 488 normal references, all curated real sources, slot editor/overflow/permanent-loss recovery, persistence and scales; no authenticated MArt requests");
         }finally{c.setScreen(TitleScreen::new);c.runOnClient(m->{m.options.guiScale().set(oldScale);m.resizeDisplay();});}
         try(var restart=new LibraryService(root)){check(restart.reload().get(20,TimeUnit.SECONDS).library().orElseThrow().catalogue().currentDocuments().size()==488,"Fresh selected pack did not survive restart");}
     }

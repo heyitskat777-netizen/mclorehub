@@ -1,6 +1,42 @@
 # Current status
 
-## Latest checkpoint — Release 1.0.0
+## Latest checkpoint — Release 1.0.1 / Fabric Loader 0.19.5
+
+The user requested compatibility with Fabric Loader **0.19.5**. Version **1.0.1**
+builds against exactly that loader and lowers the production metadata minimum to
+`>=0.19.5`. Minecraft stays **1.21.11**, Java stays **21**, and Fabric API stays
+**0.141.6+1.21.11** (its declared loader minimum is 0.17.3). Features, lore data and
+character schema 3 are unchanged. Existing configuration can be retained.
+
+The only dependency lock change is Loader 0.20.1 to 0.19.5. SHA-256 entries for
+the new loader JAR, sources and POM were checked against official Fabric Maven
+downloads over HTTPS; every previous verification entry remains unchanged.
+No checksum, locking or TLS checks were disabled.
+
+Normal `build installDist` passed. The native runner plus an explicit core-test
+rerun passed, exit 0: **292 core tests**, zero failures/errors/skips, and all **11
+native markers**. Minecraft's startup log and the release scenario both verify
+**Loader 0.19.5**, rather than only a relaxed metadata minimum. Tests imported the
+original ZIP in-game, loaded 488 references, matched all curated sources, exercised
+character/slot/migration behavior, updates/Undo, persistence and GUI scales. Fresh
+screenshots were inspected. Acceptance remains clean Fabric with Mesa/software
+rendering; real MArt access and a separate user modpack/hardware remain unverified.
+No live forum requests were made.
+
+Logs: `/tmp/mclorehub-1.0.1-build.log` and `/tmp/mclorehub-1.0.1-client.log`;
+copies/screenshots: ignored `local-data/verification/release-1.0.1-evidence/`.
+Production JAR: `client/build/libs/mclorehub-1.0.1.jar`, **845,382 bytes**, SHA-256
+`1bf0f2f87133ae1b301bb7c10a6cbd4003d34a7c475bf47394c03ee8b9f8706a`.
+Production metadata/privacy and source exclusions were checked. Backups and
+verified source/download identities are in `/workspace/mclorehub-1.0.1-backup.json`.
+
+[Direct JAR download](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.0.1.jar).
+Replace the old mod JAR; keep the database and personal files. A new installation
+still imports the original LoreDB ZIP through Database. The public download branch
+contains only mod binaries and instructions, with no private database/player/session
+data. Environment publication remains deferred; no environment settings changed.
+
+## Previous checkpoint — Release 1.0.0
 
 The requested implementation and polish are complete. In-game database import
 accepts the original ZIP/JSON and normalized packs, previews changes with readable

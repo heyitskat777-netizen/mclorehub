@@ -11,6 +11,8 @@
 3. Use this existing checkout. Cloud tasks are isolated; do not create a Git worktree
    unless explicitly requested. Do not repeat settled preference questions.
 4. Keep the target **Minecraft 1.21.11 / Fabric / Java 21**. No silent version changes.
+   The user requested **Fabric Loader 0.19.5** support after release 1.0.0; 1.0.1
+   builds/tests on 0.19.5 and declares that minimum. Keep API 0.141.6+1.21.11.
 5. Keep raw exports, generated packs, reviews, characters, application links,
    credentials, caches, and player configuration out of Git and public CI.
 6. Preserve TLS, package/checksum/signature verification, pinned tools, and dependency

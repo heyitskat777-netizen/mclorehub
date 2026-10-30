@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1, "id": "mclorehub-test", "version": "1.0.0",
+  "schemaVersion": 1, "id": "mclorehub-test", "version": "1.0.1",
   "name": "MCLoreHub client tests", "environment": "client",
   "entrypoints": {"fabric-client-gametest": ["net.mclorehub.client.WikiClientGameTest", "net.mclorehub.client.LibraryClientGameTest", "net.mclorehub.client.CharacterClientGameTest", "net.mclorehub.client.RefreshClientGameTest", "net.mclorehub.client.MonthlyClientGameTest", "net.mclorehub.client.CharacterLoreClientGameTest", "net.mclorehub.client.ExpandedLoreClientGameTest", "net.mclorehub.client.CharacterFactsClientGameTest", "net.mclorehub.client.ImportComparisonClientGameTest", "net.mclorehub.client.ReleaseClientGameTest"]},
   "depends": {"mclorehub": "*"}
