@@ -31,6 +31,11 @@
 - The user explicitly confirmed the supplied database is accepted/accurate. Trust
   that exact baseline via fingerprint-bound user confirmation; do not require a
   new acceptance audit for its 488 records. Keep later explicit status overrides.
+  The requested October 30 live audit subsequently found 256 missing implemented
+  topic records, 36 saved public main-post wording differences and The Elder Tree
+  in Recently Outdated Lore. See docs/LIVE_AUDIT_2026_10_30.md. Existing user trust
+  was not rewritten; do not describe it as a current independent verification or
+  claim the original export is complete. MArts remain not reverified.
 - Plain text is sufficient; richer formatting is out of scope per the latest user
   instruction. Preserve text/paragraphs, without inventing absent source content.
   The 1.0.2 feedback explicitly requests basic presentation: paragraph spacing,

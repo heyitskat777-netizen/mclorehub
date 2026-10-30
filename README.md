@@ -15,6 +15,10 @@ selection includes 72 references (including the Klone CA), 178 relationship rule
 allocations, permanent loss and special allowances retain citations and explicit
 unknowns/source disagreements. No server approval is fabricated.
 
+The [October 30 public-source audit](docs/LIVE_AUDIT_2026_10_30.md) found missing
+topic records and changed/outdated material in that original export. User trust is
+not an independent live verification; the audit did not rewrite database/player data.
+
 Start with [installation](docs/INSTALL.md), the [release guide](docs/RELEASE_1_0.md)
 and [character coverage](docs/CHARACTER_LORE_COVERAGE.md). Java 21, Minecraft 1.21.11,
 Fabric Loader and Fabric API are required. No server component or AI service is needed.

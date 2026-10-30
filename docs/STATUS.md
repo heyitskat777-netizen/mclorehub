@@ -1,5 +1,40 @@
 # Current status
 
+## Latest research checkpoint — October 30 public lore audit
+
+The user requested comparing the supplied database against available official
+lore. The [audit summary](LIVE_AUDIT_2026_10_30.md) records the completed public
+directory/main-post comparison. Enumerated 37 accessible directories and all 46
+listing pages, verifying reported topic counts against unique IDs; attempted the
+restricted MArt archive as a 38th directory. Inventory: 534 public implemented,
+27 legacy and 30 policy/reference topics, 591 distinct IDs. Of the 534 implemented
+topic records, the export contains 278 and lacks 256.
+
+All 279 saved public main posts returned HTTP 200 and parsed: 243 match after
+display/spacing normalization; 36 have wording differences, including editorial
+and mechanical differences. The Elder Tree is currently in Recently Outdated Lore;
+the audit does not establish the archive-move date. Twenty-eight curated source
+pages have wording differences and need context review before rebinding evidence;
+dependency alone does not establish a rule error. MArt archive returned signed-out
+404 and three known MArt topics returned 403. The 209 stored MArts are explicitly
+not reverified; new restricted-topic coverage is unknown. No account was used.
+
+Private report, CSVs, comparison JSON, per-topic excerpts and captured HTTP evidence
+are under `local-data/audits/2026-10-30/`. Original ZIP checksum still matches the
+September baseline. No runtime pack, user trust, personal files or character rules
+were changed. Missing-topic bodies, image-contained rules, external documents and
+reply amendments are not fully audited. This compares the supplied export, not
+the user's locally refreshed mod configuration, and is not a blanket canon audit.
+
+The first extraction comparison counted image placeholders as differences; an
+offline-only pass over the captured HTML excludes those and forum spoiler labels,
+then checks Unicode/spacing/token equivalence. Final refined counts are 201 display
+matches + 42 spacing/segmentation-only = 243, with 36 wording differences. Use the
+refined results rather than raw-extraction diagnostic diffs. Consistency checks
+validated all 488 IDs, directory counts, source hash and result totals. No new
+game test was required for this read-only audit/documentation update; the tested
+mod release remains 1.0.2 below. No environment settings/publication changed.
+
 ## Latest checkpoint — Release 1.0.2 / search and reading fixes
 
 User testing found the wiki search caret/focus resetting during typing. The search

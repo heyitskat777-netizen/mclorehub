@@ -1,5 +1,12 @@
 # Source audit
 
+The [October 30 public audit](LIVE_AUDIT_2026_10_30.md) supersedes the earlier
+no-live-audit limit for its stated scope: 534 public implemented topic records,
+256 absent from the supplied export, 36 saved public main posts with wording
+differences, and The Elder Tree found in Recently Outdated Lore. The original
+export/trust remains unchanged; the 209 stored MArts are not live-reverified.
+The provenance below describes the immutable September baseline.
+
 User-supplied `lotc_current_lore_database (1).zip`; retained privately as
 `local-data/imports/lotc_current_lore_database.zip`. Uploaded identity:
 `file_00000000746c81f5af49ad0f3ea2e5db`. The attachment was recovered after reset.
