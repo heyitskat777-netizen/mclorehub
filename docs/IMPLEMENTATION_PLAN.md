@@ -43,6 +43,10 @@ and stop with the next step. Never replace useful tests with trivial passing che
    evaluate conditions/exceptions/acquisition history and unknown facts. Test real
    reviewed examples, conflicting sources, stale rules, missing coverage and exceptions.
    Unknown does not mean compatible; warnings do not prohibit sheet editing.
+   Phase 8 adds eight explicit MAGIC/CA/FA choices, advisory main-revision-bound
+   exclusions, source disagreement and conditional requirements notices. Selection
+   and checks survive no-change refresh and suspend after changed sources. Broader
+   curated coverage, typed eligibility/history and complete exception handling remain.
 7. **M6: Updates/recovery.** In-game import/review; added/changed/missing/status diffs;
    staged pack and index; atomic active pointer; backup/rollback; preserve favorites,
    character refs and review history. Test partial snapshots, cancellation, disk/crash

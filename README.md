@@ -11,7 +11,9 @@ user-recorded statuses, notes and archive/restore. The supplied database is trus
 using the user's confirmation. Main-post refresh compares saved lore with the
 forum, saves changes persistently and supports Undo. Monthly automatic checks,
 pause controls and optional explicitly imported forum sessions are available.
-Sourced compatibility rules and a curated character lore picker remain incomplete.
+A curated character lore picker and initial cited compatibility checks are available.
+Coverage is limited; unassessed combinations and conflicting source statements
+remain explicit. See Phase 8 for supported options and rules.
 
 **Recovery note:** this environment reset to an empty checkout on October 28.
 Source was reconstructed from the recorded implementation and the original ZIP
@@ -37,6 +39,7 @@ report for the exact distinction, limits and persistence steps.
 - [Personal installation](docs/INSTALL.md)
 - [Phase 6 trusted baseline and per-topic updates](docs/PHASE_6.md)
 - [Phase 7 main-only monthly checks](docs/PHASE_7.md)
+- [Phase 8 character lore picker and sourced checks](docs/PHASE_8.md)
 - [Optional forum session / MArt access](docs/FORUM_SESSION.md)
 
 ## Build and use the core

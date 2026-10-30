@@ -38,8 +38,11 @@
 - Do not mutate the original pack, trust/review manifests, characters or favorites
   during refresh. Reading resumes safely with the new source fingerprint. Manual
   full-pack replacement remains separate from the implemented per-topic transaction.
-- Compatibility later requires exact source passages, conditions, exceptions,
-  prerequisites and revision dependency. Missing coverage is not assessed.
+- Phase 8 compatibility uses a limited curated manifest with exact main-post
+  passages and content/metadata revision dependencies. No-change checks/archived
+  replies do not invalidate these bindings. Changed sources suspend their checks.
+  Keep conditions, exceptions, prerequisites and disagreements visible. Missing
+  coverage is not assessed; zero warnings does not establish compatibility.
 - Monthly checks cover only known saved IDs, run off the render thread while
   Minecraft is running, persist next-due dates, and catch up after restart. Manual
   success resets the monthly date. Pause/cancel and HTTP Retry-After are respected.

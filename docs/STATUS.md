@@ -1,6 +1,53 @@
 # Current status
 
-## Latest checkpoint — Phase 7
+## Latest checkpoint — Phase 8
+
+Character entries now offer **Choose lore** with eight curated choices from seven
+main documents: five MAGIC, two FA and one CA. Names may be edited without losing
+stable lore links; application URLs/status, branch/tier and notes remain personal.
+Unlink/manual entry remains available. This is a limited selection layer, not a
+classification of all 488 references as learnable magics or applications.
+
+Initial advisory checks cover Necromancy/Templar exclusion, Seer/Tree Lord exclusion,
+opposite recorded Kani paths, and an explicit Seer/Templar **source disagreement**.
+Requirements preserve named exceptions and missing history/eligibility facts.
+The sheet shows an async summary; Compatibility shows findings, original URLs,
+snapshot dates and exact main-post evidence. Unlinked/uncovered combinations stay
+not assessed; zero warnings never certifies compatibility or application approval.
+
+Curated rules bind main-post body and metadata, checked against trusted/current
+sources and exact passages. No-change refreshes and archived discussion do not
+retire them. Changed/missing/non-current sources suspend the relevant selection
+and checks while preserving character entries. Reload, monthly/manual activation
+and Undo rebuild the same immutable projection on the library worker.
+
+Full build/install and **221 core tests passed**, with zero failures/errors/skips.
+Native Minecraft scenarios passed with the supplied real pack/trust, including
+488 normal references, curated source/evidence matching, MAGIC/CA/FA selection/save,
+cited warnings, no-change refresh, changed-source suspension and Undo. Character
+and original pack bytes remain unchanged by source updates. Screenshots of the
+picker, sheet summary, evidence and source-review state were inspected at scales
+1/2. Locks/checksums/dependencies and exact Minecraft version are unchanged.
+One final native attempt failed in Fabric's network synchronizer before the new
+character scenario; an unchanged retry passed every marker and exited 0, including
+actual picker typing. Final log: `/tmp/mclorehub-phase8-client-frozen-retry.log`.
+Source/artifact identities are recorded in `/workspace/mclorehub-phase8-backup.json`.
+No live forum request or real MArt authentication was
+performed in this phase; earlier public Tawkin verification remains historical.
+
+Current artifact: `client/build/libs/mclorehub-0.1.0-phase8.jar`, **711,786 bytes**,
+SHA-256 `d51c289f2022ab4ab55fd26acf5b0f5220faa733d6b8f891d6308ac1696f2dd3`.
+The existing Phase 7 trusted-data ZIP is compatible and does not need replacement.
+Only selected public main-post policy excerpts are bundled with curated rules;
+private corpus/player/auth files and test entrypoints are excluded from the JAR
+and source checkpoints. See [Phase 8](PHASE_8.md) and [installation](INSTALL.md).
+
+Next: expand curated entities and source-backed rules; add typed eligibility,
+acquisition history and fuller exception handling as needed. Real account MArt
+access and actual user modpack/hardware/multiplayer acceptance remain unverified.
+Whole-pack import UI and readable saved-vs-fetched diffs are optional later work.
+
+## Previous checkpoint — Phase 7
 
 Normal reader/search/update comparison now uses **main lore only**. Comment pages
 are not requested; old replies remain an explicit archive and do not replace main

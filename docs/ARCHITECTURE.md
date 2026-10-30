@@ -9,9 +9,9 @@ Only bounded font layout of a reader section runs in the screen.
 
 ```text
 Source ZIP/JSON -> ExportImporter -> immutable candidate directory
-Candidate + separate reviews -> LoreCatalogue -> current documents + audit queues
-Client UI -> LibraryService -> catalogue/search/reader/personal services
-Future: fetch -> staging -> review -> validated pack/index -> active pointer
+Candidate + optional reviews/user trust -> LoreCatalogue -> current documents + audit queues
+Main-post fetch -> validated snapshot/catalogue/index -> atomic topic pointer + Undo
+Client UI -> LibraryService -> catalogue/search/reader/character-lore/personal services
 Personal state remains outside all source/import/update transactions
 ```
 
@@ -32,13 +32,25 @@ reading-state) separate. Schema versions are independent. Never hardcode an OS's
 Minecraft path or delete unresolved references. Runtime I/O/indexing/HTTP must be
 off the render thread. No processes are assumed to survive a cloud snapshot.
 
-Implemented paths are `packs/active/pack.json`, optional `reviews.json`,
-`personal/state.json` and `personal/characters.json`. Staging/index-cache/pack-rollback
-directories are future update infrastructure. `CharacterService` owns a separate
+Implemented paths include `packs/active/{pack.json,trust.json,reviews.json}`,
+`updates/{active.json,snapshots/,monthly.json}`, `personal/state.json` and
+`personal/characters.json`. Optional credentials live separately under `auth/`.
+Whole-pack activation UI remains future work. `CharacterService` owns a separate
 worker and immutable `CharacterBook`; its schema and atomic previous-file backup
 are independent of reading/favorites and lore. Application status is user-recorded;
-there is no compatibility evaluator or automatic eligibility inference yet.
+there is no automatic eligibility or application-approval inference.
 
-Future activation: validate candidate -> review differences/status -> build index
--> write immutable revision -> atomically switch pointer -> reopen/check -> retain
-rollback. Current report writes do not implement that active-pack transaction.
+Phase 8's `CharacterLore` is an immutable curated projection created with each
+library on its file worker. The picker filters explicit kinds and links stable
+document IDs. `LibraryService.assess` evaluates an immutable sheet on that worker;
+screens consume futures and invalidate by library/character generations. Rules
+bind main-post body/metadata and quoted evidence, excluding archived replies and
+refresh timestamps. Four initial checks distinguish exclusions from source
+disagreements and keep unknown coverage visible. No positive compatibility or
+full eligibility engine is implied. See PHASE_8.md for the initial scope.
+
+Per-topic activation validates a snapshot, prepares the catalogue/search/character
+projection, then atomically switches the pointer and publishes the prepared library.
+Stored source/base IDs and checksums bind updates to the correct baseline. Manual
+and monthly checks share that pipeline. Optional sessions only authenticate
+authorized requests; no sign-in or access bypass is inferred. See PHASE_7.md.

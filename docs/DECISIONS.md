@@ -52,9 +52,11 @@ store extraction/challenge bypass. Actual restricted MArt access needs that acco
 
 ## Outstanding choices
 
-Entity taxonomy below broad source audit roles, curated compatibility rules and
-broader modpack acceptance remain. Supported authenticated forum access is future
-work; inaccessible pages retain stored lore. Rich formatting and a fresh audit of
+Phase 8 adds eight curated options and four initial checks, bound to main-post
+content/metadata, with explicit source disagreements and manual requirements.
+Broader entity/rule coverage, typed eligibility/history and modpack acceptance
+remain. Optional local session import exists; real authenticated MArt access
+remains unverified. Inaccessible pages retain stored lore. Rich formatting and a fresh audit of
 the supplied database are no longer required. Resolve remaining choices when needed,
 not by repeating already settled requirements. No mcchatmod reference was available;
 these are standalone project instructions.

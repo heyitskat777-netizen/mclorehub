@@ -3,6 +3,7 @@ package net.mclorehub.library;
 import net.mclorehub.catalogue.LoreCatalogue;
 import net.mclorehub.catalogue.LoreCatalogue.Document;
 import net.mclorehub.updates.*;
+import net.mclorehub.character.*;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
@@ -12,7 +13,9 @@ import java.util.function.UnaryOperator;
 /** All filesystem, parsing, indexing, searching and personal writes run on owned workers. */
 public final class LibraryService implements AutoCloseable {
     public enum Phase { LOADING, EMPTY, READY, ERROR }
-    public record Library(LoreCatalogue catalogue, LoreSearch search) {}
+    public record Library(LoreCatalogue catalogue, LoreSearch search, CharacterLore characterLore) {
+        public Library(LoreCatalogue catalogue,LoreSearch search)throws IOException {this(catalogue,search,CharacterLore.bundled(catalogue));}
+    }
     public record View(long generation, Phase phase, Optional<Library> library, PersonalState personal,
                        boolean writable, String message) {}
     public enum RefreshPhase { IDLE, FETCHING, SAVING }
@@ -155,6 +158,9 @@ public final class LibraryService implements AutoCloseable {
         return CompletableFuture.supplyAsync(() -> details ? ReaderContent.details(document) : ReaderContent.document(document),io);
     }
     public CompletableFuture<ReaderContent> archivedReplies(Document document){return CompletableFuture.supplyAsync(()->ReaderContent.discussion(document),io);}
+    public CompletableFuture<CharacterLore.Report> assess(CharacterBook.Sheet sheet){
+        var snapshot=view.library();return CompletableFuture.supplyAsync(()->snapshot.orElseThrow(()->new IllegalStateException("Load a lore database first")).characterLore().assess(sheet),io);
+    }
     public CompletableFuture<View> remember(PersonalState.ReadingPosition position) { return change(s -> s.remember(position)); }
     private CompletableFuture<View> change(UnaryOperator<PersonalState> update) {
         return CompletableFuture.supplyAsync(() -> {

@@ -61,3 +61,11 @@ checksums were retained and verified. Do not describe lost earlier files as pres
 Report exact commands, exits/counts, skips, blockers, artifacts and next action.
 A failed check needs diagnosis; a zero-test run is not validation. After testing,
 check Markdown links/schema consistency/private exclusions and create source backups.
+
+Phase 8 adds `CharacterLoreTest` and a native curated-corpus scenario. Run with
+both `MCLOREHUB_TEST_PACK` and `MCLOREHUB_TEST_TRUST` to require
+`CHARACTER_LORE_SCENARIO_PASS`: exact main evidence/bindings, actual MAGIC/CA/FA
+selection/save, sheet summary and cited conflict, no-change refresh retaining rules,
+changed-source suspension, Undo, scales and unchanged character/base files. Without
+these variables the test checks unavailable selection and explicitly reports that
+the real curated-corpus scenario was not run. No private corpus fixture enters Git.

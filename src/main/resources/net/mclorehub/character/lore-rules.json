@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "curated_on": "2026-10-29",
+  "scope": "Initial limited selection and checks from the user-confirmed September 2026 main-post snapshot; not a live verification or complete eligibility/compatibility catalogue.",
+  "sources": [
+    {
+      "id": "lotc:topic:211641",
+      "title": "[✓] [Feat + Magic Lore] Seers - Cozeners of Vaasek",
+      "url": "https://www.lordofthecraft.net/forums/topic/211641-%E2%9C%93-feat-magic-lore-seers-cozeners-of-vaasek/",
+      "revision": "ff4f8df5f859a0e6a2bd7b00d26f369b2d8eb3659ffa48589371aea1e844e4ea",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "Seer is compatible with:",
+        "Deity magics: druidism, shamanism, templars, heraldry",
+        "Ologs, kharajyr, hou-zi [feat], musin [feat], azdrazi, zar'ei, epiphytes (inaccessible while underage after rebirth, upon coming of age they lose their sight and therein can use seer again), frost witches, siliti (so long as they are turned after being a seer),  and klones (so long as the inhabited body is blind, a non-blind body makes the feat/magic inaccessible), and machine spirits (so long as they are turned after becoming an MA seer).",
+        "Seer is incompatible with sorvians, vargs, ghosts/gravens, paleknights, wights, darkstalkers, atronachs, animii, golems, zevn and zar'akal, wonks, demi-djinn, homunculi, and treelords."
+      ],
+      "main_fingerprint": "83fed6e394718c746486cf2ac90b258022ff6ecdb78659543e271fb4b04825e5"
+    },
+    {
+      "id": "lotc:topic:249533",
+      "title": "[✓] [Magic Lore] Necromancy - the Abyssal Arts",
+      "url": "https://www.lordofthecraft.net/forums/topic/249533-%E2%9C%93-magic-lore-necromancy-the-abyssal-arts/",
+      "revision": "e07b6db9e03e1ef158f4563930f1cc037786c832fa4713c5e44047fec368bd59",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "⬢ Necromancy is a [3]-slot Dark Magic, originating from the Abyss. Necromancers are incompatible with all deific magics except Seers of Vaasek and Palmreading.",
+        "⬢ Necromancy may be acquired by any greater-souled mortal race whom bears the possible slots; at the time of writing, these are the Descendant Races, Kharajyr, and Halflings.",
+        "⬢ Necromancy permanently dedicates itself to the slots associated to it- the Abyssal influence upon the soul permanently sears and affects it to a degree where these slots are irrevocably dedicated to Necromancy, and if disconnected from it are permanently lost.",
+        "⬢ Necromancy requires a valid [MA] in order to practice, and a valid [TA] to teach it to others. One may only gain a [TA] after hitting [Tɪᴇʀ V] in the magic, and after learning all spells, abilities, and rituals (beyond Sundering, the ‘DC’ ritual)."
+      ],
+      "main_fingerprint": "f344d0ceb2a0b4befb2eec98a3fcce1d5794c6834e99e75060737df2496f20c0"
+    },
+    {
+      "id": "lotc:topic:228224",
+      "title": "[✓] [Magic Lore] Malchediael's Radiant Templars",
+      "url": "https://www.lordofthecraft.net/forums/topic/228224-%E2%9C%93-magic-lore-malchediaels-radiant-templars/",
+      "revision": "41076feeaf4ceebeac75053c04f1bfaf202825c729fe4ad8234db8b34fc4c795",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "• Templarism occupies [3] Magic Slots.",
+        "• Templarism is incompatible with other Deific Magics, Dark Magics and Dark CAs. This includes Palm-Reading.",
+        "• Templarism is incompatible with any race other than the Descendent Races: Humans, Orcs, Elves and Dwarves.",
+        "• In the event that a Templar be severed from Malchediael’s tether a third time,  willingly or otherwise, they will be ineligible to receive it a fourth."
+      ],
+      "main_fingerprint": "197052d030bdeb9f9991bab6e8c3173a8e52f905c0cf064d3d22f8d5eecfed84"
+    },
+    {
+      "id": "lotc:topic:228968",
+      "title": "[✓] [Magic Lore] Kani - The Way of the Oscillit",
+      "url": "https://www.lordofthecraft.net/forums/topic/228968-%E2%9C%93-magic-lore-kani-the-way-of-the-oscillit/",
+      "revision": "2112e652c1b6bc3492738bd0548c26ef81edd8ad07be61c0964bc14cfbe35544",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "• Kani occupies [2] Magic Slots.",
+        "• Kani is compatible with all Races and Creatures that are capable of breathing, who possess lungs and which harbors at the minimum a lesser soul.",
+        "• Kani is incompatible with Creatures that possess Corrupted or Modified Souls, given their corrupted “Body” portion of the Soul. This is to say Dark CAs are generally incompatible (bar Klones), while FAs and Dark/Voidal Magics may be compatible.",
+        "• Kani is incapable of being dual-cast. There must be at least a [1] Emote period of grace between using an ability of Kani and that of another magic.",
+        "A Kani practitioner who subscribes to the Sun Path is thus incapable of utilizing abilities from the Moon Path, and vice versa. Through deep meditation, an Oscillit may be able to shift their mentality to the parallel path once per OOC month. The ritual for doing such is generally free-form, but necessitates that an Oscillit perform it while basking beneath the light of the Sun or Moon.",
+        "• An Oscillit is responsible for keeping the ST informed as to which path they have chosen by noting it upon their MA. In the event that an Oscillit wishes to switch paths, they must make an appropriate SREQ as to update their MA."
+      ],
+      "main_fingerprint": "00b97c062ada486c992bb325cd1a38815cdc12fd5d77b79a431e236cf579bef3"
+    },
+    {
+      "id": "lotc:topic:192262",
+      "title": "[✓] [World Lore] [Feat] Alchemy",
+      "url": "https://www.lordofthecraft.net/forums/topic/192262-%E2%9C%93-world-lore-feat-alchemy/",
+      "revision": "33033eefae87067023a828d6422e24e8deb96407185fbb27fd76341e0773512a",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "- One requires an accepted Alchemy FA before they may learn any form of Further Alchemy which utilizes alchemical processes such as Smoggers, Animatii, Tawkin, etc. Affliction does not require base alchemy in order to learn."
+      ],
+      "main_fingerprint": "0b601516c66daa34047faa71832952735ee89c30d35f6e0a7357a8d90aab4667"
+    },
+    {
+      "id": "lotc:topic:191272",
+      "title": "[✓] [CA Race Lore] - Tree Lords",
+      "url": "https://www.lordofthecraft.net/forums/topic/191272-%E2%9C%93-ca-race-lore-tree-lords/",
+      "revision": "93fa844dea90affba9a5b4bd603e3022b60736aea6ef6a79d38af29d6cdfb293",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "Templar Druids are incompatible with turning into a Treelord given Malchediael  refusing to give the gift to an immortal. A druid with Templarism must choose and if turned into a Soul Tree, the magic of Templarism is Dropped."
+      ],
+      "main_fingerprint": "704ffc3a4812560c6830599f8648588f6c35aafff749bb8aa16f6ae127313f46"
+    },
+    {
+      "id": "lotc:topic:234439",
+      "title": "[✓] [Magic Lore] Air Evocation",
+      "url": "https://www.lordofthecraft.net/forums/topic/234439-%E2%9C%93-magic-lore-air-evocation/",
+      "revision": "7704d4b96a4196465fc335acb42f53cfd28bf763ba150f5d965de1fa3aa0345f",
+      "snapshot": "2026-09-21T02:12:38.477739+00:00",
+      "passages": [
+        "Overall, out of the evocations air distinguishes itself with its unique emphasis on utility albeit with a more offensive emphasis compared to water as you would expect from its fluid nature. More seasoned air evocationists are granted the ability to manifest air as sound or even storm. As a Voidal magic air evocation at a baseline requires one magic slot and being taught by a valid TA holder. The maintenance of spells and progression of tiers is subject to currently accepted standards for Voidal connection."
+      ],
+      "main_fingerprint": "31f1f7c84a5f6bfeab612dfad3cf2b5e8026c57382c35beea3896ab8b5791903"
+    }
+  ],
+  "options": [
+    {
+      "key": "seer-magic",
+      "name": "Seer (bonded magic)",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:211641",
+      "notes": "Bonded magic and the feat share a source, but are separate sheet entries. Blindness, acquisition history and creature-specific exceptions need manual assessment."
+    },
+    {
+      "key": "seer-feat",
+      "name": "Seer (feat)",
+      "kind": "FA",
+      "source_id": "lotc:topic:211641",
+      "notes": "Record the feat separately from bonded magic. Eligibility includes blindness and creature-specific acquisition conditions; an FA record is not verified approval."
+    },
+    {
+      "key": "necromancy",
+      "name": "Necromancy",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:249533",
+      "notes": "Three slots are permanently dedicated; disconnection does not restore them. Greater-soul, race, available slots, prior acquisition and MA requirements need manual assessment. Seer and Palmreading are named exceptions to the deific exclusion; this alone does not prove eligibility."
+    },
+    {
+      "key": "templar",
+      "name": "Radiant Templar",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:228224",
+      "notes": "Three magic slots; descendant-race and prior-severance limits need manual assessment. Seer compatibility has conflicting statements in these stored sources."
+    },
+    {
+      "key": "kani",
+      "name": "Kani",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:228968",
+      "notes": "Two magic slots. Requires breathing, lungs and at least a lesser soul. Corrupted/modified souls are generally excluded, with Klones excepted; Dark/Voidal magic is not automatically excluded. Equipment and casting limits need manual assessment. Use branch Sun or Moon for the path check."
+    },
+    {
+      "key": "alchemy",
+      "name": "Alchemy",
+      "kind": "FA",
+      "source_id": "lotc:topic:192262",
+      "notes": "Accepted Alchemy FA is required before Further Alchemy using alchemical processes, including Tawkin; Affliction is an explicit exception. No application approval is verified."
+    },
+    {
+      "key": "tree-lord",
+      "name": "Tree Lord",
+      "kind": "CA",
+      "source_id": "lotc:topic:191272",
+      "notes": "Creature application reference; no eligibility, acquisition or approval is inferred from selection."
+    },
+    {
+      "key": "air-evocation",
+      "name": "Air Evocation",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:234439",
+      "notes": "Baseline one magic slot and instruction from a valid TA holder. Other Voidal requirements and the rest of the sheet are not assessed."
+    }
+  ],
+  "rules": [
+    {
+      "key": "necromancy-templar",
+      "type": "EXCLUSION",
+      "left": [
+        "necromancy"
+      ],
+      "right": [
+        "templar"
+      ],
+      "sources": [
+        "lotc:topic:249533",
+        "lotc:topic:228224"
+      ],
+      "summary": "Recorded Necromancy and Templarism conflict: both stored sources exclude this pairing. Necromancy explicitly excepts Seer and Palmreading from its broader deific restriction."
+    },
+    {
+      "key": "seer-tree-lord",
+      "type": "EXCLUSION",
+      "left": [
+        "seer-magic",
+        "seer-feat"
+      ],
+      "right": [
+        "tree-lord"
+      ],
+      "sources": [
+        "lotc:topic:211641",
+        "lotc:topic:191272"
+      ],
+      "summary": "Seer lore explicitly lists treelords as incompatible, for both the feat and bonded magic."
+    },
+    {
+      "key": "seer-templar-disagreement",
+      "type": "SOURCE_CONFLICT",
+      "left": [
+        "seer-magic",
+        "seer-feat"
+      ],
+      "right": [
+        "templar"
+      ],
+      "sources": [
+        "lotc:topic:211641",
+        "lotc:topic:228224"
+      ],
+      "summary": "Needs a ruling: Seer lore lists templars as compatible, while Templar lore excludes other deific magics. These snapshot statements are not reconciled automatically."
+    },
+    {
+      "key": "kani-paths",
+      "type": "BRANCH_EXCLUSION",
+      "left": [
+        "kani"
+      ],
+      "right": [
+        "kani"
+      ],
+      "sources": [
+        "lotc:topic:228968"
+      ],
+      "summary": "Sun and Moon advanced Kani abilities cannot be used together. The source permits switching paths once per OOC month by the specified ritual, with an MA update/SREQ. This checks recorded simultaneous paths, not historical training or permission to switch."
+    }
+  ]
+}

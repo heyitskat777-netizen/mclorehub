@@ -2,7 +2,7 @@
 
 1. Use an instance of **Minecraft 1.21.11**, Java 21, Fabric Loader 0.20.1 or later,
    and Fabric API 0.141.6+1.21.11 (the verified combination).
-2. Copy **mclorehub-0.1.0-phase7.jar** from `client/build/libs/` into that instance's
+2. Copy **mclorehub-0.1.0-phase8.jar** from `client/build/libs/` into that instance's
    `mods` folder. The core is included; no second importer JAR is needed. Do not
    install source JARs or developer CLI distributions as mods. Remove the older
    MCLoreHub mod JAR when upgrading so two versions are not installed together.
@@ -22,8 +22,11 @@
    Previous/Next for source sections, and Source and review for evidence/dates.
    Save favorites, return with Back/Escape, and use Resume reading or K to reopen
    the last available document. Revisions are checked before restoring an offset.
-7. Choose **Characters** to maintain local magic/CA/FA records. Approval labels are
-   user-recorded. Compatibility remains not assessed until sourced rules exist.
+7. Choose **Characters** to maintain local magic/CA/FA records. **Choose lore** links
+   an entry to the initial curated list; manual entry remains available. Approval
+   labels are user-recorded. **Compatibility** shows initial cited checks, source
+   disagreements and requirements, with explicit partial coverage. Changed sources
+   suspend their checks without deleting your entries. See [Phase 8](PHASE_8.md).
 8. In a document, choose **Refresh topic** to fetch its official forum topic and
    main first post, compare and save changes locally. Replies/pagination are not fetched.
    **Cancel refresh** stops a fetch.
