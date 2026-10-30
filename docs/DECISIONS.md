@@ -55,8 +55,11 @@ store extraction/challenge bypass. Actual restricted MArt access needs that acco
 Phase 9 expands to 23 curated choices and 26 rules, bound to main-post
 content/metadata, with explicit source disagreements and conditional requirements.
 Sprite/Herblore and Seer/Shapeshifting notices are not permanent exclusions.
-Broader entity/rule coverage, typed eligibility/history and modpack acceptance
-remain. Optional local session import exists; real authenticated MArt access
+Phase 10 records typed current facts and independent history, with seven initial
+source-bound checks and schema-1-to-2 migration. No automatic timeline, positive
+eligibility or slot accounting is implied. Broader coverage and modpack acceptance
+remain. Environment publishing is deferred by the user after timeouts and is not
+a coding prerequisite. Optional local session import exists; real authenticated MArt access
 remains unverified. Inaccessible pages retain stored lore. Rich formatting and a fresh audit of
 the supplied database are no longer required. Resolve remaining choices when needed,
 not by repeating already settled requirements. No mcchatmod reference was available;

@@ -14,6 +14,8 @@ pause controls and optional explicitly imported forum sessions are available.
 A curated character lore picker and initial cited compatibility checks are available.
 Coverage now includes 23 choices and 26 rules; unassessed combinations, conditional
 provisions and conflicting source statements remain explicit. See Phase 9 for scope.
+Known facts and acquisition history add seven source-bound prerequisite/history
+checks with safe migration of older sheets; see Phase 10.
 
 **Recovery note:** this environment reset to an empty checkout on October 28.
 Source was reconstructed from the recorded implementation and the original ZIP
@@ -42,6 +44,7 @@ report for the exact distinction, limits and persistence steps.
 - [Phase 8 character lore picker and sourced checks](docs/PHASE_8.md)
 - [Phase 9 expanded character lore and conditions](docs/PHASE_9.md)
 - [Character lore coverage directory](docs/CHARACTER_LORE_COVERAGE.md)
+- [Phase 10 known facts, history and migration](docs/PHASE_10.md)
 - [Optional forum session / MArt access](docs/FORUM_SESSION.md)
 
 ## Build and use the core

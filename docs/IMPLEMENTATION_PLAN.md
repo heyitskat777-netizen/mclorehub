@@ -50,6 +50,9 @@ and stop with the next step. Never replace useful tests with trivial passing che
    Phase 9 expands to 23 choices/26 rules, adds conditional notices and a source
    coverage directory, and tests per-rule revision isolation. Typed facts/history
    remain a separate next slice; no positive compatibility state is implied.
+   Phase 10 adds explicit current facts, independent history, seven narrow checks
+   and transactional schema-1-to-2 migration. Broader facts/rules, automatic slot
+   accounting and chronological inference remain unimplemented.
 7. **M6: Updates/recovery.** In-game import/review; added/changed/missing/status diffs;
    staged pack and index; atomic active pointer; backup/rollback; preserve favorites,
    character refs and review history. Test partial snapshots, cancellation, disk/crash

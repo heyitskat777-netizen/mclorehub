@@ -13,7 +13,11 @@ import static net.mclorehub.importer.JsonSupport.*;
 public final class CharacterLore {
     public enum Availability { AVAILABLE, MISSING, NEEDS_REVIEW, NOT_CURRENT }
     public enum Type { EXCLUSION, SOURCE_CONFLICT, BRANCH_EXCLUSION, CONDITIONAL_NOTICE }
-    public enum Outcome { EXCLUSION, SOURCE_CONFLICT, NEEDS_REVIEW, REQUIREMENTS, NOT_ASSESSED }
+    public enum Outcome { EXCLUSION, ELIGIBILITY_CONFLICT, SOURCE_CONFLICT, NEEDS_REVIEW, REQUIREMENTS, NOT_ASSESSED }
+    public enum EligibilityType { KANI_BODY, SEER_BODY, CLERIC_BODY, CLERIC_HISTORY, TEMPLAR_RACE, TEMPLAR_HISTORY, NECROMANCY_HISTORY }
+    public record EligibilityRule(String key,EligibilityType type,List<String> options,List<String> sources) {
+        public EligibilityRule {options=List.copyOf(options);sources=List.copyOf(sources);}
+    }
     public record Source(String id,String title,String url,String revision,String mainFingerprint,String snapshot,List<String> passages) {
         public Source { passages=List.copyOf(passages); }
     }
@@ -28,7 +32,7 @@ public final class CharacterLore {
     public record Report(List<Finding> findings,int checkedPairs,int totalPairs,int unresolvedEntries) {
         public Report { findings=List.copyOf(findings); }
         public String summary() {
-            long conflicts=findings.stream().filter(f->f.outcome()==Outcome.EXCLUSION).count();
+            long conflicts=findings.stream().filter(f->f.outcome()==Outcome.EXCLUSION||f.outcome()==Outcome.ELIGIBILITY_CONFLICT).count();
             long review=findings.stream().filter(f->f.outcome()==Outcome.SOURCE_CONFLICT||f.outcome()==Outcome.NEEDS_REVIEW).count();
             return conflicts+" conflict(s), "+review+" need review; partial coverage";
         }
@@ -37,11 +41,13 @@ public final class CharacterLore {
     private final Map<String,Document> documents;
     private final List<Option> options;
     private final List<Rule> rules;
+    private final List<EligibilityRule> eligibility;
     private final String scope;
     private final Map<String,Availability> availability;
     private final Map<String,String> searchText;
-    private CharacterLore(Map<String,Source> sources,List<Option> options,List<Rule> rules,List<Document> documents,String scope) {
+    private CharacterLore(Map<String,Source> sources,List<Option> options,List<Rule> rules,List<EligibilityRule> eligibility,List<Document> documents,String scope) {
         this.sources=Map.copyOf(sources);this.options=List.copyOf(options);this.rules=List.copyOf(rules);this.scope=scope;
+        this.eligibility=List.copyOf(eligibility);
         Map<String,Document> byId=new HashMap<>();documents.forEach(d->byId.put(d.id(),d));this.documents=Map.copyOf(byId);
         Map<String,Availability> checked=new HashMap<>();sources.keySet().forEach(id->checked.put(id,checkAvailability(id)));availability=Map.copyOf(checked);
         Map<String,String> searchable=new HashMap<>();for(var option:options){var doc=byId.get(option.sourceId());
@@ -79,11 +85,20 @@ public final class CharacterLore {
             for(var option:options)if((rule.left().contains(option.key())||rule.right().contains(option.key()))&&!rule.sources().contains(option.sourceId()))throw new IOException("Rule omits option revision dependency");
             rules.add(rule);
         }
-        return new CharacterLore(sources,options,rules,documents,scope);
+        List<EligibilityRule> eligibility=new ArrayList<>();
+        if(root.has("eligibility"))for(var value:array(root.get("eligibility"),"eligibility")) {
+            var r=object(value,"eligibility rule");var rule=new EligibilityRule(text(r,"key"),EligibilityType.valueOf(text(r,"type")),strings(r,"options"),strings(r,"sources"));
+            if(!ruleIds.add(rule.key())||rule.options().isEmpty()||rule.sources().isEmpty()||!keys.containsAll(rule.options())||!sources.keySet().containsAll(rule.sources()))throw new IOException("Invalid eligibility references");
+            for(var source:rule.sources())if(sources.get(source).passages().isEmpty())throw new IOException("Eligibility requires main-post evidence");
+            for(var option:options)if(rule.options().contains(option.key())&&!rule.sources().contains(option.sourceId()))throw new IOException("Eligibility omits source dependency");
+            eligibility.add(rule);
+        }
+        return new CharacterLore(sources,options,rules,eligibility,documents,scope);
     }
     private static void topic(String id)throws IOException {if(!id.matches("lotc:topic:[1-9][0-9]{0,17}"))throw new IOException("Invalid character source ID");}
     public String scope(){return scope;}
     public List<Rule> rules(){return rules;}
+    public List<EligibilityRule> eligibilityRules(){return eligibility;}
     public Optional<Document> document(String id){return Optional.ofNullable(documents.get(id));}
     public Availability availability(String id) {return availability.getOrDefault(id,Availability.MISSING);}
     private Availability checkAvailability(String id) {
@@ -147,7 +162,20 @@ public final class CharacterLore {
             }
             if(covered)checked++;
         }
-        findings.add(new Finding(Outcome.NOT_ASSESSED,(total-checked)+" of "+total+" entry pairs have no applicable current check. Requirements, exceptions, slots, acquisition history and application approvals remain manually assessed. Zero warnings does not establish compatibility.",List.of()));
+        for(var rule:eligibility){
+            var applicable=sheet.entries().stream().filter(e->choices.containsKey(e.id())&&rule.options().contains(choices.get(e.id()).option().key())).toList();
+            var ids=options.stream().filter(o->rule.options().contains(o.key())).map(Option::sourceId).collect(java.util.stream.Collectors.toSet());
+            var history=sheet.history().stream().filter(h->ids.contains(h.loreDocumentId())&&h.type()==CharacterBook.EventType.DISCONNECTED).toList();
+            if(applicable.isEmpty()&&(rule.type()!=EligibilityType.NECROMANCY_HISTORY||history.isEmpty()))continue;
+            var evidence=rule.sources().stream().map(sources::get).toList();
+            if(rule.sources().stream().anyMatch(s->availability(s)!=Availability.AVAILABLE)){
+                if(applicable.isEmpty())findings.add(new Finding(Outcome.NEEDS_REVIEW,"History source changed or is unavailable; acquisition guidance suspended, history retained.",evidence));
+                continue;
+            }
+            CharacterEligibility.evaluate(rule,sheet.facts(),applicable,history,evidence).ifPresent(findings::add);
+        }
+        if(sheet.history().stream().anyMatch(h->h.loreDocumentId().isEmpty()))findings.add(new Finding(Outcome.NOT_ASSESSED,"Unlinked history is retained as user notes; no lore or current facts are inferred from it.",List.of()));
+        findings.add(new Finding(Outcome.NOT_ASSESSED,(total-checked)+" of "+total+" entry pairs have no applicable current check. Selected known facts are checked separately; other requirements, exceptions, slots and application approvals remain manually assessed. History never silently changes current facts. Zero warnings does not establish compatibility.",List.of()));
         findings.sort(Comparator.comparing(Finding::outcome));
         return new Report(findings,checked,total,unresolved);
     }

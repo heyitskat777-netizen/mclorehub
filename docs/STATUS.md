@@ -1,6 +1,53 @@
 # Current status
 
-## Latest checkpoint — Phase 9
+## Latest checkpoint — Phase 10
+
+Character sheets now include **Known facts** and independent **History** editors.
+Nine typed current facts retain explicit unknown values. Events record acquisitions,
+disconnections, transformations or other notes with optional lore links/OOC dates;
+they never silently change current facts or imply a complete timeline. History
+survives active-entry deletion and all other sheet edits.
+
+Seven source-bound checks cover Kani body/soul requirements with the Klone exception,
+Seer physical blindness, Cleric greater-soul/Klone and combined holy-scorn conditions,
+Templar race/fourth-acquisition limits, and lost-slot guidance for recorded Necromancy
+disconnection even without an active entry. Known failures are advisory eligibility
+conflicts; missing facts remain not assessed. Source changes suspend checks and
+Undo restores them without changing player data. Existing 23 choices/26 pair rules
+and unresolved source disagreements remain intact. No overall positive eligibility,
+automatic slot total, timeline inference or server approval is implied.
+
+Character schema 1 reads remain untouched and default to unknown facts/empty history.
+The first explicit saved edit writes schema 2 atomically with exact prior bytes in
+characters.previous.json; later saves rotate that backup normally. Legacy schema is
+retained separately. Future/invalid files stay intact/read-only. Older mod versions
+cannot read saved schema 2; retain a separate pre-upgrade backup for downgrades.
+
+Full build/install and **252 core tests passed**, zero failures/errors/skips. Native
+Minecraft passed all prior scenarios plus CHARACTER_FACTS_SCENARIO_PASS and exited 0.
+Tests verified real corpus/source bindings, exact legacy migration backup, editors,
+Kani Klone exception with lungs failure/recovery, invalid-date correction, disconnected
+Necromancy guidance, source suspension/Undo, unchanged character data, persistence
+and scales. Screenshots were inspected. Both actual serialized migration files passed
+schema-1/2 validation; the native saved schema-2 file also validated. Initial compilation
+caught a Java enum method-name collision, corrected before passing these final gates.
+Final logs: `/tmp/mclorehub-phase10-build-final.log` and
+`/tmp/mclorehub-phase10-client-final.log`. Pins, locks/checksums and exact MC remain unchanged.
+
+Artifact: `client/build/libs/mclorehub-0.1.0-phase10.jar`, **751,312 bytes**,
+SHA-256 `d6c77073be3e1da574d61d2818d81cb9b10e3c78954960d8c5d8875fb9271c89`.
+Existing Phase 7 trusted data is compatible. Production metadata and private/test
+exclusions passed; source includes tests but excludes user data. Source backups and
+identities are in `/workspace/mclorehub-phase10-backup.json`. See [Phase 10](PHASE_10.md)
+and [installation](INSTALL.md). No real forum account/live fetch was used this phase.
+
+Next substantial work: broader eligibility/rule coverage and slot accounting as
+needed, real MArt account access, and actual user modpack/hardware/multiplayer
+acceptance. Whole-pack import UI and readable update diffs remain optional additions.
+Environment publication is deferred by the user after timeouts; it is not a coding
+prerequisite. No environment settings were changed or publication requested in this phase.
+
+## Previous checkpoint — Phase 9
 
 Expanded character lore now offers **23 choices from 22 main sources**: 15 MAGIC,
 four FA and four CA. Added options include common Voidal practices, Blood Magic,

@@ -1,6 +1,6 @@
 plugins { id 'net.fabricmc.fabric-loom-remap' version '1.17.21' }
 group = 'net.mclorehub'
-version = '0.1.0-phase9'
+version = '0.1.0-phase10'
 base { archivesName = 'mclorehub' }
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(21)

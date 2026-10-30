@@ -2,7 +2,7 @@
 
 1. Use an instance of **Minecraft 1.21.11**, Java 21, Fabric Loader 0.20.1 or later,
    and Fabric API 0.141.6+1.21.11 (the verified combination).
-2. Copy **mclorehub-0.1.0-phase9.jar** from `client/build/libs/` into that instance's
+2. Copy **mclorehub-0.1.0-phase10.jar** from `client/build/libs/` into that instance's
    `mods` folder. The core is included; no second importer JAR is needed. Do not
    install source JARs or developer CLI distributions as mods. Remove the older
    MCLoreHub mod JAR when upgrading so two versions are not installed together.
@@ -28,6 +28,11 @@
    disagreements and requirements, with explicit partial coverage. Changed sources
    suspend their checks without deleting your entries. Phase 9 offers 23 choices,
    26 rules and condition-specific notices. See [Phase 9](PHASE_9.md).
+   **Known facts** records current soul/body/history facts; **History** records
+   acquisitions/disconnections/transformations separately. Seven initial source-bound
+   checks preserve unknowns and exceptions. Existing schema-1 sheets load unchanged;
+   the first saved edit migrates to schema 2 with a previous-file backup. Older mod
+   versions cannot read schema 2. See [Phase 10](PHASE_10.md).
 8. In a document, choose **Refresh topic** to fetch its official forum topic and
    main first post, compare and save changes locally. Replies/pagination are not fetched.
    **Cancel refresh** stops a fetch.

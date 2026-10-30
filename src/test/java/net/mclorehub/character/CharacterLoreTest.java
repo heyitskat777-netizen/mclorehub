@@ -167,4 +167,44 @@ class CharacterLoreTest {
         assertEquals(1,lore.choices(CharacterBook.Kind.CA,"Mori’Quessir").size());assertEquals(1,lore.choices(CharacterBook.Kind.CA,"Mori'Quessir").size());
         assertEquals(1,lore.choices(CharacterBook.Kind.MAGIC,"Tahariae").size());assertTrue(lore.choices(CharacterBook.Kind.FA,"Tahariae").isEmpty());
     }
+    CharacterBook.Sheet facts(CharacterBook.Sheet s,CharacterFacts f){return new CharacterBook.Sheet(s.id(),s.name(),s.notes(),s.archived(),s.entries(),f,s.history());}
+    @Test void unknownFactsRemainUnknownWithoutNewConflicts()throws Exception {
+        var r=lore.assess(sheet(entry("kani")));assertEquals(0,count(r,Outcome.ELIGIBILITY_CONFLICT));assertTrue(r.findings().stream().anyMatch(f->f.message().contains("Facts missing:")));assertEquals(0,r.checkedPairs());
+    }
+    @Test void kaniChecksBreathingLungsAndMinimumSoul()throws Exception {
+        var f=CharacterFacts.unknown().set(CharacterFacts.Field.BREATHING,"NO").set(CharacterFacts.Field.LUNGS,"NO").set(CharacterFacts.Field.SOUL,"NONE");var r=lore.assess(facts(sheet(entry("kani")),f));assertEquals(1,count(r,Outcome.ELIGIBILITY_CONFLICT));assertTrue(r.findings().getFirst().message().contains("at least a lesser soul"));
+    }
+    @Test void kaniModifiedSoulKeepsKloneExceptionAndUnknownDistinct()throws Exception {
+        var s=sheet(entry("kani"));var f=CharacterFacts.unknown().set(CharacterFacts.Field.SOUL,"LESSER").set(CharacterFacts.Field.LUNGS,"YES").set(CharacterFacts.Field.BREATHING,"YES").set(CharacterFacts.Field.MODIFIED_SOUL,"YES");
+        assertEquals(0,count(lore.assess(facts(s,f)),Outcome.ELIGIBILITY_CONFLICT));assertTrue(lore.assess(facts(s,f)).findings().stream().anyMatch(v->v.message().contains("whether the Klone exception applies")));
+        assertEquals(1,count(lore.assess(facts(s,f.set(CharacterFacts.Field.KLONE,"NO"))),Outcome.ELIGIBILITY_CONFLICT));assertEquals(0,count(lore.assess(facts(s,f.set(CharacterFacts.Field.KLONE,"YES"))),Outcome.ELIGIBILITY_CONFLICT));
+    }
+    @Test void kloneExceptionDoesNotSupplyMissingLungs()throws Exception {
+        var f=CharacterFacts.unknown().set(CharacterFacts.Field.MODIFIED_SOUL,"YES").set(CharacterFacts.Field.KLONE,"YES").set(CharacterFacts.Field.LUNGS,"NO");assertEquals(1,count(lore.assess(facts(sheet(entry("kani")),f)),Outcome.ELIGIBILITY_CONFLICT));
+    }
+    @Test void seerChecksCurrentBodyBlindnessForBothKinds()throws Exception {
+        for(String key:List.of("seer-feat","seer-magic")){var s=sheet(entry(key));assertEquals(1,count(lore.assess(facts(s,CharacterFacts.unknown().set(CharacterFacts.Field.BLIND_BODY,"NO"))),Outcome.ELIGIBILITY_CONFLICT));assertEquals(0,count(lore.assess(facts(s,CharacterFacts.unknown().set(CharacterFacts.Field.BLIND_BODY,"YES"))),Outcome.ELIGIBILITY_CONFLICT));}
+    }
+    @Test void clericNeedsGreaterSoulAndExcludesKlones()throws Exception {
+        var s=sheet(entry("clericism"));for(String soul:List.of("LESSER","NONE"))assertEquals(1,count(lore.assess(facts(s,CharacterFacts.unknown().set(CharacterFacts.Field.SOUL,soul))),Outcome.ELIGIBILITY_CONFLICT));
+        assertEquals(1,count(lore.assess(facts(s,CharacterFacts.unknown().set(CharacterFacts.Field.SOUL,"GREATER").set(CharacterFacts.Field.KLONE,"YES"))),Outcome.ELIGIBILITY_CONFLICT));
+    }
+    @Test void clericScornAndDisconnectionIsExplicitCombinedFact()throws Exception {
+        var r=lore.assess(facts(sheet(entry("clericism")),CharacterFacts.unknown().set(CharacterFacts.Field.HOLY_HISTORY,"YES")));assertEquals(1,count(r,Outcome.ELIGIBILITY_CONFLICT));assertTrue(r.findings().getFirst().message().contains("specific combined condition"));
+    }
+    @Test void templarRaceAndFourthAcquisitionAreSeparateChecks()throws Exception {
+        var s=sheet(entry("templar"));var f=CharacterFacts.unknown().set(CharacterFacts.Field.DESCENDANT_RACE,"NO").set(CharacterFacts.Field.TEMPLAR_SEVERANCES,"THREE_OR_MORE");var r=lore.assess(facts(s,f));assertEquals(2,count(r,Outcome.ELIGIBILITY_CONFLICT));assertTrue(r.findings().stream().anyMatch(v->v.message().contains("further acquisition")));
+        assertEquals(0,count(lore.assess(facts(s,f.set(CharacterFacts.Field.DESCENDANT_RACE,"YES").set(CharacterFacts.Field.TEMPLAR_SEVERANCES,"TWO"))),Outcome.ELIGIBILITY_CONFLICT));
+    }
+    @Test void changedSourceSuspendsFactChecks()throws Exception {
+        var changed=changed("lotc:topic:228968",d->change(d,d.body()+"changed",d.fingerprint(),d.status(),d.role()));var s=facts(sheet(entry("kani")),CharacterFacts.unknown().set(CharacterFacts.Field.BREATHING,"NO"));assertEquals(0,count(changed.assess(s),Outcome.ELIGIBILITY_CONFLICT));assertEquals(1,count(changed.assess(s),Outcome.NEEDS_REVIEW));
+    }
+    @Test void disconnectedNecromancyHistorySurvivesWithoutActiveEntry()throws Exception {
+        var h=new CharacterBook.HistoryEvent(UUID.randomUUID().toString(),"Former magic","lotc:topic:249533",CharacterBook.EventType.DISCONNECTED,"","History only");var s=new CharacterBook.Sheet(UUID.randomUUID().toString(),"Test","",false,List.of(),CharacterFacts.unknown(),List.of(h));var r=lore.assess(s);assertTrue(r.findings().stream().anyMatch(v->v.message().contains("dedicated slots are permanently lost")));assertEquals(0,r.totalPairs());
+        var changed=changed("lotc:topic:249533",d->change(d,d.body()+"changed",d.fingerprint(),d.status(),d.role()));assertTrue(changed.assess(s).findings().stream().noneMatch(v->v.message().contains("dedicated slots are permanently lost")));assertEquals(1,count(changed.assess(s),Outcome.NEEDS_REVIEW));
+    }
+    @Test void partialHistoryDoesNotChangeFactsOrPretendToBeComplete()throws Exception {
+        var b=CharacterBook.empty().create("Test");for(int i=0;i<3;i++)b=b.putHistory(b.selectedId(),new CharacterBook.HistoryEvent(UUID.randomUUID().toString(),"Templar severance","lotc:topic:228224",CharacterBook.EventType.DISCONNECTED,"",""));b=b.putEntry(b.selectedId(),entry("templar"));var s=b.selected().orElseThrow();assertEquals(CharacterFacts.Severances.UNKNOWN,s.facts().templarSeverances());assertEquals(0,count(lore.assess(s),Outcome.ELIGIBILITY_CONFLICT));
+    }
+    @Test void invalidEligibilityDependencyIsRejected(){var bad=manifest.deepCopy();bad.getAsJsonArray("eligibility").get(0).getAsJsonObject().getAsJsonArray("sources").remove(0);assertThrows(java.io.IOException.class,()->CharacterLore.parse(bad,docs));}
 }

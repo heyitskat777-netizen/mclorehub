@@ -51,6 +51,13 @@ also projects source titles/family/category and apostrophe variants. Keep unknow
 coverage visible; no positive compatibility or full eligibility engine is implied.
 See PHASE_9.md for current scope.
 
+Phase 10 adds immutable `CharacterFacts` and `HistoryEvent` values to sheets.
+`CharacterStore` reads versions 1/2 and writes version 2 only on explicit save,
+retaining exact old bytes through `AtomicJsonFile`. All book updates carry the new
+fields. `CharacterEligibility` evaluates seven explicit source-bound rules on the
+existing library file worker. Events do not mutate current facts or derive a
+timeline. See PHASE_10.md for conditions, schema/migration and remaining limits.
+
 Per-topic activation validates a snapshot, prepares the catalogue/search/character
 projection, then atomically switches the pointer and publishes the prepared library.
 Stored source/base IDs and checksums bind updates to the correct baseline. Manual

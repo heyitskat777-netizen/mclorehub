@@ -47,6 +47,12 @@
   requirements, never a permanent exclusion. Preserve the Sprite/Herblore provision,
   animal-form casting conditions and Seer/Templar + Seer/Cleric disagreements.
   Keep separate pair-rule dependencies independent when adding curated options.
+- Phase 10 current facts have explicit unknown values. History is independent;
+  events/dates never imply complete history or silently update present facts.
+  Eligibility checks require exact current source bindings, preserve Klone and
+  acquisition conditions, and never certify overall eligibility or approvals.
+  Schema-1 character reads do not write; explicit saves migrate to schema 2 with
+  exact previous-file bytes. Carry facts/history through every other book edit.
 - Monthly checks cover only known saved IDs, run off the render thread while
   Minecraft is running, persist next-due dates, and catch up after restart. Manual
   success resets the monthly date. Pause/cancel and HTTP Retry-After are respected.

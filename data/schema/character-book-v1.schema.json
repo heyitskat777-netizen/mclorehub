@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Local user-recorded character book (not server approval)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "selected_id",
+    "sheets"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "selected_id": {
+      "anyOf": [
+        {
+          "const": ""
+        },
+        {
+          "type": "string",
+          "format": "uuid"
+        }
+      ]
+    },
+    "sheets": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "#/$defs/sheet"
+      }
+    }
+  },
+  "$defs": {
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "\\S"
+    },
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "name",
+        "branch",
+        "tier",
+        "applicationUrl",
+        "status",
+        "notes",
+        "loreDocumentId"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "kind": {
+          "enum": [
+            "MAGIC",
+            "CA",
+            "FA"
+          ]
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "branch": {
+          "type": "string",
+          "maxLength": 128
+        },
+        "tier": {
+          "type": "string",
+          "maxLength": 64
+        },
+        "applicationUrl": {
+          "anyOf": [
+            {
+              "const": ""
+            },
+            {
+              "type": "string",
+              "maxLength": 2048,
+              "format": "uri",
+              "pattern": "^https://(www\\.)?lordofthecraft\\.net/forums/topic/"
+            }
+          ]
+        },
+        "status": {
+          "enum": [
+            "NOT_RECORDED",
+            "PENDING",
+            "APPROVED",
+            "DENIED"
+          ]
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 2048
+        },
+        "loreDocumentId": {
+          "type": "string",
+          "pattern": "^$|^lotc:topic:[1-9][0-9]{0,17}$"
+        }
+      },
+      "if": {
+        "properties": {
+          "kind": {
+            "enum": [
+              "CA",
+              "FA"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "branch": {
+            "const": ""
+          },
+          "tier": {
+            "const": ""
+          }
+        }
+      }
+    },
+    "sheet": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "notes",
+        "archived",
+        "entries"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "notes": {
+          "type": "string",
+          "maxLength": 4096
+        },
+        "archived": {
+          "type": "boolean"
+        },
+        "entries": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/entry"
+          }
+        }
+      }
+    }
+  }
+}

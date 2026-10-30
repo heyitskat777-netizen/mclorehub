@@ -76,3 +76,10 @@ source/evidence. The native flow checks pagination/category search, new magic/CA
 links, three exclusions, a conditional provision rather than an exclusion, granular
 source invalidation/Undo, unchanged personal/base files and persistence. Without
 private inputs it explicitly reports `EXPANDED_LORE_SCENARIO_NOT_RUN`.
+
+Phase 10 additionally requires `CHARACTER_FACTS_SCENARIO_PASS` with private
+pack/trust and exit 0: exact schema-1 backup, explicit-save migration, fact editing,
+Kani Klone exception with lung failure/recovery, history/date validation, disconnected
+Necromancy without active entry, source suspension/Undo, persistence and scales.
+Without those inputs it explicitly reports not run. Validate the actual saved
+schema-2 file and the initial legacy backup against their respective schemas.

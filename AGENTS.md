@@ -39,6 +39,12 @@
   unchanged check dates/archived replies must not retire them. Changed sources
   suspend checks without deleting personal entries. See docs/PHASE_9.md and the
   Phase 8 curation procedure. Keep unrelated rule dependencies independent.
+- Phase 10 adds nine explicit current facts, independent acquisition-history events
+  and seven narrow source-bound checks. Unknown is not no; events never silently
+  update facts/counts or imply a complete history. Kani's modification field means
+  the Body portion, not merely holding Dark/Voidal magic. Retain Klone exceptions.
+  Read schema 1 without writing; save schema 2 with an exact previous-file backup.
+  Preserve facts/history through all other sheet edits. See docs/PHASE_10.md.
 - Default reading/search/update comparison covers the main lore post only. Keep
   previously captured replies as an explicit archive, without fetching discussion.
 - Check saved main lore pages automatically once per calendar month while Minecraft
@@ -70,3 +76,6 @@
 - Do not push or publish without authorization. Prepare concrete tested files for
   review first. A published environment snapshot or approved Git push is needed
   before claiming durable restoration across fresh environments.
+- The user deferred environment publication after timeouts. Do not block code work
+  on it or repeatedly request publication. Authorized source pushes/checkpoints
+  continue independently; do not change environment settings merely for this phase.

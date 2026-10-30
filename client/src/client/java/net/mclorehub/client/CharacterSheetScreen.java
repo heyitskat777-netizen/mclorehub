@@ -15,7 +15,7 @@ public final class CharacterSheetScreen extends Screen {
     private String assessment="Compatibility: not assessed";
     CharacterSheetScreen(Screen parent,CharacterService service,String id,LibraryService library){super(Component.literal("Character sheet"));this.parent=parent;this.service=service;this.id=id;this.library=library;}
     private CharacterBook.Sheet sheet(){return service.view().book().sheets().stream().filter(s->s.id().equals(id)).findFirst().orElse(null);}
-    private int size(){return Math.max(1,(height-190)/24);}
+    private int size(){return Math.max(1,(height-210)/24);}
     private Button button(String text,int x,int y,int w,Button.OnPress action){return addRenderableWidget(Button.builder(Component.literal(text),action).bounds(x,y,w,20).build());}
     @Override protected void init(){var sheet=sheet();if(sheet==null){button("Back",16,height-28,120,b->onClose());return;}
         boolean writable=service.view().writable()&&!sheet.archived();int half=(width-36)/2;
@@ -24,8 +24,10 @@ public final class CharacterSheetScreen extends Screen {
             else minecraft.setScreen(new ConfirmScreen(yes->{if(yes)service.edit(book->book.archive(id,true));minecraft.setScreen(yes?parent:this);},
                     Component.literal("Archive character?"),Component.literal("The sheet is retained under Archived characters and can be restored.")));}).active=service.view().writable();
         page=Math.min(page,Math.max(0,(sheet.entries().size()-1)/size()));
+        button("Known facts",16,68,half,b->minecraft.setScreen(new CharacterFactsScreen(this,service,sheet))).active=writable;
+        button("History",20+half,68,half,b->minecraft.setScreen(new CharacterHistoryScreen(this,service,id,library)));
         for(int i=page*size();i<Math.min(sheet.entries().size(),(page+1)*size());i++){
-            var e=sheet.entries().get(i);Button entry=button(e.kind()+": "+e.name()+(e.kind()==CharacterBook.Kind.MAGIC?" • "+e.branch()+" "+e.tier():" • "+e.status().name().toLowerCase().replace('_',' ')),16,94+(i-page*size())*24,width-32,b->minecraft.setScreen(new CharacterEntryScreen(this,service,id,e.kind(),e,library)));
+            var e=sheet.entries().get(i);Button entry=button(e.kind()+": "+e.name()+(e.kind()==CharacterBook.Kind.MAGIC?" • "+e.branch()+" "+e.tier():" • "+e.status().name().toLowerCase().replace('_',' ')),16,114+(i-page*size())*24,width-32,b->minecraft.setScreen(new CharacterEntryScreen(this,service,id,e.kind(),e,library)));
             entry.active=writable;entry.setTooltip(Tooltip.create(Component.literal(e.notes()+"\nUser-recorded status. Open Compatibility for checks and evidence.")));}
         int col=(width-40)/3;int x=16;for(var kind:CharacterBook.Kind.values()){
             button("Add "+(kind==CharacterBook.Kind.MAGIC?"magic":kind.name()),x,height-82,col,b->minecraft.setScreen(new CharacterEntryScreen(this,service,id,kind,null,library))).active=writable;x+=col+4;}
@@ -49,7 +51,7 @@ public final class CharacterSheetScreen extends Screen {
     @Override public void render(GuiGraphics g,int x,int y,float d){var s=sheet();g.drawCenteredString(font,font.plainSubstrByWidth(s==null?"Sheet unavailable":s.name(),width-32),width/2,10,0xFFFFFFFF);
         g.drawCenteredString(font,font.plainSubstrByWidth(assessment,width-32),width/2,27,0xFFFFC477);
         if(y>=25&&y<38)g.setTooltipForNextFrame(Component.literal(assessment+". Open Compatibility for evidence and remaining requirements."),x,y);
-        String info=service.view().message().isEmpty()?"CA: Creature Application • FA: Feat Application":service.view().message();g.drawCenteredString(font,font.plainSubstrByWidth(info,width-32),width/2,75,0xFFBAC9D8);
+        String info=service.view().message().isEmpty()?"CA: Creature Application • FA: Feat Application":service.view().message();g.drawCenteredString(font,font.plainSubstrByWidth(info,width-32),width/2,96,0xFFBAC9D8);
         g.drawCenteredString(font,"Page "+(page+1),width/2,height-47,0xFFFFFFFF);super.render(g,x,y,d);}
     @Override public void onClose(){minecraft.setScreen(parent);}
 }

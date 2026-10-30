@@ -13,7 +13,8 @@
         "Seer is compatible with:",
         "Deity magics: druidism, shamanism, templars, heraldry",
         "Ologs, kharajyr, hou-zi [feat], musin [feat], azdrazi, zar'ei, epiphytes (inaccessible while underage after rebirth, upon coming of age they lose their sight and therein can use seer again), frost witches, siliti (so long as they are turned after being a seer),  and klones (so long as the inhabited body is blind, a non-blind body makes the feat/magic inaccessible), and machine spirits (so long as they are turned after becoming an MA seer).",
-        "Seer is incompatible with sorvians, vargs, ghosts/gravens, paleknights, wights, darkstalkers, atronachs, animii, golems, zevn and zar'akal, wonks, demi-djinn, homunculi, and treelords."
+        "Seer is incompatible with sorvians, vargs, ghosts/gravens, paleknights, wights, darkstalkers, atronachs, animii, golems, zevn and zar'akal, wonks, demi-djinn, homunculi, and treelords.",
+        "Because a seer views the world through the translation they remain physically blind and as such cannot have eyesight trigger magical effects outside seer abilities; they are immune to visual illusions, a silit’s rite of restraints (”thralling”), and other such effects affecting sight."
       ],
       "main_fingerprint": "83fed6e394718c746486cf2ac90b258022ff6ecdb78659543e271fb4b04825e5"
     },
@@ -861,6 +862,79 @@
         "lotc:topic:228215"
       ],
       "summary": "While in animal form, Shapeshifting lore bars other magic/feats and specifically Seer magic. It mentions Greensight under its own redlines as an alternative. This restricts casting while shifted; it does not prohibit holding both entries or grant Greensight automatically."
+    }
+  ],
+  "eligibility": [
+    {
+      "key": "kani-body",
+      "type": "KANI_BODY",
+      "options": [
+        "kani"
+      ],
+      "sources": [
+        "lotc:topic:228968"
+      ]
+    },
+    {
+      "key": "seer-body",
+      "type": "SEER_BODY",
+      "options": [
+        "seer-magic",
+        "seer-feat"
+      ],
+      "sources": [
+        "lotc:topic:211641"
+      ]
+    },
+    {
+      "key": "cleric-body",
+      "type": "CLERIC_BODY",
+      "options": [
+        "clericism"
+      ],
+      "sources": [
+        "lotc:topic:247990"
+      ]
+    },
+    {
+      "key": "cleric-history",
+      "type": "CLERIC_HISTORY",
+      "options": [
+        "clericism"
+      ],
+      "sources": [
+        "lotc:topic:247990"
+      ]
+    },
+    {
+      "key": "templar-race",
+      "type": "TEMPLAR_RACE",
+      "options": [
+        "templar"
+      ],
+      "sources": [
+        "lotc:topic:228224"
+      ]
+    },
+    {
+      "key": "templar-history",
+      "type": "TEMPLAR_HISTORY",
+      "options": [
+        "templar"
+      ],
+      "sources": [
+        "lotc:topic:228224"
+      ]
+    },
+    {
+      "key": "necromancy-history",
+      "type": "NECROMANCY_HISTORY",
+      "options": [
+        "necromancy"
+      ],
+      "sources": [
+        "lotc:topic:249533"
+      ]
     }
   ]
 }
