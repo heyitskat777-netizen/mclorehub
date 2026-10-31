@@ -29,6 +29,24 @@ unrelated/new topics or mandatory review dialog. Optional explicitly imported fo
 session cookies support account-authorized reads; no password collection/browser
 store extraction/challenge bypass. Actual restricted MArt access needs that account.
 
+## Spells and new database (1.1.0)
+
+The user requested one Add magic/CA/FA button and searchable available spells by
+recorded tier, with each spell's information, rules and redlines, followed by a new
+database. Use one Add lore type chooser and a separate Available spells view.
+Exact source/parent excerpts and the complete practice source preserve qualifying
+rules. Unknown tier/stage/branch/investment stays conditional; no automatic learning
+or application approval. Source refresh rebuilds the index. Quick references do
+not replace wiki reading resume. Character schema remains 3.
+
+Public-main capture rebuilds are separate from the standing monthly per-page
+updates. The private 801-topic rebuild retains 209 original-date restricted MArts,
+592 fresh public first posts, 27 legacy/one outdated explicit overrides and 30
+policy/reference topics. Directory observation is not staff certification. Preserve
+old archived replies without refetching. Current character references can be linked
+while old automatic evidence is stale; those rules remain suspended. Do not blindly
+rebind changed lore. Zealotry gets an exact-source reference and two-slot policy.
+
 ## Selected defaults
 
 - Client-only, offline-first; no mandatory service/account/AI/telemetry.

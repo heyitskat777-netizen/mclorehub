@@ -36,7 +36,7 @@ public record ReaderContent(List<Section> sections) {
                 .append("\nExport snapshot: ").append(doc.exportSnapshotAt()).append("\nCategory: ").append(doc.category())
                 .append("\nSource role: ").append(doc.role().name().toLowerCase(Locale.ROOT).replace('_',' ')).append("\nStatus: ").append(statusLabel(doc.status())).append(" • ").append(reviewLabel(doc.reviewState()))
                 .append("\nAliases: ").append(String.join(", ",doc.aliases())).append("\n\nPlain-text source: original colors, images and layout are unavailable.")
-                .append("\nCoverage gaps:\n").append(String.join("\n",doc.coverageGaps()));
+                .append("\nCoverage gaps:\n").append(String.join("\n",doc.coverageGaps().stream().map(g->g.replace('_',' ')).toList()));
         doc.decision().ifPresent(d->{text.append("\n\nLocal review by ").append(d.reviewer()).append(" at ").append(d.reviewedAt())
                 .append("\nRecorded status: ").append(d.status()).append("\nEvidence is user-recorded; authority and quotations are not automatically verified.");
             if(doc.reviewState()!=net.mclorehub.catalogue.LoreCatalogue.ReviewState.APPLIED)text.append("\nSTALE: this decision does not certify the current source.");

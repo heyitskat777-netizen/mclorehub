@@ -35,7 +35,7 @@ public final class BaselineTrust {
             List<String> gaps=d.coverageGaps().stream().filter(g->!g.equals("current_status_requires_review")).toList();
             changed.put(d.id(),new Document(d.id(),d.title(),d.url(),d.author(),d.exportSnapshotAt(),d.body(),d.revision(),d.fingerprint(),d.family(),d.category(),d.aliases(),d.role(),
                     explicit?d.status():Status.ACCEPTED_CURRENT,explicit?d.reviewState():ReviewState.USER_TRUSTED,d.decision(),d.posts(),gaps,
-                    Optional.of(new SourceTrust("User confirmed the supplied database is accepted/accurate",time,List.of(d.url())))));
+                    Optional.of(new SourceTrust("User confirmed the supplied database is accepted/accurate",time,List.of(d.url()))),d.outline()));
         }
         return catalogue.replace(changed);
     }

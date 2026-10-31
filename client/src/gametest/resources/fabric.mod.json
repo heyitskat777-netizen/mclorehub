@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "mclorehub-test",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "name": "MCLoreHub client tests",
   "environment": "client",
   "entrypoints": {
@@ -16,7 +16,9 @@
       "net.mclorehub.client.CharacterFactsClientGameTest",
       "net.mclorehub.client.ImportComparisonClientGameTest",
       "net.mclorehub.client.ReleaseClientGameTest",
-      "net.mclorehub.client.ReadingPolishClientGameTest"
+      "net.mclorehub.client.ReadingPolishClientGameTest",
+      "net.mclorehub.client.SpellBookClientGameTest",
+      "net.mclorehub.client.RebuiltDatabaseClientGameTest"
     ]
   },
   "depends": {

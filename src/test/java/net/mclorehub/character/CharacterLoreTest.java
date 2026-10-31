@@ -35,10 +35,10 @@ class CharacterLoreTest {
     Document change(Document d,String body,String fingerprint,Status status,Role role){return new Document(d.id(),d.title(),d.url(),d.author(),d.exportSnapshotAt(),body,hash(body),fingerprint,d.family(),d.category(),d.aliases(),role,status,d.reviewState(),d.decision(),d.posts(),d.coverageGaps(),d.trust());}
     CharacterLore changed(String id,UnaryOperator<Document> change)throws Exception{return CharacterLore.parse(manifest,docs.stream().map(d->d.id().equals(id)?change.apply(d):d).toList());}
     @Test void curatedKindsAreExplicitAndOnlySelectedTopicsAreOffered(){
-        assertEquals(30,lore.choices(CharacterBook.Kind.MAGIC,"").size());assertEquals(21,lore.choices(CharacterBook.Kind.FA,"").size());assertEquals(21,lore.choices(CharacterBook.Kind.CA,"").size());
+        assertEquals(31,lore.choices(CharacterBook.Kind.MAGIC,"").size());assertEquals(21,lore.choices(CharacterBook.Kind.FA,"").size());assertEquals(21,lore.choices(CharacterBook.Kind.CA,"").size());
         assertTrue(Arrays.stream(CharacterBook.Kind.values()).flatMap(k->lore.choices(k,"").stream()).allMatch(c->c.availability()==Availability.AVAILABLE));
     }
-    @Test void searchUsesUnicodeCaseAliasesAndAllTerms(){assertEquals(1,lore.choices(CharacterBook.Kind.MAGIC,"ＲＡＤＩＡＮＴ　templar").size());assertEquals(30,lore.choices(CharacterBook.Kind.MAGIC,"test alias").size());assertTrue(lore.choices(CharacterBook.Kind.CA,"artifact").isEmpty());}
+    @Test void searchUsesUnicodeCaseAliasesAndAllTerms(){assertEquals(1,lore.choices(CharacterBook.Kind.MAGIC,"ＲＡＤＩＡＮＴ　templar").size());assertEquals(31,lore.choices(CharacterBook.Kind.MAGIC,"test alias").size());assertTrue(lore.choices(CharacterBook.Kind.CA,"artifact").isEmpty());}
     @Test void kloneCaIsSeparateFromTawkinFeatAndSuspendsWithItsOwnSource()throws Exception {
         var choice=lore.choices(CharacterBook.Kind.CA,"Klones").getFirst();assertEquals("klone",choice.option().key());
         assertEquals("lotc:topic:198584",choice.option().sourceId());assertEquals(Availability.AVAILABLE,choice.availability());
@@ -79,9 +79,9 @@ class CharacterLoreTest {
         var e=new CharacterBook.Entry(UUID.randomUUID().toString(),CharacterBook.Kind.MAGIC,"Necromancy","","","",CharacterBook.RecordedStatus.APPROVED,"","");
         var r=lore.assess(sheet(e,entry("templar")));assertEquals(0,count(r,Outcome.EXCLUSION));assertEquals(1,r.unresolvedEntries());assertEquals(0,r.checkedPairs());
     }
-    @Test void changedMainPostSuspendsPickerAndRulesWithoutChangingSheet()throws Exception {
+    @Test void changedMainPostSuspendsRulesButKeepsCurrentReferenceWithoutChangingSheet()throws Exception {
         var s=sheet(entry("necromancy"),entry("templar"));var before=s.toString();var updated=changed("lotc:topic:249533",d->change(d,d.body()+"changed",d.fingerprint(),d.status(),d.role()));
-        assertEquals(Availability.NEEDS_REVIEW,updated.availability("lotc:topic:249533"));var r=updated.assess(s);assertEquals(0,count(r,Outcome.EXCLUSION));assertEquals(1,count(r,Outcome.NEEDS_REVIEW));assertEquals(before,s.toString());assertEquals(0,r.checkedPairs());
+        assertEquals(Availability.NEEDS_REVIEW,updated.availability("lotc:topic:249533"));assertTrue(updated.canReference(updated.choices(CharacterBook.Kind.MAGIC,"Necromancy").getFirst()));var r=updated.assess(s);assertEquals(0,count(r,Outcome.EXCLUSION));assertEquals(1,count(r,Outcome.NEEDS_REVIEW));assertEquals(before,s.toString());assertEquals(0,r.checkedPairs());
     }
     @Test void changedAuthorMetadataAlsoSuspendsChecks()throws Exception {
         var updated=changed("lotc:topic:249533",d->new Document(d.id(),d.title(),d.url(),Optional.of("Different author"),d.exportSnapshotAt(),d.body(),d.revision(),d.fingerprint(),d.family(),d.category(),d.aliases(),d.role(),d.status(),d.reviewState(),d.decision(),d.posts(),d.coverageGaps(),d.trust()));
@@ -94,6 +94,7 @@ class CharacterLoreTest {
     @Test void missingOrShelvedSourceNeverChecksOldRule()throws Exception {
         var missing=CharacterLore.parse(manifest,docs.stream().filter(d->!d.id().equals("lotc:topic:249533")).toList());assertEquals(Availability.MISSING,missing.availability("lotc:topic:249533"));
         var shelved=changed("lotc:topic:249533",d->change(d,d.body(),d.fingerprint(),Status.SHELVED,d.role()));assertEquals(Availability.NOT_CURRENT,shelved.availability("lotc:topic:249533"));
+        assertFalse(missing.canReference(missing.choices(CharacterBook.Kind.MAGIC,"Necromancy").getFirst()));assertFalse(shelved.canReference(shelved.choices(CharacterBook.Kind.MAGIC,"Necromancy").getFirst()));
         assertEquals(0,count(shelved.assess(sheet(entry("necromancy"),entry("templar"))),Outcome.EXCLUSION));
     }
     @Test void backgroundHubAndArtifactsCannotBePromotedToPlayerOptions()throws Exception {

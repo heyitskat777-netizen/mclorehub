@@ -63,10 +63,14 @@ public final class ExportImporter {
                     string(post, "content_text"); forumUrl(text(post, "url")); postCount++;
                 }
             } else gaps.add("reply_amendments_and_continuations_not_captured");
+            if(raw.has("coverage_notes"))for(String note:strings(raw,"coverage_notes"))gaps.add(note);
             if (raw.has("artifact_type")) artifactCount++;
             JsonObject document = new JsonObject();
             document.addProperty("id", "lotc:topic:" + topic); document.addProperty("title", title);
-            document.addProperty("source_url", url); document.addProperty("source_snapshot_at", snapshot);
+            String recordSnapshot=optional(raw,"source_snapshot_at");if(recordSnapshot==null)recordSnapshot=snapshot;
+            try{if(OffsetDateTime.parse(recordSnapshot).toInstant().isAfter(OffsetDateTime.parse(snapshot).toInstant()))throw new ImportException("Record snapshot is newer than export");}
+            catch(DateTimeParseException e){throw new ImportException("Invalid per-record snapshot date",e);}
+            document.addProperty("source_url", url); document.addProperty("source_snapshot_at", recordSnapshot);
             document.addProperty("revision_sha256", digest); document.addProperty("formatting_fidelity", "plain_text");
             JsonObject status = new JsonObject(); status.addProperty("value", "unknown"); status.addProperty("requires_review", true);
             status.addProperty("reason", "Snapshot import is not a current acceptance audit"); document.add("status", status);

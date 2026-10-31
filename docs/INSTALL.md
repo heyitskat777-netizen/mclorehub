@@ -1,15 +1,15 @@
-# Personal installation — 1.0.2
+# Personal installation — 1.1.0
 
-[Direct mod JAR download](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.0.2.jar).
+[Direct mod JAR download](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.1.0.jar).
 
 1. Use **Minecraft 1.21.11**, Java 21, Fabric Loader 0.19.5 or later and Fabric API
    0.141.6+1.21.11 (the tested combination). This mod is client-only.
-2. Put **mclorehub-1.0.2.jar** from `client/build/libs/` in the instance's `mods/`.
+2. Put **mclorehub-1.1.0.jar** from `client/build/libs/` in the instance's `mods/`.
    Remove older MCLoreHub JARs. The core and Jsoup are included; do not install the
    source JAR or developer importer distribution as a mod.
 3. Enter a world and press **K**, configurable in Controls. Choose **Database**,
-   then drop your original LoreDB ZIP/JSON or normalized pack/data ZIP into that
-   screen. The original supplied export and the older trusted-data ZIP both work.
+   then drop the private **mclorehub-lore-database-2026-10-30.zip**, your original
+   LoreDB ZIP/JSON or a normalized pack/data ZIP into that screen. The original supplied export and the older trusted-data ZIP both work.
 4. Read the preview counts and click changed rows to compare. The default
    **Accepted/current: confirmed** records your personal confirmation for this
    import, bound to its source fingerprints; it does not invent staff decisions.
@@ -62,7 +62,8 @@ excluded from this release's acceptance testing as requested.
 
 ## Characters and slots
 
-Characters support magic/CA/FA references, branches/tiers, application links and
+Use **Add lore**, then choose Magic, Creature application (CA) or Feat application
+(FA). Magic entries support branches/tiers; all entries support application links and
 user-recorded status, rename, archive/restore, notes, Known facts and independent
 History. Choose lore uses the expanded [coverage directory](CHARACTER_LORE_COVERAGE.md).
 The **Klone** CA is a separate choice from the **Tawkin** FA, linked to Tawkin's
@@ -71,6 +72,21 @@ automatically set Known facts or verify a CA approval.
 Facts and history never silently infer current identity or server approval.
 Compatibility shows cited exclusions, conditions, missing prerequisites and source
 conflicts. Missing information is not an automatic denial or a compatibility certificate.
+
+**Available spells** searches the main-source abilities of linked entries. Record a
+magic tier in the entry editor, then use **By recorded tier** or **All linked tiers**.
+The former hides known above-tier/other-branch cards; uncertain requirements remain
+clearly marked. Search names, effect text or redlines. Open a card for the exact
+source section and parent context, **Practice rules** for shared restrictions, or
+**Open complete lore**. The quick reference has continuous scrolling and preserves
+your wiki resume. Tier availability is a reference aid, not evidence of learning,
+training, application approval or fulfilled conditional prerequisites. CA/FA entries
+without a numerical tier remain conditional references.
+
+The new 801-topic database preserves original dates for 209 restricted MArts. Its
+27 legacy topics and outdated Elder Tree are audit-only. Current references can be
+linked even if old compatibility/slot evidence needs review; those automatic checks
+stay suspended. See [database provenance and extraction limits](RELEASE_1_1.md).
 
 **Slots** records usable capacity for the current body/CA and the total prior lost
 slots; blank means unknown. Auto uses curated source costs/ranges, including optional
@@ -91,7 +107,9 @@ pre-upgrade backup for long-term downgrade recovery; older mods cannot read sche
 Back up `config/mclorehub/personal/` for characters, slots, history, favorites and
 reading state. Back up `packs/` for imported revisions/selection and `updates/` for
 topic versions/Undo/monthly due dates. No import deletes unresolved personal references.
-Optional `auth/` contains credentials: exclude it from shared archives and source.
+New topic snapshots may include source headings; keep a pre-upgrade backup before
+downgrading to 1.0.2, whose snapshot parser does not support that optional field.
+Character schema remains 3. Optional `auth/` contains credentials: exclude it from shared archives and source.
 
 Invalid or externally edited files remain intact. Reload files/Reload sheets retry
 repaired files; automation pauses on an invalid schedule. Import Undo can restore a

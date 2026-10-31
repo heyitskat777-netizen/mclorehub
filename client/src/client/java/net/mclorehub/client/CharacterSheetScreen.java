@@ -30,8 +30,8 @@ public final class CharacterSheetScreen extends Screen {
         for(int i=page*size();i<Math.min(sheet.entries().size(),(page+1)*size());i++){
             var e=sheet.entries().get(i);Button entry=button(e.kind()+": "+e.name()+(e.kind()==CharacterBook.Kind.MAGIC?" • "+e.branch()+" "+e.tier():" • "+e.status().name().toLowerCase().replace('_',' ')),16,114+(i-page*size())*24,width-32,b->minecraft.setScreen(new CharacterEntryScreen(this,service,id,e.kind(),e,library)));
             entry.active=writable;entry.setTooltip(Tooltip.create(Component.literal(e.notes()+"\nUser-recorded status. Open Compatibility for checks and evidence.")));}
-        int col=(width-40)/3;int x=16;for(var kind:CharacterBook.Kind.values()){
-            button("Add "+(kind==CharacterBook.Kind.MAGIC?"magic":kind.name()),x,height-82,col,b->minecraft.setScreen(new CharacterEntryScreen(this,service,id,kind,null,library))).active=writable;x+=col+4;}
+        button("Add lore",16,height-82,half,b->minecraft.setScreen(new AddLoreScreen(this,service,id,library))).active=writable;
+        button("Available spells",20+half,height-82,half,b->minecraft.setScreen(new SpellBookScreen(this,service,id,library))).active=library!=null&&library.view().library().isPresent();
         button("Compatibility",(width-120)/2,height-54,120,b->minecraft.setScreen(new CompatibilityScreen(this,service,id,library))).active=library!=null&&library.view().library().isPresent();
         button("Previous",16,height-54,80,b->{page--;rebuildWidgets();}).active=page>0;
         button("Next",width-96,height-54,80,b->{page++;rebuildWidgets();}).active=(page+1)*size()<sheet.entries().size();

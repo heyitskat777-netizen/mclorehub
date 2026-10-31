@@ -11,6 +11,7 @@ public final class ImportCommand {
     private ImportCommand() {}
     public static void main(String[] args) { System.exit(run(args, System.out, System.err)); }
     public static int run(String[] args, PrintStream out, PrintStream err) {
+        if(args.length>0&&args[0].equals("spell-index"))return net.mclorehub.spell.SpellCommand.run(Arrays.copyOfRange(args,1,args.length),out,err);
         if(args.length>0&&java.util.Set.of("trust","refresh","undo").contains(args[0]))return UpdateCommand.run(args[0],Arrays.copyOfRange(args,1,args.length),out,err);
         if (args.length > 0 && args[0].equals("catalogue"))
             return CatalogueCommand.run(Arrays.copyOfRange(args, 1, args.length), out, err);
@@ -19,6 +20,7 @@ public final class ImportCommand {
             out.println("       mclorehub-importer catalogue --pack <pack.json> [--reviews <reviews.json>] --output <new-report.json>");
             out.println("       mclorehub-importer trust --pack <pack.json> --output <new-trust.json>");
             out.println("       mclorehub-importer refresh|undo --library <config/mclorehub> --document <lotc:topic:id>");
+            out.println("       mclorehub-importer spell-index --pack <pack.json> [--trust <trust.json>] [--reviews <reviews.json>] --output <new-spell-index.json>");
             return 0;
         }
         if (args.length != 4 || !args[0].equals("--input") || !args[2].equals("--output")) {

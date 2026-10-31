@@ -36,7 +36,21 @@
           "items": {"type": "object", "required": ["id", "type", "text"],
             "properties": {"id": {"const": "body"}, "type": {"const": "plain_text"}, "text": {"type": "string", "pattern": "\\S"}}}
         },
-        "coverage_gaps": {"type": "array", "items": {"type": "string"}}, "source_record": {"type": "object"}
+        "coverage_gaps": {"type": "array", "items": {"type": "string"}},
+        "source_record": {
+          "type": "object", "properties": {
+            "source_snapshot_at": {"type": "string", "format": "date-time"},
+            "coverage_notes": {"type": "array", "items": {"type": "string"}},
+            "source_outline": {"type": "array", "maxItems": 10000, "items": {
+              "type": "object", "additionalProperties": false, "required": ["title", "start", "end", "level"],
+              "properties": {
+                "title": {"type": "string", "minLength": 1, "maxLength": 240},
+                "start": {"type": "integer", "minimum": 0}, "end": {"type": "integer", "minimum": 1},
+                "level": {"type": "integer", "minimum": 1, "maximum": 9}
+              }
+            }}
+          }
+        }
       }
     }
   }

@@ -21,7 +21,7 @@ public final class CharacterClientGameTest implements FabricClientGameTest {
             set(context,"Character name","Synthetic character");set(context,"Character notes","User notes, not actual lore");context.clickScreenButton("Save character");
             context.waitFor(c->c.screen instanceof CharacterSheetScreen);String id=service.view().book().selectedId();
             for(var kind:CharacterBook.Kind.values()){
-                context.clickScreenButton("Add "+(kind==CharacterBook.Kind.MAGIC?"magic":kind.name()));set(context,"Entry name","Synthetic "+kind);
+                context.clickScreenButton("Add lore");context.clickScreenButton(AddLoreScreen.label(kind));set(context,"Entry name","Synthetic "+kind);
                 if(kind==CharacterBook.Kind.MAGIC){set(context,"Branch","Test branch");set(context,"Tier","T2");}
                 set(context,"Application URL","https://www.lordofthecraft.net/forums/topic/123-synthetic/");set(context,"Entry notes","Synthetic user-recorded status only");
                 context.clickScreenButton("Recorded status: not recorded");context.clickScreenButton("Recorded status: pending");context.takeScreenshot("phase5-entry-"+kind);

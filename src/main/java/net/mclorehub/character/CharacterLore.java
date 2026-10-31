@@ -132,6 +132,10 @@ public final class CharacterLore {
     public boolean permanentDedication(CharacterBook.Entry entry){return resolve(entry).filter(c->c.availability()==Availability.AVAILABLE).map(c->slotRules.get(c.option().key())).map(SlotRule::permanent).orElse(false);}
     public CharacterSlots.Report slots(CharacterBook.Sheet sheet){return CharacterSlots.assess(this,sheet);}
     public Optional<Document> document(String id){return Optional.ofNullable(documents.get(id));}
+    public boolean canReference(Choice choice){
+        var doc=documents.get(choice.option().sourceId());return doc!=null&&LoreCatalogue.isCurrent(doc)
+                &&Set.of(LoreCatalogue.Role.PLAYER_OPTION_CANDIDATE,LoreCatalogue.Role.CORE_AND_HUB).contains(doc.role());
+    }
     public Availability availability(String id) {return availability.getOrDefault(id,Availability.MISSING);}
     private Availability checkAvailability(String id) {
         var source=sources.get(id);var doc=documents.get(id);

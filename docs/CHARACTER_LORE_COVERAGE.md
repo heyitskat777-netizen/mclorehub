@@ -1,13 +1,16 @@
-# Character reference and rule coverage — 1.0.0
+# Character reference and rule coverage — 1.1.0
 
-The picker contains **72 references from 67 main sources**: 30 MAGIC, 21 FA and
-21 CA entries. The wiki contains the supplied 488 references. Selection kinds
+The picker contains **73 references from 68 rule sources**: 31 MAGIC, 21 FA and
+21 CA entries. The private rebuilt wiki contains 801 topics (773 normal references); the original
+488-record snapshot also remains supported. Selection kinds
 organize the sheet; they do not certify an application, independent MA, ownership
-or eligibility. Main text is from the user-confirmed September 2026 snapshot.
+or eligibility. Existing rules bind the user-confirmed September 2026 main text; Zealotry binds
+the captured October 30 source. Refreshed references can be selected, but changed
+automatic rule evidence remains suspended until reviewed. See [release 1.1.0](RELEASE_1_1.md).
 
 There are **178 relationship rules** (166 exclusions, one Kani branch rule, seven
 conditional notices and four source disagreements), seven fact/history checks,
-14 prerequisite policies and 48 slot policies. Original URLs below are citations
+14 prerequisite policies and 49 slot policies. Original URLs below are citations
 to stored sources, not a claim of live verification.
 
 | Sheet kind | Reference | Slot policy for recorded magic/feat | Main source |
@@ -83,6 +86,7 @@ to stored sources, not a claim of live verification.
 | MAGIC | Voidal Rituals | 0 | [191252](https://www.lordofthecraft.net/forums/topic/191252-%E2%9C%93-magic-lore-voidal-rituals/) |
 | MAGIC | Voidal Translocation | 1 | [192239](https://www.lordofthecraft.net/forums/topic/192239-%E2%9C%93-magic-reformat-voidal-translocation/) |
 | MAGIC | Water Evocation | 1 | [234197](https://www.lordofthecraft.net/forums/topic/234197-%E2%9C%93-magic-lore-water-evocation/) |
+| MAGIC | Zealotry | Fixed 2; MA/training conditions remain in source | [263819](https://www.lordofthecraft.net/forums/topic/263819-%E2%9C%93-magic-lore-zealotry-the-insurgents-of-valaen/) |
 | MAGIC | Witch Doctor | Not specified; manual allocation / partial total | [192909](https://www.lordofthecraft.net/forums/topic/192909-%E2%9C%93-magic-lore-witch-doctor/) |
 
 ## What the inventory includes

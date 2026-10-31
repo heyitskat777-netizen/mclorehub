@@ -31,7 +31,7 @@ public final class ForumClient implements TopicFetcher {
         if(policy.status()!=200&&policy.status()!=404)throw new ImportException("Could not check forum access policy (HTTP "+policy.status()+"); stored lore retained");
         RobotsPolicy rules=new RobotsPolicy(policy.status()==404?"":new String(policy.body(),java.nio.charset.StandardCharsets.UTF_8));
         Set<URI> visited=new HashSet<>();LinkedHashMap<String,ThreadPost> fetched=new LinkedHashMap<>();String title=null,mainId=null,mainBody=null,author="";
-        URI next=first,source=first;Optional<Status> status=Optional.empty();List<String> pages=new ArrayList<>();int expectedPages=-1,totalBytes=0;
+        URI next=first,source=first;Optional<Status> status=Optional.empty();List<String> pages=new ArrayList<>();List<net.mclorehub.catalogue.SourceSection> outline=List.of();int expectedPages=-1,totalBytes=0;
         long deadline=System.nanoTime()+Duration.ofSeconds(90).toNanos();
         while(next!=null){
             if(Thread.currentThread().isInterrupted())throw new InterruptedException("Refresh cancelled");
@@ -50,7 +50,7 @@ public final class ForumClient implements TopicFetcher {
             totalBytes+=response.body().length;if(totalBytes>16<<20)throw new ImportException("Topic exceeds 16 MiB response limit");
             if(ForumUrls.page(uri)!=pages.size()+1)throw new ImportException("Redirect skipped topic pages; no partial update saved");
             ForumHtml.Page page=ForumHtml.main(response.body(),uri,document.id());pages.add(uri.toString());
-            if(title==null){title=page.title();expectedPages=page.totalPages();status=page.status();source=uri;var main=page.posts().getFirst();mainId=main.id();mainBody=main.text();author=main.author();
+            if(title==null){title=page.title();outline=page.outline();expectedPages=page.totalPages();status=page.status();source=uri;var main=page.posts().getFirst();mainId=main.id();mainBody=main.text();author=main.author();
                 if(mainBody.replaceAll("\\[Image[^\\]]*\\]","").isBlank())throw new ImportException("Main lore post is empty or image-only; stored text retained");}
             else if(!title.equals(page.title())||expectedPages!=page.totalPages()||!status.equals(page.status()))throw new ImportException("Topic changed during refresh; retry rather than save inconsistent pages");
             for(ThreadPost p:page.posts()){
@@ -59,6 +59,6 @@ public final class ForumClient implements TopicFetcher {
             if(fetched.size()>1000)throw new ImportException("Too many topic replies");next=page.next().orElse(null);
         }
         List<String> absent=document.coverageGaps().stream().filter(g->g.startsWith("previous_reply_not_returned:")).map(g->g.substring("previous_reply_not_returned:".length())).toList();
-        return new TopicSnapshot(document.id(),source.toString(),title,author,mainBody,document.posts(),pages,clock.instant(),status,absent);
+        return new TopicSnapshot(document.id(),source.toString(),title,author,mainBody,document.posts(),pages,clock.instant(),status,absent,outline);
     }
 }

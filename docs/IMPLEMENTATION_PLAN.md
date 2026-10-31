@@ -1,5 +1,12 @@
 # Ordered creation plan
 
+Release 1.1.0 follows docs/RELEASE_1_1.md: unify Add lore, derive exact source-bound
+spell cards with explicit tiers/conditions, test stable search/continuous references
+and source refresh invalidation, rebuild the private main-source database, validate
+801/773 counts and old MArt provenance, then run all native gates with both old and
+new imports. No public corpus publication or inferred compatibility recuration.
+
+
 Post-release 1.0.2 addresses user testing: retain the search editor through async
 results, slow typing and mid-query edits; replace category cycling with explicit
 navigation/result cards; center/space plain text and scroll continuously across

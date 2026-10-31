@@ -4,6 +4,7 @@ import net.mclorehub.catalogue.LoreCatalogue;
 import net.mclorehub.catalogue.LoreCatalogue.Document;
 import net.mclorehub.updates.*;
 import net.mclorehub.character.*;
+import net.mclorehub.spell.SpellIndex;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
@@ -13,8 +14,9 @@ import java.util.function.UnaryOperator;
 /** All filesystem, parsing, indexing, searching and personal writes run on owned workers. */
 public final class LibraryService implements AutoCloseable {
     public enum Phase { LOADING, EMPTY, READY, ERROR }
-    public record Library(LoreCatalogue catalogue, LoreSearch search, CharacterLore characterLore) {
-        public Library(LoreCatalogue catalogue,LoreSearch search)throws IOException {this(catalogue,search,CharacterLore.bundled(catalogue));}
+    public record Library(LoreCatalogue catalogue, LoreSearch search, CharacterLore characterLore,SpellIndex spells) {
+        public Library(LoreCatalogue catalogue,LoreSearch search)throws IOException {this(catalogue,search,CharacterLore.bundled(catalogue),new SpellIndex(catalogue));}
+        public Library(LoreCatalogue catalogue,LoreSearch search,CharacterLore lore){this(catalogue,search,lore,new SpellIndex(catalogue));}
     }
     public record View(long generation, Phase phase, Optional<Library> library, PersonalState personal,
                        boolean writable, String message) {}
@@ -168,6 +170,10 @@ public final class LibraryService implements AutoCloseable {
     public CompletableFuture<CharacterLore.Report> assess(CharacterBook.Sheet sheet){
         var snapshot=view.library();return CompletableFuture.supplyAsync(()->snapshot.orElseThrow(()->new IllegalStateException("Load a lore database first")).characterLore().assess(sheet),io);
     }
+    public CompletableFuture<SpellIndex.Results> spells(CharacterBook.Sheet sheet,String query,boolean allTiers){
+        var snapshot=view.library();return CompletableFuture.supplyAsync(()->snapshot.orElseThrow(()->new IllegalStateException("Load a lore database first")).spells().search(sheet,query,allTiers),searches);
+    }
+    public CompletableFuture<ReaderContent> spellReference(SpellIndex.Hit hit,boolean practice){return CompletableFuture.supplyAsync(()->practice?SpellIndex.practice(hit):SpellIndex.details(hit),io);}
     public CompletableFuture<ReaderContent> comparison(String id){return CompletableFuture.supplyAsync(()->{
         try{var base=baseline.documents().stream().filter(d->d.id().equals(id)).findFirst().orElseThrow();var before=updateStore.previous(base,updateState);var after=view.library().orElseThrow().catalogue().documents().stream().filter(d->d.id().equals(id)).findFirst().orElseThrow();return ReaderContent.comparison(before,after);}
         catch(IOException e){throw new CompletionException(e);}

@@ -108,3 +108,20 @@ projection, then atomically switches the pointer and publishes the prepared libr
 Stored source/base IDs and checksums bind updates to the correct baseline. Manual
 and monthly checks share that pipeline. Optional sessions only authenticate
 authorized requests; no sign-in or access bypass is inferred. See PHASE_7.md.
+
+## Release 1.1.0 spell reference projection
+
+Each immutable `LibraryService.Library` owns `SpellIndex` alongside the catalogue,
+search and character rules. Worker queries bind sheet entries by stable source ID;
+manual names never synthesize links. Validated HTML outlines and conservative plain
+headings supply exact UTF-16 source ranges. Explicit labels/progression evidence
+supply tiers; uncertainty stays conditional. Source excerpts remain complete with
+parent and practice context. The lazy cache belongs to one library generation.
+
+`AddLoreScreen` chooses the entry kind. `SpellBookScreen` retains its editor while
+results change; `SpellDetailScreen` reuses the continuous `ReaderScreen` in reference
+mode, which does not persist wiki reading positions. Generation guards handle
+sheet/library changes and close a stale detail. Topic snapshots optionally carry
+`source_outline`; old snapshots remain readable. Per-record source dates prevent a
+retained restricted snapshot being relabeled as freshly captured by a batch rebuild.
+Private SQLite/companion generation is offline tooling, not a runtime dependency.

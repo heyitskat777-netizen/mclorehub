@@ -30,10 +30,13 @@ public final class LoreCatalogue {
                            String body, String revision,
                            String fingerprint, String family, String category, List<String> aliases,
                            Role role, Status status, ReviewState reviewState, Optional<Decision> decision,
-                           List<ThreadPost> posts, List<String> coverageGaps, Optional<SourceTrust> trust) {
+                           List<ThreadPost> posts, List<String> coverageGaps, Optional<SourceTrust> trust,List<SourceSection> outline) {
         public Document {
-            aliases = List.copyOf(aliases); posts = List.copyOf(posts); coverageGaps = List.copyOf(coverageGaps);
+            aliases = List.copyOf(aliases); posts = List.copyOf(posts); coverageGaps = List.copyOf(coverageGaps);outline=List.copyOf(outline);
         }
+        public Document(String id,String title,String url,Optional<String> author,Instant at,String body,String revision,String fingerprint,
+                        String family,String category,List<String> aliases,Role role,Status status,ReviewState review,Optional<Decision> decision,
+                        List<ThreadPost> posts,List<String> gaps,Optional<SourceTrust> trust){this(id,title,url,author,at,body,revision,fingerprint,family,category,aliases,role,status,review,decision,posts,gaps,trust,List.of());}
     }
     private final String revision;
     private final List<Document> documents;
@@ -93,7 +96,9 @@ public final class LoreCatalogue {
             if (!digest.equals(hash(body)) || !digest.equals(sha(raw, "content_sha256"))
                     || !title.equals(text(doc, "title")) || !url.equals(text(doc, "source_url")))
                 throw new ImportException("Document/source content mismatch: " + id);
-            if (!snapshot.equals(text(doc, "source_snapshot_at")) || !text(doc, "formatting_fidelity").equals("plain_text"))
+            String recordSnapshot=optional(raw,"source_snapshot_at");if(recordSnapshot==null)recordSnapshot=snapshot;
+            Instant recordAt=instant(recordSnapshot);
+            if (!recordSnapshot.equals(text(doc, "source_snapshot_at")) || recordAt.isAfter(snapshotAt) || !text(doc, "formatting_fidelity").equals("plain_text"))
                 throw new ImportException("Unsupported source snapshot/formatting");
             JsonObject status = object(doc.get("status"), "status");
             JsonElement requires = status.get("requires_review");
@@ -124,9 +129,9 @@ public final class LoreCatalogue {
                 if (state == ReviewState.APPLIED) effective = decision.status();
             }
             Optional<String> author = Optional.ofNullable(optional(raw, "author")).filter(s -> !s.isBlank());
-            documents.add(new Document(id, title, url, author, snapshotAt, body, digest, fingerprint, text(raw, "family"), text(raw, "category"),
+            documents.add(new Document(id, title, url, author, recordAt, body, digest, fingerprint, text(raw, "family"), text(raw, "category"),
                     strings(raw, "search_aliases"), role(raw), effective, state, Optional.ofNullable(decision),
-                    thread, strings(doc, "coverage_gaps"), Optional.empty()));
+                    thread, strings(doc, "coverage_gaps"), Optional.empty(),SourceSection.read(raw.get("source_outline"),body)));
         }
         return new LoreCatalogue(revision, documents, decisions.keySet().stream().filter(id -> !ids.contains(id)).sorted().toList());
     }

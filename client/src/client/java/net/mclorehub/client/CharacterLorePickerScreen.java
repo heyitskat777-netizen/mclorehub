@@ -38,9 +38,9 @@ final class CharacterLorePickerScreen extends Screen {
             var choice=list.get(i);int y=86+(i-page*size())*40;
             var choose=button(choice.option().name(),16,y,width-120,b->{
                 var fresh=choices().stream().filter(c->c.option().key().equals(choice.option().key())).findFirst();
-                if(fresh.isPresent()&&fresh.get().availability()==CharacterLore.Availability.AVAILABLE){selected.accept(fresh.get());minecraft.setScreen(parent);}
+                if(fresh.isPresent()&&library.view().library().orElseThrow().characterLore().canReference(fresh.get())){selected.accept(fresh.get());minecraft.setScreen(parent);}
                 else {error="This lore changed or is unavailable; use a manual entry.";refreshRows();}
-            });rows.add(choose);choose.active=choice.availability()==CharacterLore.Availability.AVAILABLE;choose.setTooltip(Tooltip.create(Component.literal(choice.option().notes())));
+            });rows.add(choose);choose.active=library.view().library().orElseThrow().characterLore().canReference(choice);choose.setTooltip(Tooltip.create(Component.literal(choice.option().notes()+"\nReferences do not grant eligibility or approval; outdated automatic rules stay suspended.")));
             var read=button("Read lore",width-100,y,84,b->library.view().library().flatMap(l->l.characterLore().document(choice.option().sourceId()))
                     .ifPresent(d->minecraft.setScreen(new ReaderScreen(this,library,d,!net.mclorehub.catalogue.LoreCatalogue.isCurrent(d),false))));
             read.active=library.view().library().flatMap(l->l.characterLore().document(choice.option().sourceId())).isPresent();rows.add(read);
@@ -52,7 +52,7 @@ final class CharacterLorePickerScreen extends Screen {
         g.drawCenteredString(font,title,width/2,10,0xFFFFFFFF);
         g.drawCenteredString(font,font.plainSubstrByWidth(error.isEmpty()?"Limited curated list • Manual entry remains available":error,width-32),width/2,65,0xFFFFC477);
         var list=choices();for(int i=page*size();i<Math.min(list.size(),(page+1)*size());i++) {
-            var c=list.get(i);String label=c.availability()==CharacterLore.Availability.AVAILABLE?"Source linked • Requirements still apply":c.availability().name().toLowerCase(Locale.ROOT).replace('_',' ')+" • Selection suspended";
+            var c=list.get(i);String label=c.availability()==CharacterLore.Availability.AVAILABLE?"Source linked • Requirements still apply":library.view().library().orElseThrow().characterLore().canReference(c)?"Current reference • Automatic rules need review":c.availability().name().toLowerCase(Locale.ROOT).replace('_',' ')+" • Source unavailable";
             g.drawString(font,font.plainSubstrByWidth(label,width-32),16,110+(i-page*size())*40,0xFFBAC9D8);
         }
         if(list.isEmpty())g.drawCenteredString(font,"No curated matches. You can record this entry manually.",width/2,96,0xFFBAC9D8);

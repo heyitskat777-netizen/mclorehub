@@ -1,5 +1,17 @@
 # Validation
 
+Release 1.1.0 also requires `SPELLBOOK_SCENARIO_PASS` and
+`REBUILT_DATABASE_SCENARIO_PASS`. Set `MCLOREHUB_TEST_REBUILT` to the private
+normalized 801-record import ZIP alongside the original three private variables.
+Keep old 488-record fixtures separate. Check unified Add lore, delayed spell
+search/middle edits, tier locks/changes, exact redlines/shared rules, source refresh
+index invalidation, stale-detail closure, wiki resume isolation, original-date
+MArt warnings, explicit legacy/outdated overrides, Zealotry source binding, fresh
+import/restart and GUI scales. Require all 14 markers plus runner exit 0 and inspect
+fresh screenshots. Database packaging must pass SQLite/FTS, exact UTF-16 excerpts,
+source/status/ID counts and archive limits; see [release guide](RELEASE_1_1.md).
+
+
 Release 1.0.2 additionally requires `READING_POLISH_SCENARIO_PASS` on exact Loader
 0.19.5: delayed per-character typing, caret insertion and selection retention across
 async search/reload, explicit category navigation, wheel traversal across old chunk

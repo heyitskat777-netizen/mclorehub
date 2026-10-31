@@ -1026,6 +1026,18 @@
         "Farseer and Witchdoctor cost [2] Magic slots and gain [1] pact for free.[1]"
       ],
       "main_fingerprint": "10dfbb08968240ad246b5a9785859cd810eff3309a939da27d7efa7ec87e5b01"
+    },
+    {
+      "id": "lotc:topic:263819",
+      "title": "[✓] [Magic Lore] Zealotry - the Insurgents of Valaen",
+      "url": "https://www.lordofthecraft.net/forums/topic/263819-%E2%9C%93-magic-lore-zealotry-the-insurgents-of-valaen/",
+      "revision": "55a1d4f85d222ddfe5055251f719700d0d9d00c9c50f3c9a2604bcf975c33818",
+      "snapshot": "2026-10-30T23:42:40.470230+00:00",
+      "passages": [
+        "⬢ Zealotry is a [2] slot Deific Magic originating from Valaen- the Aengudaemon of Freedom, Rebellion, and Anarchy.",
+        "⬢ Zealotry requires a valid [MA] in order to practice, and a valid [TA] to connect and teach it to others. One may only gain a [TA] as per explained under Vesselsmith."
+      ],
+      "main_fingerprint": "ed9f4a8bbce1a4623bf69de697991d12eeaec16512430be29a1f755281e84ab5"
     }
   ],
   "options": [
@@ -1532,6 +1544,13 @@
       "kind": "CA",
       "source_id": "lotc:topic:198584",
       "notes": "Klones require a valid Creature Application under Tawkin Reincarnation. This is a body/CA reference, separate from learning the Tawkin alchemic feat. Read Kloning, mutation, death/PK and deific-connection restrictions in the source. Set Known facts explicitly; choosing this reference does not silently change body facts or verify approval."
+    },
+    {
+      "key": "zealotry",
+      "name": "Zealotry",
+      "kind": "MAGIC",
+      "source_id": "lotc:topic:263819",
+      "notes": "Two-slot Deific Magic of Valaen with a three-tier progression; requires a valid MA. This reference adds no unreviewed compatibility pair rulings. Read connection, training, spell and disconnection conditions in the source."
     }
   ],
   "rules": [
@@ -4765,6 +4784,14 @@
       "maximum": 0,
       "permanent": false,
       "voidal": true
+    },
+    {
+      "option": "zealotry",
+      "mode": "FIXED",
+      "minimum": 2,
+      "maximum": 2,
+      "permanent": false,
+      "voidal": false
     }
   ],
   "prerequisites": [

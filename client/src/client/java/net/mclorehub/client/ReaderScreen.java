@@ -11,14 +11,16 @@ import net.minecraft.network.chat.*;
 import org.lwjgl.glfw.GLFW;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.regex.Pattern;
 
 /** Continuous reading with a bounded cache of source-anchored font layouts. */
-public final class ReaderScreen extends Screen {
+public class ReaderScreen extends Screen {
+    private static final Pattern IMAGE=Pattern.compile("(?i)\\[Image:[^\\]]*\\]");
     private record Line(int offset,String text){}
     private final Screen parent;
     private final LibraryService service;
     private final Document document;
-    private final boolean audit,details,discussion;
+    private final boolean audit,details,discussion,referenceMode;
     private CompletableFuture<ReaderContent> loading;
     private ReaderContent content;
     private record At(int section,int line){}
@@ -38,9 +40,13 @@ public final class ReaderScreen extends Screen {
         this(parent,service,doc,audit,details,false);
     }
     private ReaderScreen(Screen parent,LibraryService service,Document doc,boolean audit,boolean details,boolean discussion){
-        super(Component.literal(doc.title()));this.parent=parent;this.service=service;document=doc;this.audit=audit;this.details=details;this.discussion=discussion;
+        super(Component.literal(doc.title()));this.parent=parent;this.service=service;document=doc;this.audit=audit;this.details=details;this.discussion=discussion;referenceMode=false;
         loading=discussion?service.archivedReplies(doc):service.reader(doc,details);
     }
+    protected ReaderScreen(Screen parent,LibraryService service,Document doc,String heading,CompletableFuture<ReaderContent> reference){
+        super(Component.literal(heading));this.parent=parent;this.service=service;document=doc;audit=false;details=false;discussion=false;referenceMode=true;loading=reference;
+    }
+    protected void referenceContent(CompletableFuture<ReaderContent> reference){loading=reference;content=null;layouts.clear();section=scroll=0;atDocumentEnd=false;}
     public String documentId(){return document.id();}
     private int visibleLines(){return Math.max(1,(height-159)/11);}
     private List<Line> lines(int index){
@@ -50,17 +56,22 @@ public final class ReaderScreen extends Screen {
                 int newline=s.text().indexOf('\n',start),end=newline<0?s.text().length():newline;
                 String paragraph=s.text().substring(start,end).replace("\r","");int origin=start;
                 if(!paragraph.isBlank()&&!Set.of("Spoiler","Hide contents","Reveal hidden contents").contains(paragraph.strip())){
-                    // Image placeholders contain no readable image content. Keep the source unchanged.
-                    boolean image=paragraph.strip().matches("(?is)\\[Image:[^\\]]*\\]");
-                    if(image)result.add(new Line(s.offset()+origin,"[Image — view the forum source]"));
-                    else font.getSplitter().splitLines(paragraph,layoutWidth,Style.EMPTY,false,(style,from,to)->
-                            result.add(new Line(s.offset()+origin+from,paragraph.substring(from,to))));
+                    // Inline placeholders also retain exact anchors for the text on either side.
+                    var images=IMAGE.matcher(paragraph);int from=0;
+                    while(images.find()){
+                        wrap(result,paragraph.substring(from,images.start()),s.offset()+origin+from);
+                        result.add(new Line(s.offset()+origin+images.start(),"[Image — view the forum source]"));from=images.end();
+                    }
+                    wrap(result,paragraph.substring(from),s.offset()+origin+from);
                 }
                 if(newline>=0&&(result.isEmpty()||!result.getLast().text().isEmpty()))result.add(new Line(s.offset()+end,""));
                 start=end+1;
             }
             if(result.isEmpty())result.add(new Line(s.offset(),""));return List.copyOf(result);
         });
+    }
+    private void wrap(List<Line> result,String text,int origin){
+        if(!text.isBlank())font.getSplitter().splitLines(text,layoutWidth,Style.EMPTY,false,(style,from,to)->result.add(new Line(origin+from,text.substring(from,to))));
     }
     private At at(){return new At(section,scroll);}
     private At move(At start,int delta){
@@ -124,8 +135,8 @@ public final class ReaderScreen extends Screen {
             refresh.setTooltip(Tooltip.create(Component.literal("Compare the saved main lore with the forum's first post; save changes locally. Discussion is excluded.")));}
         if(undo!=null)undo.active=service.canRollback(document.id())&&service.refreshStatus().phase()==LibraryService.RefreshPhase.IDLE;
     }
-    private void top(){if(content!=null)position(new At(0,0));}
-    private void bottom(){if(content!=null)position(endTop());}
+    protected void top(){if(content!=null)position(new At(0,0));}
+    protected void bottom(){if(content!=null)position(endTop());}
     private void scroll(int delta){if(content!=null)position(move(at(),delta));}
     @Override public boolean mouseScrolled(double x,double y,double horizontal,double vertical){scroll((int)-Math.signum(vertical)*3);return true;}
     private double progress(){
@@ -167,18 +178,18 @@ public final class ReaderScreen extends Screen {
         }
         if(observedGeneration!=service.view().generation()){
             observedGeneration=service.view().generation();var latest=service.view().library().flatMap(l->l.catalogue().documents().stream().filter(d->d.id().equals(document.id())).findFirst());
-            if(latest.isPresent()&&(!latest.get().fingerprint().equals(document.fingerprint())||!latest.get().trust().equals(document.trust())||latest.get().status()!=document.status())){
+            if(!referenceMode&&latest.isPresent()&&(!latest.get().fingerprint().equals(document.fingerprint())||!latest.get().trust().equals(document.trust())||latest.get().status()!=document.status())){
                 minecraft.setScreen(new ReaderScreen(parent,service,latest.get(),audit,details,discussion));return;}
         }
         if(loading!=null&&loading.isDone()){
-            try{content=loading.join();var resume=details||discussion?new ReaderContent.Resume(0,0,false):content.resume(document,service.view().personal().reading());
+            try{content=loading.join();var resume=details||discussion||referenceMode?new ReaderContent.Resume(0,0,false):content.resume(document,service.view().personal().reading());
                 section=resume.section();changed=resume.changed();layouts.clear();layout(resume.offset());dirty=true;
             }catch(CompletionException e){changed=true;}loading=null;
         }
         updateFavorite();if(dirty&&++saveTicks>=10){save();saveTicks=0;}
     }
     private void save(){
-        if(details||discussion||content==null)return;
+        if(details||discussion||referenceMode||content==null)return;
         var s=content.sections().get(section);int offset=lines(section).get(scroll).offset();
         var position=new PersonalState.ReadingPosition(document.id(),document.fingerprint(),s.blockId(),offset,audit||!LoreSearch.isCurrent(document));
         if(!position.equals(queuedPosition)&&!service.view().personal().reading().equals(Optional.of(position))){queuedPosition=position;service.remember(position);}dirty=false;
@@ -198,7 +209,7 @@ public final class ReaderScreen extends Screen {
         g.drawCenteredString(font,font.plainSubstrByWidth(status(),width-32),width/2,27,LoreSearch.isCurrent(document)?0xFFB3DBBC:0xFFFFC477);
         var operation=service.refreshStatus();
         String warning=operation.documentId().equals(document.id())&&!operation.message().isEmpty()?operation.message():changed?Component.translatable("screen.mclorehub.revision_changed").getString():!service.view().writable()?Component.translatable("screen.mclorehub.read_only").getString():
-                Component.translatable("screen.mclorehub.reader_hint").getString();
+                referenceMode?"Source includes variants • Check their tiers and shared rules":Component.translatable("screen.mclorehub.reader_hint").getString();
         g.drawCenteredString(font,font.plainSubstrByWidth(warning,width-32),width/2,69,0xFFBAC9D8);
         if(operation.documentId().equals(document.id())&&!operation.message().isEmpty()&&y>=67&&y<81)g.setTooltipForNextFrame(Component.literal(operation.message()),x,y);
         g.fill(16,84,width-16,height-62,0xC0151B24);

@@ -2,30 +2,38 @@
 
 Personal-use **Minecraft 1.21.11 Fabric** wiki mod, developed in tested phases.
 
-**1.0.2** supports **Fabric Loader 0.19.5+** on Minecraft 1.21.11 and provides
+**1.1.0** supports **Fabric Loader 0.19.5+** on Minecraft 1.21.11 and provides
 offline main-lore search, favorites, reading resume, character
 sheets, monthly page updates and manual refresh/Undo. Database import now runs in
 Minecraft with previews, readable comparisons and whole-database Undo. Reports also
 include complete previous/current main text in bounded sections; replies stay in
 an explicit archive.
 
-The supplied 488-reference database is trusted by the user's confirmation. Character
-selection includes 72 references (including the Klone CA), 178 relationship rules, seven fact/history checks,
-14 prerequisite policies and 48 slot policies. Known facts, history, optional slot
-allocations, permanent loss and special allowances retain citations and explicit
-unknowns/source disagreements. No server approval is fabricated.
+Character sheets have one **Add lore** action for magic/CA/FA, plus **Available
+spells**: search linked practice abilities and redlines, filter by recorded tier,
+and open exact source excerpts or complete shared rules without replacing wiki
+reading resume. Unresolved tiers/conditions stay explicit; editing a sheet does
+not verify learning or approval.
 
-The [October 30 public-source audit](docs/LIVE_AUDIT_2026_10_30.md) found missing
-topic records and changed/outdated material in that original export. User trust is
-not an independent live verification; the audit did not rewrite database/player data.
+The private rebuilt database contains **801 topics**: 592 freshly captured public
+main posts and 209 restricted MArts retained from September, not reverified.
+Normal browsing has 773 references; 27 legacy topics and one outdated Elder Tree
+are audit-only. It includes JSON, searchable SQLite and a source-bound spell index.
+See [1.1.0 workflow and database provenance](docs/RELEASE_1_1.md).
 
+Character selection has 73 references from 68 sources (including Klone and Zealotry),
+178 relationship rules, seven fact/history checks, 14 prerequisite policies and 49
+slot policies. Current sources remain selectable when earlier automatic rule
+bindings need review. Changed-source rules stay suspended; missing assessment
+never means compatible. The [October 30 audit](docs/LIVE_AUDIT_2026_10_30.md) explains
+coverage and the original 488-record snapshot.
 Start with [installation](docs/INSTALL.md), the [release guide](docs/RELEASE_1_0.md)
 and [character coverage](docs/CHARACTER_LORE_COVERAGE.md). Java 21, Minecraft 1.21.11,
 Fabric Loader and Fabric API are required. No server component or AI service is needed.
 
-[Download MCLoreHub 1.0.2](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.0.2.jar).
-Requires Loader 0.19.5+, API 0.141.6+1.21.11 and Java 21. Import your original
-LoreDB ZIP in-game; the private database is supplied separately.
+[Download MCLoreHub 1.1.0](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.1.0.jar).
+Requires Loader 0.19.5+, API 0.141.6+1.21.11 and Java 21. Import the private rebuilt database ZIP in-game; the original LoreDB ZIP also works.
+The database is supplied separately and is not published in this repository.
 
 Search retains the caret while results arrive. Browse named categories with counts
 and separated result cards; lore pages use centered, paragraph-spaced text and one
@@ -39,6 +47,8 @@ client passed its full build and native input/render scenario. See the status
 report for the exact distinction, limits and persistence steps.
 
 ## Guides
+
+- [Release 1.1.0 spells and database rebuild](docs/RELEASE_1_1.md)
 
 - [Release 1.0.0 workflow and acceptance](docs/RELEASE_1_0.md)
 - [Agent instructions](AGENTS.md)
@@ -81,4 +91,4 @@ The root importer ZIP is a developer utility, not a Fabric mod JAR.
 
 The private export and all generated/review/player data are ignored by Git. A
 fresh clone requires supplying the original export separately. The private data
-bundle includes matching pack.json/trust.json; it does not fabricate staff reviews.
+bundle includes matching pack.json/trust.json; directory observations are explicitly distinguished from staff reviews.

@@ -1,5 +1,76 @@
 # Current status
 
+## Latest checkpoint — Release 1.1.0 / spells and private database rebuild
+
+Implemented one **Add lore** action for magic/CA/FA and a separate **Available
+spells** screen. Worker searches preserve the editor/caret, prioritize spell names,
+filter explicit tier/branch locks and retain conditional requirements. Cards open
+exact source excerpts and parent context, with complete Practice rules/redlines,
+continuous scrolling, source URL access and no replacement of wiki reading resume.
+Source refresh rebuilds the index and closes stale details. Inline image identifiers
+are hidden for display while text/source offsets on either side remain exact.
+
+The private rebuilt database contains **801 topics**: all **592 captured public
+main posts**, plus **209 original-date September MArts not reverified**. It adds
+313 topic records to the original export. Bound directory observations preserve
+**27 legacy and one outdated Elder Tree** outside normal results; **773 normal
+references** include the retained MArts and 30 policy references. These counts do
+not certify all records as freshly checked, obtainable, or independent staff
+approvals. Original 1,290 archived posts are retained but were not refetched or
+used as main lore. Image/external/reply-amendment and restricted-discovery gaps remain.
+
+Outputs are the ready-to-import ZIP, LoreDB JSON, searchable SQLite and a companion
+index of **904 exact-source ability/reference sections** from **67 selected practice
+sources**; 455 have unresolved numeric tier/stage. Unknown conditions are explicit,
+not automatic mastery/learning. Character coverage is **73 choices / 68 rule sources**,
+178 relationship rules, 49 slot policies, 14 prerequisite policies and seven fact/
+history checks. Zealotry adds exact-source reference/two-slot evidence. Earlier
+changed-source compatibility/slot rules remain suspended until reviewed, while
+current references can still be linked. No blanket rebinding was performed.
+
+Validation completed:
+
+- Normal full build/install and game-test compilation passed with existing pins,
+  locks and checksums. **314 core tests passed**, zero failures/errors/skips.
+  Core evidence: `/tmp/mclorehub-1.1.0-build-verified.log`; final production/UI
+  build: `/tmp/mclorehub-1.1.0-build-final3.log`.
+- Final native runner exited **0**, all **14 markers**, including
+  `SPELLBOOK_SCENARIO_PASS` and `REBUILT_DATABASE_SCENARIO_PASS` on exact Loader
+  **0.19.5** / Minecraft **1.21.11**. Both old 488-record and new 801-record imports
+  passed. Search, tier change/locks, redlines/shared rules, refreshed index/stale
+  detail, resume isolation, original MArt dates/warnings, legacy overrides,
+  Zealotry binding, persistence/restart and GUI scales 1/2 passed.
+- Final native log: `/tmp/mclorehub-1.1.0-client-polish-final.log`; earlier native
+  run caught and led to correction of a new Zealotry fingerprint generated with
+  the wrong JSON serialization. A later startup run hit Fabric's network
+  synchronizer assertion; the unchanged gates passed on retry without disabling
+  synchronization. Final image display polish passed the full native suite again.
+- Fresh Add lore/search/spell/redline/real Air Evocation/shared-rules screenshots
+  at scales 1/2 were inspected. Evidence is under ignored
+  `local-data/verification/release-1.1.0-evidence/`.
+- New pack/review JSON schemas, SQLite integrity/FTS, all 801 JSON/SQL bodies,
+  original body hashes/dates/outlines, exact UTF-16 spell/parent slices, IDs/status
+  counts and ZIP limits passed. Original uploaded ZIP checksum is unchanged.
+  Python syntax, Markdown targets, diff whitespace and nested production JAR
+  private/test-data exclusions passed. No dependency/verification rewrite.
+
+Production JAR: `client/build/libs/mclorehub-1.1.0.jar`, **904,322 bytes**, SHA-256
+`d430c27cedadcfbf7c550176a9dd5ee9de537764ac5ccba5ee423dd8cfed2c2d`.
+[Direct JAR download](https://raw.githubusercontent.com/heyitskat777-netizen/mclorehub/downloads/mclorehub-1.1.0.jar).
+Private in-game database ZIP: `/workspace/mclorehub-lore-database-2026-10-30.zip`,
+**10,265,108 bytes**, SHA-256
+`e464bfd8d7ace6df2d1dfd4c819220d42c5f75e7373db88172a5f608c8f41c2d`.
+SQLite and JSON delivery copies are `/workspace/mclorehub-lore-2026-10-30.{sqlite,json}`.
+Detailed private file identities: `local-data/rebuilds/2026-10-30/database-1.1.0/verification.json`.
+
+Source-only backups and remote/download identities are recorded outside Git in
+`/workspace/mclorehub-1.1.0-backup.json`. See [workflow/rebuild guide](RELEASE_1_1.md)
+and [installation](INSTALL.md). Character schema remains 3; retain pre-upgrade
+updates when downgrading because new snapshots may carry outlines. Acceptance is
+native clean Fabric/Mesa software rendering, not the user's separate modpack/GPU
+or authenticated account. Real MArt access remains untested. The private corpus is
+not published to GitHub. No environment settings/publication changed.
+
 ## Latest research checkpoint — October 30 public lore audit
 
 The user requested comparing the supplied database against available official

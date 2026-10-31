@@ -26,6 +26,20 @@
 
 ## Product requirements
 
+- Release 1.1.0 unifies sheet Add lore (Magic/CA/FA) and adds searchable, recorded-tier
+  spell references with exact excerpts, redlines, parent context and complete practice
+  rules. Unknown requirements remain conditional; no learning/approval is inferred.
+  Keep spell quick-reference resume separate from wiki resume and invalidate stale
+  detail/index views when sources change. Read docs/RELEASE_1_1.md before this area.
+- Current-source references may be selected while old automatic rule bindings need
+  review; those checks must remain suspended. There are 73 choices/68 rule sources,
+  178 pair rules and 49 slot policies; Zealotry adds no unreviewed pair exclusions.
+- The separate private rebuild contains 801 topics: 592 freshly captured public
+  main posts plus 209 original-date restricted MArts, not reverified. Normal count
+  773 includes those retained MArts. Preserve 27 legacy and one outdated override.
+  Keep coverage notes visible. Directory observations are not staff approval.
+  Optional per-record dates and exact UTF-16 headings must survive import/refresh.
+
 - Personal-use client-only offline wiki: terms, title/alias/full-text search,
   categories, document reader, favorites, and last document/scroll restoration.
 - The user explicitly confirmed the supplied database is accepted/accurate. Trust

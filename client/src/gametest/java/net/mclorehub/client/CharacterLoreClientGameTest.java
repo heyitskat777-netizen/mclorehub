@@ -31,12 +31,12 @@ public final class CharacterLoreClientGameTest implements FabricClientGameTest {
             characters.reload().get(5,TimeUnit.SECONDS);characters.edit(b->b.create("Lore picker fixture")).get(5,TimeUnit.SECONDS);String id=characters.view().book().selectedId();
             c.runOnClient(m->{m.options.guiScale().set(2);m.resizeDisplay();});
             c.setScreen(()->new CharacterSheetScreen(new TitleScreen(),characters,id,library));
-            c.clickScreenButton("Add magic");c.clickScreenButton("Choose lore");
+            c.clickScreenButton("Add lore");c.clickScreenButton("Magic");c.clickScreenButton("Choose lore");
             if(!real){
                 c.runOnClient(m->check(m.screen.children().stream().filter(Button.class::isInstance).map(Button.class::cast).noneMatch(b->b.active&&b.getMessage().getString().equals("Necromancy")),"Missing curated source became selectable"));
                 c.setScreen(TitleScreen::new);LoggerFactory.getLogger("mclorehub-test").info("CHARACTER_LORE_MISSING_SOURCE_PASS; real curated-corpus scenario not run (set MCLOREHUB_TEST_PACK and MCLOREHUB_TEST_TRUST)");return;
             }
-            check(library.view().library().orElseThrow().characterLore().choices(CharacterBook.Kind.MAGIC,"").stream().allMatch(o->o.availability()==CharacterLore.Availability.AVAILABLE),"Real main-post sources/revisions/evidence did not match");
+            check(library.view().library().orElseThrow().characterLore().choices(CharacterBook.Kind.MAGIC,"").stream().allMatch(o->o.availability()==(o.option().key().equals("zealotry")?CharacterLore.Availability.MISSING:CharacterLore.Availability.AVAILABLE)),"Real main-post sources/revisions/evidence did not match");
             library.refresh("lotc:topic:249533").get(10,TimeUnit.SECONDS);
             check(library.view().library().orElseThrow().characterLore().availability("lotc:topic:249533")==CharacterLore.Availability.AVAILABLE,"No-change check invalidated a main-post rule");mutate.set(true);
             c.runOnClient(m->{var box=m.screen.children().stream().filter(EditBox.class::isInstance).map(EditBox.class::cast).findFirst().orElseThrow();m.screen.setFocused(box);box.setFocused(true);});
@@ -45,7 +45,7 @@ public final class CharacterLoreClientGameTest implements FabricClientGameTest {
             bounds(c);c.takeScreenshot("phase8-lore-picker");c.clickScreenButton("Necromancy");
             set(c,"Entry name","Custom necromancer label");set(c,"Tier","T2");set(c,"Entry notes","Keep this private note");c.clickScreenButton("Save entry");c.waitFor(m->m.screen instanceof CharacterSheetScreen);
             for(String[] row:new String[][]{{"magic","Templar","Radiant Templar"},{"FA","Alchemy","Alchemy"},{"CA","Tree","Tree Lord"}}){
-                c.clickScreenButton("Add "+row[0]);c.clickScreenButton("Choose lore");set(c,"Search lore options",row[1]);c.clickScreenButton(row[2]);c.clickScreenButton("Save entry");c.waitFor(m->m.screen instanceof CharacterSheetScreen);
+                c.clickScreenButton("Add lore");c.clickScreenButton(row[0].equals("magic")?"Magic":row[0].equals("CA")?"Creature application (CA)":"Feat application (FA)");c.clickScreenButton("Choose lore");set(c,"Search lore options",row[1]);c.clickScreenButton(row[2]);c.clickScreenButton("Save entry");c.waitFor(m->m.screen instanceof CharacterSheetScreen);
             }
             var entries=characters.view().book().selected().orElseThrow().entries();check(entries.size()==4&&entries.stream().allMatch(e->!e.loreDocumentId().isEmpty()),"Curated links not saved");
             byte[] personal=Files.readAllBytes(root.resolve("personal/characters.json")),base=Files.readAllBytes(root.resolve("packs/active/pack.json"));

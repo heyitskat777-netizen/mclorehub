@@ -1,5 +1,18 @@
 # Data and acceptance rules
 
+Release 1.1.0 permits a current-source character reference while older automatic
+rule evidence needs review; the reference never re-enables those stale checks.
+Spells are exact main-source excerpts with tier/branch/stage evidence and full
+shared context. Unknown requirements remain conditional and are not learned spells.
+Optional per-record `source_snapshot_at` cannot exceed the batch snapshot;
+`source_outline` uses exact, nonoverlapping UTF-16 source ranges. Outline structure
+is display/reference data, not a separate lore ruling. New snapshot outlines are
+optional for backward reading; older mod versions need pre-upgrade backups.
+Coverage notes remain visible after import. A retained restricted-source warning
+is removed only after a successful main-post check; historical snapshot dates
+remain distinct from refresh check dates. See [1.1.0](RELEASE_1_1.md).
+
+
 Release 1.0.0 keeps source, personal records, imported selections and topic overlays
 independent. Original/normalized imports validate before one atomic selection switch;
 whole-pack Undo never deletes personal references or replaces original exports.
